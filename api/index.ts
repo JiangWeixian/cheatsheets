@@ -1,7 +1,7 @@
-import { users } from './users'
+import { github } from './github'
 
-export * from './users'
+export * from './github'
 
 export const api = {
-  users,
+  github,
 }

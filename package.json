@@ -1,6 +1,9 @@
 {
-  "name": "@aiou/nextjs-rematch2-template",
+  "name": "cheatsheets",
   "version": "1.1.1",
+  "author": {
+    "name": "jiangweixian"
+  },
   "scripts": {
     "dev": "next -p 3001",
     "build": "next build",
