@@ -11,7 +11,7 @@
     "preexport": "yarn run build",
     "export": "next export",
     "type-check": "tsc",
-    "prettier": "pretty-quick --staged",
+    "prettier": "prettier --config .prettierrc --write '**/*'",
     "prepublishOnly": "np --no-cleanup --yolo --no-publish --any-branch",
     "mock": "PORT=8080 umi-serve",
     "watch_mock": "npm-watch mock"

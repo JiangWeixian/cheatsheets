@@ -27,3 +27,4 @@ Jenkinsfile
 *.watchmanconfig
 *.flowconfig
 LICENSE
+.next
