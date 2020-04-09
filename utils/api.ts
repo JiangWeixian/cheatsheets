@@ -18,10 +18,13 @@ const getHost = () => {
   return HOST.SERVER
 }
 
-export const get = async <T, Q>(path: string, params?: Q): Promise<T> => {
-  return axios.get(`${getHost()}${path}`, { params }).then(res => res.data)
+export const get = async <T, Q>(
+  path: string,
+  { params, data }: { params?: Q; data?: Q } = {},
+): Promise<T> => {
+  return axios.get(`${getHost()}${path}`, { data, params }).then(res => res.data)
 }
 
-export const post = async <T, Q>(path: string, params?: Q): Promise<T> => {
+export const post = async <T, Q>(path: string, { params }: { params?: Q }): Promise<T> => {
   return axios.post(`${getHost()}${path}`, params).then(res => res.data)
 }

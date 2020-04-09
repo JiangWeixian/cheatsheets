@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { NextPage } from 'next'
 import { api, Github } from '~/api'
+import Link from 'next/link'
 
 const IndexPage: NextPage<{ data: Github.Label[] }> = ({ data }) => {
   return (
@@ -8,7 +9,11 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = ({ data }) => {
       <input className="shadow appearance-none border focus:outline-none focus:shadow-outline w-2/4 h-12 text-gray-500 rounded m-8" />
       <ul className="list-disc grid grid-cols-3 w-2/4 list-inside">
         {data?.map(v => {
-          return <li className="text-blue-800 cursor-pointer hover:text-blue-500">{v.name}</li>
+          return (
+            <li className="text-blue-800 cursor-pointer hover:text-blue-500" key={v.name}>
+              <Link href={`/sheet/${v.name}`}>{v.name}</Link>
+            </li>
+          )
         })}
       </ul>
     </div>
