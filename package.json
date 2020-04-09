@@ -5,6 +5,8 @@
     "dev": "next -p 3001",
     "build": "next build",
     "start": "next start",
+    "preexport": "yarn run build",
+    "export": "next export",
     "type-check": "tsc",
     "prettier": "pretty-quick --staged",
     "prepublishOnly": "np --no-cleanup --yolo --no-publish --any-branch",
