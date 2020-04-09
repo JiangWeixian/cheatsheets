@@ -1,20 +1,17 @@
 import * as React from 'react'
-import Link from 'next/link'
-import Layout from '~/components/Layout'
 import { NextPage } from 'next'
-import { api } from '~/api'
+import { api, Github } from '~/api'
 
-const IndexPage: NextPage<{ data: any }> = ({ data }) => {
-  console.log(data)
+const IndexPage: NextPage<{ data: Github.Label[] }> = ({ data }) => {
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Hello Next.js 👋</h1>
-      <p>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-      </p>
-    </Layout>
+    <div className="contianer flex flex-col items-center justify-center w-full h-full bg-gray-100">
+      <input className="shadow appearance-none border focus:outline-none focus:shadow-outline w-2/4 h-12 text-gray-500 rounded m-8" />
+      <ul className="list-disc grid grid-cols-3 w-2/4 list-inside">
+        {data?.map(v => {
+          return <li className="text-blue-800 cursor-pointer hover:text-blue-500">{v.name}</li>
+        })}
+      </ul>
+    </div>
   )
 }
 

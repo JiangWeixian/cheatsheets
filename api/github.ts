@@ -13,7 +13,7 @@ export const github = {
   async login(): Promise<{ data: any }> {
     return get('/user')
   },
-  async labels(): Promise<{ data: Github.Label[] }> {
+  async labels(): Promise<Github.Label[]> {
     return get(`/repos/${pkg.author.name}/${pkg.name}/labels`)
   },
 }
