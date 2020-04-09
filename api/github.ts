@@ -1,6 +1,5 @@
 import { get } from '~/utils/api'
 import pkg from '~/package.json'
-// import Axios from 'axios'
 
 export namespace Github {
   export type Label = {
@@ -25,6 +24,6 @@ export const github = {
     return get(`/repos/${pkg.author.name}/${pkg.name}/labels`)
   },
   async issues(labels?: string[]): Promise<Github.Issue[]> {
-    return get(`/repos/${pkg.author.name}/${pkg.name}/issues`, { data: labels })
+    return get(`/repos/${pkg.author.name}/${pkg.name}/issues?labels=${labels?.join(',')}`)
   },
 }

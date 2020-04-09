@@ -1,7 +1,6 @@
 import axios from 'axios'
 // import { checkServer } from './server'
 
-axios.defaults.withCredentials = true
 axios.defaults.headers.authorization = 'token 44a961ee819966e48070dd7fa8d83ab0df53844f'
 
 enum HOST {
