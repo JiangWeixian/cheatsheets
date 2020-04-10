@@ -52,6 +52,10 @@ body {
   border-bottom-width: 1px;
   @apply border-gray-100 p-4;
 }
+/* ul table like section */
+.theme-default-content ul li code:only-child {
+  @apply float-right;
+}
 /* table child section */
 table,
 tr,
