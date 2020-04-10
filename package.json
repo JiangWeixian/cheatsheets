@@ -29,6 +29,7 @@
     "@rematch2/core": "^0.2.2",
     "autoprefixer": "^9.7.6",
     "axios": "0.19.0",
+    "dayjs": "^1.8.24",
     "isomorphic-unfetch": "3.0.0",
     "markdown-it": "^10.0.0",
     "next": "latest",

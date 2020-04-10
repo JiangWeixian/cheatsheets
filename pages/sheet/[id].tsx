@@ -3,9 +3,12 @@ import { NextPage, NextPageContext } from 'next'
 import { useRouter } from 'next/router'
 import markdownit from 'markdown-it'
 import prism from 'prismjs'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { api, Github } from '~/api'
 
+dayjs.extend(relativeTime)
 const md = new markdownit()
 const maps: { [key: string]: string } = {}
 const MarkdownIt = new markdownit({
@@ -39,6 +42,11 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
                 key={v.title}
                 dangerouslySetInnerHTML={{ __html: MarkdownIt.render(v.body || '') }}
               />
+              <div className="flex italic justify-end text-xs text-gray-600 mt-2">
+                <time>{dayjs(v.updated_at).from(dayjs())}</time>
+                <span className="mx-2">/</span>
+                <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
+              </div>
             </div>
           )
         })}
