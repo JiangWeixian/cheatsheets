@@ -28,3 +28,4 @@ Jenkinsfile
 *.flowconfig
 LICENSE
 .next
+.yarn-error.log
