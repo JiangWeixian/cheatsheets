@@ -10,12 +10,12 @@ const Convertor = new showdown.Converter()
 const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
   const router = useRouter()
   return (
-    <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
+    <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll theme-default-content">
       <h3 className="text-6xl text-gray-800">{router.query.id}</h3>
       <div className="w-3/4">
         {data?.map(v => {
           return (
-            <div className="w-2/4 pr-4 pb-4" style={{ float: 'left' }}>
+            <div className="w-2/4 pr-4 pb-4" style={{ float: 'left' }} key={v.title}>
               <p className="text-blue-600 mb-4">{v.title}</p>
               <div
                 className="shadow p-4 w-full rounded overflow-hidden"
