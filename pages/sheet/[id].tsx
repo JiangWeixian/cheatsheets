@@ -34,10 +34,15 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
         {data?.map(v => {
           return (
             <div className="w-2/4 pr-4 pb-4" style={{ float: 'left' }} key={v.title}>
-              <p className="mb-4">
-                <a className="text-blue-600 " href={v.url} target="_blank">
+              <p className="mb-4 flex items-center">
+                <a className="text-blue-600 " href={v.html_url} target="_blank">
                   {v.title}
                 </a>
+                {v.state === 'open' ? (
+                  <p className="rounded-lg bg-green-300 w-2 h-2 ml-2" />
+                ) : (
+                  <p className="rounded-lg bg-red-300 w-2 h-2 ml-2" />
+                )}
               </p>
               <div
                 className="shadow w-full bg-white rounded overflow-hidden theme-default-content"

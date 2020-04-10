@@ -14,6 +14,8 @@ export namespace Github {
     title?: string
     created_at: string
     updated_at: string
+    html_url: string
+    state: 'open' | 'state'
   }
 }
 
