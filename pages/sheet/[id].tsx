@@ -1,11 +1,24 @@
 import React from 'react'
 import { NextPage, NextPageContext } from 'next'
 import { useRouter } from 'next/router'
-import showdown from 'showdown'
+import markdownit from 'markdown-it'
+import prism from 'prismjs'
 
 import { api, Github } from '~/api'
 
-const Convertor = new showdown.Converter()
+const md = new markdownit()
+const maps: { [key: string]: string } = {}
+const MarkdownIt = new markdownit({
+  highlight: function(str, lang) {
+    const language = maps[lang] || lang
+    if (prism.languages[language]) {
+      const code = prism.highlight(str, prism.languages[language], language)
+      return `<pre class="language-${lang}"><code>${code}</code></pre>`
+    }
+
+    return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
+  },
+})
 
 const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
   const router = useRouter()
@@ -20,7 +33,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
               <div
                 className="shadow p-4 w-full rounded overflow-hidden"
                 key={v.title}
-                dangerouslySetInnerHTML={{ __html: Convertor.makeHtml(v.body || '') }}
+                dangerouslySetInnerHTML={{ __html: MarkdownIt.render(v.body || '') }}
               />
             </div>
           )
