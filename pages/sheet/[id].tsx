@@ -23,7 +23,7 @@ const MarkdownIt = new markdownit({
 const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
   const router = useRouter()
   return (
-    <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll theme-default-content">
+    <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
       <h3 className="text-6xl text-gray-800">{router.query.id}</h3>
       <div className="w-3/4">
         {data?.map(v => {
@@ -35,7 +35,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
                 </a>
               </p>
               <div
-                className="shadow p-4 w-full rounded overflow-hidden"
+                className="shadow w-full bg-white rounded overflow-hidden theme-default-content"
                 key={v.title}
                 dangerouslySetInnerHTML={{ __html: MarkdownIt.render(v.body || '') }}
               />
