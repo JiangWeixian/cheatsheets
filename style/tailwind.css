@@ -19,6 +19,10 @@ body {
   width: 100%;
 }
 
+.label {
+  font-family: 'Fira Code', monospace;
+}
+
 /* @font-face {
   font-family: "fira";
   src: url("../assets/FiraCode-Regular.ttf") format("truetype"),

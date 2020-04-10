@@ -27,7 +27,9 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
   const router = useRouter()
   return (
     <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
-      <h3 className="text-6xl text-gray-800">{router.query.id}</h3>
+      <h3 className="label text-4xl text-gray-700 my-20">
+        {router.query.id} <span className="text-gray-500">{'cheetsheet'}</span>
+      </h3>
       <div className="w-3/4">
         {data?.map(v => {
           return (
