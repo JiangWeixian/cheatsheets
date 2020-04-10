@@ -6,6 +6,7 @@ export namespace Github {
     id: string
     name: string
     description: string
+    default: boolean
   }
   export type Issue = {
     url?: string
