@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { NextPage } from 'next'
-import { api, Github } from '~/api'
 import Link from 'next/link'
+
+import { api, Github } from '~/api'
 
 const IndexPage: NextPage<{ data: Github.Label[] }> = ({ data }) => {
   return (

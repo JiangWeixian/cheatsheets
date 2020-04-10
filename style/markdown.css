@@ -1,4 +1,11 @@
 @import 'prismjs/themes/prism-tomorrow';
+/* @font-face {
+  font-family: "fira";
+  src: url("../assets/FiraCode-Regular.ttf") format("truetype"),
+} */
+.theme-default-content ul {
+  list-style: disc;
+}
 .theme-default-content code {
   color: #476582;
   padding: 0.25rem 0.5rem;
@@ -6,6 +13,7 @@
   font-size: 0.85em;
   background-color: rgba(27, 31, 35, 0.05);
   border-radius: 3px;
+  font-family: 'Fira Code', monospace;
 }
 .theme-default-content code .token.deleted {
   color: #ec5975;
