@@ -29,7 +29,11 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
         {data?.map(v => {
           return (
             <div className="w-2/4 pr-4 pb-4" style={{ float: 'left' }} key={v.title}>
-              <p className="text-blue-600 mb-4">{v.title}</p>
+              <p className="mb-4">
+                <a className="text-blue-600 " href={v.url} target="_blank">
+                  {v.title}
+                </a>
+              </p>
               <div
                 className="shadow p-4 w-full rounded overflow-hidden"
                 key={v.title}
