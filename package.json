@@ -54,6 +54,7 @@
     "@types/react-redux": "7.1.1",
     "@types/showdown": "1.9.3",
     "@types/styled-components": "5.0.1",
+    "babel-plugin-inline-react-svg": "^1.1.1",
     "babel-plugin-prismjs": "2.0.1",
     "cross-env": "6.0.3",
     "husky": "3.1.0",
