@@ -1,12 +1,16 @@
 import * as React from 'react'
-import { NextPage } from 'next'
+import { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import pkg from 'package.json'
+import useSWR from 'swr'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
 
-const IndexPage: NextPage<{ data: Github.Label[] }> = ({ data }) => {
+const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
+  const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.labels, {
+    initialData: props.data,
+  })
   return (
     <Layout>
       <div className="contianer flex flex-col items-center justify-center w-full h-full bg-gray-100">
@@ -33,10 +37,9 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = ({ data }) => {
   )
 }
 
-IndexPage.getInitialProps = async () => {
-  // await api.github.login()
+export async function getServerSiderProps(_ctx: Parameters<GetServerSideProps>[0]) {
   const data = await api.github.labels()
-  return { data }
+  return { props: { data } }
 }
 
 export default IndexPage

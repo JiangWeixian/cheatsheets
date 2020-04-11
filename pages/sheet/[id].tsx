@@ -1,13 +1,15 @@
 import React from 'react'
-import { NextPage, NextPageContext } from 'next'
+import { NextPage, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import markdownit from 'markdown-it'
 import prism from 'prismjs'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import useSWR from 'swr'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
+import pkg from 'package.json'
 
 dayjs.extend(relativeTime)
 const md = new markdownit()
@@ -24,8 +26,15 @@ const MarkdownIt = new markdownit({
   },
 })
 
-const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
+const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const router = useRouter()
+  const { data } = useSWR(
+    [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id],
+    (_name, id: string) => {
+      return api.github.issues([id])
+    },
+    { initialData: props.data },
+  )
   return (
     <Layout>
       <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
@@ -65,11 +74,11 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = ({ data }) => {
   )
 }
 
-Cheetsheet.getInitialProps = async (ctx: NextPageContext) => {
+export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
   const data = await api.github.issues(
     typeof ctx.query.id === 'string' ? [ctx.query.id] : ctx.query.id,
   )
-  return { data }
+  return { props: { data } }
 }
 
 export default Cheetsheet
