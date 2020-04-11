@@ -3,7 +3,7 @@ import axios from 'axios'
 const server = axios.create()
 const client = axios.create()
 
-server.defaults.headers.authorization = 'token b6e586985c9882b5dd581a195de5d398f67855eb'
+server.defaults.headers.authorization = 'token e9bac274d2f2f05057887640c1f6f713a89085af'
 
 export enum HOST {
   MOCK = 'http://localhost:8080/api',

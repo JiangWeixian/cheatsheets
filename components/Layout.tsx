@@ -1,6 +1,7 @@
 import React from 'react'
 import { ArrowLeft } from 'styled-cssgg'
 import router from 'next/router'
+import Head from 'next/head'
 
 import pkg from 'package.json'
 import Github from '../assets/github.svg'
@@ -15,6 +16,9 @@ type Props = {
 
 const Layout = ({ children }: Props) => (
   <div className="w-full h-full">
+    <Head>
+      <title>jiangweixian's cheatsheet</title>
+    </Head>
     <div className="fixed flex w-full h-10 items-center px-4 justify-between">
       <ArrowLeft
         onClick={() => {

@@ -30,7 +30,6 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>jiangweixian's cheatsheet</title>
           <link
             href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap"
             rel="stylesheet"
