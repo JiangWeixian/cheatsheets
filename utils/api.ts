@@ -1,7 +1,7 @@
 import axios from 'axios'
 // import { checkServer } from './server'
 
-axios.defaults.headers.authorization = 'token 44a961ee819966e48070dd7fa8d83ab0df53844f'
+axios.defaults.headers.authorization = 'token b6e586985c9882b5dd581a195de5d398f67855eb'
 
 enum HOST {
   MOCK = 'http://localhost:8080/api',
