@@ -28,7 +28,7 @@ const Layout = ({ children }: Props) => (
           onClick={() => {
             window.open(`https://github.com/${pkg.author.name}`)
           }}
-          className="mr-4 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+          className="mr-8 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
         />
         <T
           width={20}
