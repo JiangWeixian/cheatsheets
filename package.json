@@ -40,6 +40,7 @@
     "react-dom": "16.10.1",
     "redux": "4.0.5",
     "styled-components": "5.1.0",
+    "styled-cssgg": "^1.1.1-1",
     "styled-webgradients": "1.0.0-1",
     "tailwindcss": "1.2.0"
   },

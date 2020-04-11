@@ -2537,6 +2537,11 @@ css-unit-converter@^1.1.1:
   version "1.1.1"
   resolved "https://npm.midway.run/css-unit-converter/-/css-unit-converter-1.1.1.tgz#d9b9281adcfd8ced935bdbaba83786897f64e996"
 
+css.gg@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/css.gg/-/css.gg-1.0.6.tgz#b8d13288a22e358265676a375ab89425411daaa2"
+  integrity sha512-Bv8GTVkeuSqqkgdCJ+tJopRxf/mp/wP6hkL13BdCSs3FadD0GWyU3gKdjuaaFkfxkgYK+GhjSX3EA+cXLHBFpA==
+
 css@2.2.4, css@^2.0.0:
   version "2.2.4"
   resolved "https://npm.midway.run/css/-/css-2.2.4.tgz#c646755c73971f2bba6a601e2cf2fd71b1298929"
@@ -6413,6 +6418,13 @@ styled-components@5.1.0:
     shallowequal "^1.1.0"
     supports-color "^5.5.0"
 
+styled-cssgg@^1.1.1-1:
+  version "1.1.1-1"
+  resolved "https://registry.yarnpkg.com/styled-cssgg/-/styled-cssgg-1.1.1-1.tgz#dd34b0013bed2a1041a6f42e534017238c825152"
+  integrity sha512-Yx9o/VxLCNYMWtiNcQCcZIAQjIQmxFB2solQo8ZlBDrDZMQx6CS2frNc5o0QmKAEejbMh+/Nh0aFRV4TucB4hg==
+  dependencies:
+    css.gg "1.0.6"
+
 styled-jsx@3.2.5:
   version "3.2.5"
   resolved "https://npm.midway.run/styled-jsx/-/styled-jsx-3.2.5.tgz#0172a3e13a0d6d8bf09167dcaf32cf7102d932ca"
@@ -6661,7 +6673,7 @@ tslint-config-prettier@1.18.0:
   version "1.18.0"
   resolved "https://npm.midway.run/tslint-config-prettier/-/tslint-config-prettier-1.18.0.tgz#75f140bde947d35d8f0d238e0ebf809d64592c37"
 
-tslint-plugin-prettier@^2.3.0:
+tslint-plugin-prettier@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/tslint-plugin-prettier/-/tslint-plugin-prettier-2.3.0.tgz#73fe71bf9f03842ac48c104122ca9b1de012ecf4"
   integrity sha512-F9e4K03yc9xuvv+A0v1EmjcnDwpz8SpCD8HzqSDe0eyg34cBinwn9JjmnnRrNAs4HdleRQj7qijp+P/JTxt4vA==
@@ -6670,7 +6682,7 @@ tslint-plugin-prettier@^2.3.0:
     lines-and-columns "^1.1.6"
     tslib "^1.7.1"
 
-tslint-react@^4.2.0:
+tslint-react@4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-4.2.0.tgz#41b16e0438365f8d3ed4120501f02cabff9fd1e4"
   integrity sha512-lO22+FKr9ZZGueGiuALzvZE/8ANoDoCHGCknX1Ge3ALrfcLQHQ1VGdyb1scZXQFdEQEfwBTIU40r5BUlJpn0JA==

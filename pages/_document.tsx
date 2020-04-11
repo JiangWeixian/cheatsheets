@@ -1,5 +1,6 @@
 import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { ArrowRight } from 'styled-cssgg'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -36,6 +37,9 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body>
+          <div className="fixed flex w-full h-20 flex-start">
+            <ArrowRight />
+          </div>
           <Main />
           <NextScript />
         </body>
