@@ -1,4 +1,4 @@
-import { get } from '~/utils/api'
+import { request, HOST } from '~/utils/api'
 import pkg from '~/package.json'
 
 export namespace Github {
@@ -20,13 +20,34 @@ export namespace Github {
 }
 
 export const github = {
-  async login(): Promise<{ data: any }> {
-    return get('/user')
+  server: {
+    async login(): Promise<{ data: any }> {
+      return request.server.get('/user', {}, { host: HOST.SERVER })
+    },
+    async labels(): Promise<Github.Label[]> {
+      return request.server.get(
+        `/repos/${pkg.author.name}/${pkg.name}/labels`,
+        {},
+        { host: HOST.SERVER },
+      )
+    },
+    async issues(labels?: string): Promise<Github.Issue[]> {
+      return request.server.get(
+        `/repos/${pkg.author.name}/${pkg.name}/issues?labels=${labels}`,
+        {},
+        { host: HOST.SERVER },
+      )
+    },
   },
-  async labels(): Promise<Github.Label[]> {
-    return get(`/repos/${pkg.author.name}/${pkg.name}/labels`)
-  },
-  async issues(labels?: string[]): Promise<Github.Issue[]> {
-    return get(`/repos/${pkg.author.name}/${pkg.name}/issues?labels=${labels?.join(',')}`)
+  client: {
+    async labels(): Promise<Github.Label[]> {
+      return request.client.get(`/labels`, {}, { host: HOST.CLIENT })
+    },
+    async issues(label?: string): Promise<Github.Issue[]> {
+      if (label === undefined) {
+        return []
+      }
+      return request.client.get(`/sheet/${label}`, {}, { host: HOST.CLIENT })
+    },
   },
 }

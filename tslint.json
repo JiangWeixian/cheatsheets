@@ -10,6 +10,8 @@
     "no-any": true,
     "ordered-imports": false,
     "file-name-casing": false,
+    "no-unused-expression": false,
+    "no-unused-variable": false,
     "no-implicit-dependencies": [true, ["~/*", "@/*"]],
     "jsx-no-lambda": false,
     "react-this-binding-issue": false,

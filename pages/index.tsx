@@ -8,7 +8,7 @@ import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
 
 const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
-  const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.labels, {
+  const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
     initialData: props.data,
   })
   return (
@@ -38,7 +38,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
 }
 
 export async function getServerSiderProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.labels()
+  const data = await api.github.client.labels()
   return { props: { data } }
 }
 
