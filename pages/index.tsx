@@ -27,7 +27,9 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
             .map(v => {
               return (
                 <li className="text-blue-800 cursor-pointer hover:text-blue-500" key={v.name}>
-                  <Link href={`/sheet/${v.name}`}>{v.name}</Link>
+                  <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
+                    {v.name}
+                  </Link>
                 </li>
               )
             })}
