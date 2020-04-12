@@ -47,7 +47,7 @@ export const github = {
       if (label === undefined) {
         return []
       }
-      return request.client.get(`/sheet/${label}`, {}, { host: HOST.CLIENT })
+      return request.client.get(`/sheet`, { params: { label } }, { host: HOST.CLIENT })
     },
   },
 }
