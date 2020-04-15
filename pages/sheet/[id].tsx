@@ -39,7 +39,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
     <Layout>
       <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
         <h3 className="label lg:text-4xl text-xl text-gray-700 lg:my-20 my-5 mt-20">
-          {router.query.id} <span className="text-gray-500">{'cheetsheet'}</span>
+          {router.query.id} <span className="text-gray-500">{'cheatsheet'}</span>
         </h3>
         <div className="lg:w-3/4 w-11/12">
           {data?.map(v => {
