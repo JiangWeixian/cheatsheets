@@ -14,14 +14,14 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   return (
     <Layout>
       <div className="contianer flex flex-col items-center justify-center w-full h-full bg-gray-100">
-        <h1 className="label text-5xl text-gray-700 mb-10">
+        <h1 className="label lg:text-5xl text-xl text-gray-700 lg:mb-10 mb-0">
           {pkg.author.name}'s <span className="text-gray-500">cheatsheets</span>
         </h1>
         <input
           placeholder="label name"
-          className="shadow appearance-none border focus:outline-none focus:shadow-outline w-2/4 h-12 text-gray-500 rounded m-8 p-2"
+          className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />
-        <ul className="list-disc grid grid-cols-3 w-2/4 list-inside">
+        <ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-2 w-8/12 list-inside">
           {data
             ?.filter(v => !v.default)
             .map(v => {

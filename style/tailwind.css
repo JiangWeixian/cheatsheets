@@ -53,8 +53,13 @@ body {
   @apply border-gray-100 p-4;
 }
 /* ul table like section */
+@media screen and (min-width: 1024px) {
+  .theme-default-content ul li code:only-child {
+    @apply float-right;
+  }
+}
 .theme-default-content ul li code:only-child {
-  @apply float-right;
+  @apply block;
 }
 /* table child section */
 table,

@@ -19,7 +19,7 @@ const Layout = ({ children }: Props) => (
     <Head>
       <title>jiangweixian's cheatsheet</title>
     </Head>
-    <div className="fixed flex w-full h-10 items-center px-4 justify-between">
+    <div className="fixed flex w-full h-10 items-center px-4 justify-between bg-gray-100 z-50">
       <ArrowLeft
         onClick={() => {
           router.back()

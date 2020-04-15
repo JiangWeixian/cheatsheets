@@ -38,22 +38,22 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   return (
     <Layout>
       <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
-        <h3 className="label text-4xl text-gray-700 my-20">
+        <h3 className="label lg:text-4xl text-xl text-gray-700 lg:my-20 my-5 mt-20">
           {router.query.id} <span className="text-gray-500">{'cheetsheet'}</span>
         </h3>
-        <div className="w-3/4">
+        <div className="lg:w-3/4 w-11/12">
           {data?.map(v => {
             return (
-              <div className="w-2/4 pr-4 pb-4" style={{ float: 'left' }} key={v.title}>
+              <div className="lg:w-2/4 w-full lg:pr-4 pb-4" style={{ float: 'left' }} key={v.title}>
                 <p className="mb-4 flex items-center">
                   <a className="text-blue-600 " href={v.html_url} target="_blank">
                     {v.title}
+                    {v.state === 'open' ? (
+                      <span className="rounded-lg inline-block bg-green-300 w-2 h-2 ml-2" />
+                    ) : (
+                      <span className="rounded-lg inline-block bg-red-300 w-2 h-2 ml-2" />
+                    )}
                   </a>
-                  {v.state === 'open' ? (
-                    <p className="rounded-lg bg-green-300 w-2 h-2 ml-2" />
-                  ) : (
-                    <p className="rounded-lg bg-red-300 w-2 h-2 ml-2" />
-                  )}
                 </p>
                 <div
                   className="shadow w-full bg-white rounded overflow-hidden theme-default-content"
