@@ -29,20 +29,27 @@ body {
 } */
 
 /* content */
+.theme-default-content p {
+  @apply bg-white;
+}
 .theme-default-content p,
 .theme-default-content td {
   @apply text-gray-600 text-sm;
 }
 /* description */
-.theme-default-content blockquote,
+.theme-default-content p,
 .theme-default-content h3 {
   font-size: 1rem;
   margin: 0;
   padding: 0.25rem 0 0.25rem 1rem;
-  @apply bg-gray-100 p-4 text-base border-b-2 border-gray-200 text-gray-600 text-sm;
+  @apply p-4 text-base text-gray-600 text-sm;
+}
+.theme-default-content h3,
+.theme-default-content blockquote {
+  @apply bg-gray-100 border-t-2 border-gray-200;
 }
 .theme-default-content blockquote > p {
-  margin: 0;
+  @apply m-0 bg-transparent;
 }
 /* ul child section */
 .theme-default-content ul {
