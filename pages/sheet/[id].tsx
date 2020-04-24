@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import useSWR from 'swr'
 import { Link } from 'styled-cssgg'
+import copy from 'copy-to-clipboard'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
@@ -41,7 +42,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   useEffect(() => {
     const selected = document.querySelector(`#${id}`)
     if (selected) {
-      selected.scrollIntoView()
+      selected.scrollIntoView({ behavior: 'smooth' })
     }
   }, [id])
   return (
@@ -78,7 +79,15 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
                   dangerouslySetInnerHTML={{ __html: MarkdownIt.render(v.body || '') }}
                 />
                 <div className="flex italic justify-between items-center text-xs text-gray-600 mt-2">
-                  <Link style={{ '--ggs': 0.7 } as any} className="cursor-pointer" />
+                  <Link
+                    style={{ '--ggs': 0.7 } as any}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      copy(
+                        `http://localhost:3001/sheet/${router.query.id}?_id=${router.query.id}-${v.id}`,
+                      )
+                    }}
+                  />
                   <div>
                     <time>{dayjs(v.updated_at).from(dayjs())}</time>
                     <span className="mx-2">/</span>
