@@ -1104,6 +1104,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@types/classnames@^2.2.10":
+  version "2.2.10"
+  resolved "https://npm.midway.run/@types%2fclassnames/-/classnames-2.2.10.tgz#cc658ca319b6355399efc1f5b9e818f1a24bf999"
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://npm.midway.run/@types%2fcolor-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -1646,9 +1650,9 @@ babel-plugin-dynamic-import-node@^2.3.0:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-inline-react-svg@^1.1.1:
+babel-plugin-inline-react-svg@1.1.1:
   version "1.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-1.1.1.tgz#3fce30c5653a6c032c21ccc2b3e0141cd494b1d8"
+  resolved "https://npm.midway.run/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-1.1.1.tgz#3fce30c5653a6c032c21ccc2b3e0141cd494b1d8"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/parser" "^7.0.0"
@@ -2217,6 +2221,10 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://npm.midway.run/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
 cli-boxes@^1.0.0:
   version "1.0.0"
@@ -4584,7 +4592,7 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://npm.midway.run/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
 
-lodash.omit@^4.5.0:
+lodash.omit@4.5.0:
   version "4.5.0"
   resolved "https://npm.midway.run/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
 
@@ -5043,7 +5051,7 @@ next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://npm.midway.run/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-next@^9.3.5:
+next@9.3.5:
   version "9.3.5"
   resolved "https://npm.midway.run/next/-/next-9.3.5.tgz#c9ff01147d3c9e165efdaa2cec1702b5741f5ac7"
   dependencies:
@@ -7119,7 +7127,7 @@ styled-components@5.1.0:
     shallowequal "^1.1.0"
     supports-color "^5.5.0"
 
-styled-cssgg@^1.1.1-1:
+styled-cssgg@1.1.1-1:
   version "1.1.1-1"
   resolved "https://npm.midway.run/styled-cssgg/-/styled-cssgg-1.1.1-1.tgz#dd34b0013bed2a1041a6f42e534017238c825152"
   dependencies:
@@ -7233,9 +7241,9 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swr@^0.2.0:
+swr@0.2.0:
   version "0.2.0"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-0.2.0.tgz#2088271bc0a8044089cf2badde013648f98783ee"
+  resolved "https://npm.midway.run/swr/-/swr-0.2.0.tgz#2088271bc0a8044089cf2badde013648f98783ee"
   dependencies:
     fast-deep-equal "2.0.1"
 

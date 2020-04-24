@@ -9,6 +9,7 @@ export namespace Github {
     default: boolean
   }
   export type Issue = {
+    id: string
     url?: string
     body?: string
     title?: string

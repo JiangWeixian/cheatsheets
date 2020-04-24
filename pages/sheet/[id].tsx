@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
+import cx from 'classnames'
 import { useRouter } from 'next/router'
 import markdownit from 'markdown-it'
 import prism from 'prismjs'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import useSWR from 'swr'
+import { Link } from 'styled-cssgg'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
@@ -35,6 +37,13 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
     },
     { initialData: props.data },
   )
+  const id = router.query._id
+  useEffect(() => {
+    const selected = document.querySelector(`#${id}`)
+    if (selected) {
+      selected.scrollIntoView()
+    }
+  }, [id])
   return (
     <Layout>
       <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
@@ -44,7 +53,12 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
         <div className="lg:w-3/4 w-11/12">
           {data?.map(v => {
             return (
-              <div className="lg:w-2/4 w-full lg:pr-4 pb-4" style={{ float: 'left' }} key={v.title}>
+              <div
+                className="lg:w-2/4 w-full lg:pr-4 pb-4"
+                style={{ float: 'left' }}
+                key={v.title}
+                id={`${router.query.id}-${v.id}`}
+              >
                 <p className="mb-4 flex items-center">
                   <a className="text-blue-600 " href={v.html_url} target="_blank">
                     {v.title}
@@ -56,14 +70,20 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
                   </a>
                 </p>
                 <div
-                  className="shadow w-full bg-white rounded overflow-hidden theme-default-content"
+                  className={cx(
+                    'shadow w-full bg-white rounded overflow-hidden theme-default-content',
+                    { 'shadow-outline': `${router.query.id}-${v.id}` === id },
+                  )}
                   key={v.title}
                   dangerouslySetInnerHTML={{ __html: MarkdownIt.render(v.body || '') }}
                 />
-                <div className="flex italic justify-end text-xs text-gray-600 mt-2">
-                  <time>{dayjs(v.updated_at).from(dayjs())}</time>
-                  <span className="mx-2">/</span>
-                  <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
+                <div className="flex italic justify-between items-center text-xs text-gray-600 mt-2">
+                  <Link style={{ '--ggs': 0.7 } as any} className="cursor-pointer" />
+                  <div>
+                    <time>{dayjs(v.updated_at).from(dayjs())}</time>
+                    <span className="mx-2">/</span>
+                    <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
+                  </div>
                 </div>
               </div>
             )

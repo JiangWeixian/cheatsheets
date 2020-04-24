@@ -10,7 +10,6 @@ import Layout from '~/components/Layout'
 const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
     initialData: props.data,
-    revalidateOnFocus: false,
   })
   return (
     <Layout>
