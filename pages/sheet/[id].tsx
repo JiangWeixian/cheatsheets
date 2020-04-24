@@ -84,8 +84,9 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
                     className="cursor-pointer"
                     onClick={() => {
                       copy(
-                        `http://localhost:3001/sheet/${router.query.id}?_id=${router.query.id}-${v.id}`,
+                        `https://jiangweixian-cheatsheets.now.sh/sheet/${router.query.id}?_id=${router.query.id}-${v.id}`,
                       )
+                      window.alert('复制成功')
                     }}
                   />
                   <div>
