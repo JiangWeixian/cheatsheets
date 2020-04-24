@@ -10,6 +10,7 @@ import Layout from '~/components/Layout'
 const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
     initialData: props.data,
+    revalidateOnFocus: false,
   })
   return (
     <Layout>
@@ -39,7 +40,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   )
 }
 
-export async function getServerSiderProps(_ctx: Parameters<GetServerSideProps>[0]) {
+export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
   const data = await api.github.client.labels()
   return { props: { data } }
 }

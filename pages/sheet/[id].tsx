@@ -74,7 +74,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   )
 }
 
-export async function getServerSiderProps(ctx: Parameters<GetServerSideProps>[0]) {
+export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
   const data = await api.github.client.issues(ctx?.params?.id as string)
   return { props: { data } }
 }

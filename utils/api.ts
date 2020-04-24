@@ -7,7 +7,7 @@ server.defaults.headers.authorization = 'token aa3a141257ba091169ae557f5d076aea9
 
 export enum HOST {
   MOCK = 'http://localhost:8080/api',
-  CLIENT = '/api',
+  CLIENT = 'https://jiangweixian-cheatsheets.now.sh/api',
   SERVER = 'https://api.github.com',
 }
 
