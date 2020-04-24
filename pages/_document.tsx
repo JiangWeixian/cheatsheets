@@ -34,6 +34,19 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap"
             rel="stylesheet"
           />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:site" content="@jiangweixian" />
+          <meta name="twitter:creator" content="@jiangweixian" />
+          <meta name="twitter:url" content="https://jiangweixian-cheatsheets.now.sh" />
+          <meta name="twitter:title" content="Jiangweixian's Cheatsheets" />
+          <meta name="twitter:description" content="less to more" />
+          <meta name="twitter:image" content="https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png" />
+          <meta property="og:url" content="https://jiangweixian-cheatsheets.now.sh" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Jiangweixian's Cheatsheets" />
+          <meta property="og:image" content="https://jiangweixian-cheatsheets.now.sh" />
+          <meta property="og:description" content="less to more" />
+          <meta property="og:site_name" content="Jiangweixian's Cheatsheets" />
         </Head>
         <body>
           <Main />
