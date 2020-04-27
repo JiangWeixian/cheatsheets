@@ -6,6 +6,7 @@ import useSWR from 'swr'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
+import { Meta } from '~/components/Meta'
 
 const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
@@ -13,6 +14,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   })
   return (
     <Layout>
+      <Meta />
       <div className="contianer flex flex-col items-center justify-center w-full h-full bg-gray-100">
         <h1 className="label lg:text-5xl text-xl text-gray-700 lg:mb-10 mb-0">
           {pkg.author.name}'s <span className="text-gray-500">cheatsheets</span>

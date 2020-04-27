@@ -11,8 +11,10 @@ import { Link } from 'styled-cssgg'
 import copy from 'copy-to-clipboard'
 
 import { api, Github } from '~/api'
+import { getId } from '~/utils/sheet'
 import Layout from '~/components/Layout'
 import pkg from 'package.json'
+import { Meta } from '~/components/Meta'
 
 dayjs.extend(relativeTime)
 const md = new markdownit()
@@ -39,6 +41,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
     { initialData: props.data },
   )
   const id = router.query._id
+  const issue = data?.find(v => getId(router.query.id as string, v) === id)
   useEffect(() => {
     const selected = document.querySelector(`#${id}`)
     if (selected) {
@@ -47,6 +50,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   }, [id])
   return (
     <Layout>
+      <Meta title={issue?.title} description={issue?.body} />
       <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
         <h3 className="label lg:text-4xl text-xl text-gray-700 lg:my-20 my-5 mt-20">
           {router.query.id} <span className="text-gray-500">{'cheatsheet'}</span>
@@ -84,7 +88,9 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
                     className="cursor-pointer"
                     onClick={() => {
                       copy(
-                        `https://jiangweixian-cheatsheets.now.sh/sheet/${router.query.id}?_id=${router.query.id}-${v.id}`,
+                        `https://jiangweixian-cheatsheets.now.sh/sheet/${
+                          router.query.id
+                        }?_id=${getId(router.query.id as string, v)}`,
                       )
                       window.alert('复制成功')
                     }}
