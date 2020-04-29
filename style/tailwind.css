@@ -53,7 +53,7 @@ body {
 }
 /* ul child section */
 .theme-default-content ul {
-  @apply border-b-2 border-gray-200 m-0 p-0;
+  @apply border-b-2 border-gray-200 m-0 p-0 text-sm;
 }
 .theme-default-content ul li {
   border-bottom-width: 1px;
@@ -93,7 +93,8 @@ td {
   @apply w-full;
 }
 /* ol section */
-.theme-default-content ol {
+.theme-default-content ol,
+theme-default-content ul {
   @apply p-4 list-decimal list-inside text-sm;
 }
 .theme-default-content ol li p {
@@ -101,7 +102,7 @@ td {
 }
 /* code */
 .theme-default-content pre {
-  @apply m-0;
+  @apply m-0 bg-gray-100;
 }
 .theme-default-content code {
   font-family: 'Fira Code', monospace;
