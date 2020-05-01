@@ -32,6 +32,9 @@ export const github = {
         { host: HOST.SERVER },
       )
     },
+    async search(q: string): Promise<Github.Issue[]> {
+      return request.server.get(`/search/issue/`, { params: { q } }, { host: HOST.SERVER })
+    },
     async issues(labels?: string): Promise<Github.Issue[]> {
       return request.server.get(
         `/repos/${pkg.author.name}/${pkg.name}/issues?labels=${labels}`,
@@ -41,6 +44,9 @@ export const github = {
     },
   },
   client: {
+    async search(q: string): Promise<Github.Issue[]> {
+      return request.client.get(`/search`, { params: { q } }, { host: HOST.CLIENT })
+    },
     async labels(): Promise<Github.Label[]> {
       return request.client.get(`/labels`, {}, { host: HOST.CLIENT })
     },
