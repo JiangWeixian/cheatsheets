@@ -34,7 +34,7 @@ export const github = {
     },
     // refs: https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
     // refs: https://developer.github.com/v3/search/#search-issues-and-pull-requests
-    async search(q: string): Promise<Github.Issue[]> {
+    async search(q: string): Promise<{ items: Github.Issue[] }> {
       return request.server.get(
         `/search/issues`,
         { params: { q: `${q}+repo:${pkg.author.name}/${pkg.name}` } },
@@ -50,7 +50,7 @@ export const github = {
     },
   },
   client: {
-    async search(keyword: string): Promise<Github.Issue[]> {
+    async search(keyword: string): Promise<{ items: Github.Issue[] }> {
       return request.client.get(`/search`, { params: { keyword } }, { host: HOST.CLIENT })
     },
     async labels(): Promise<Github.Label[]> {

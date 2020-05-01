@@ -1,21 +1,23 @@
 import React, { useState, useCallback } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
-import pkg from 'package.json'
 import useSWR from 'swr'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
+import pkg from 'package.json'
+import { Sheet } from '~/components/Sheet'
 
 const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
     initialData: props.data,
   })
   const [keyword, setKeyword] = useState<string>()
+  const [issues, setIssues] = useState<Github.Issue[]>([])
   const handleSearch = useCallback(async value => {
     const data = await api.github.client.search(value)
-    console.log(data)
+    setIssues(data.items)
   }, [])
   return (
     <Layout>
@@ -36,6 +38,9 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
           }}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />
+        {issues.map(v => {
+          return <Sheet v={v} />
+        })}
         <ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-2 w-8/12 list-inside">
           {data
             ?.filter(v => !v.default)
