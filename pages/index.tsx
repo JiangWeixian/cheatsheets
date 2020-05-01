@@ -21,6 +21,10 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         </h1>
         <input
           placeholder="label name"
+          onChange={async e => {
+            const data = await api.github.server.search(e.target.value)
+            console.log(data)
+          }}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />
         <ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-2 w-8/12 list-inside">

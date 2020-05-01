@@ -11,6 +11,13 @@ export enum HOST {
   SERVER = 'https://api.github.com',
 }
 
+const getHost = (host?: HOST) => {
+  if (process.env.NODE_ENV === 'development' && host === HOST.CLIENT) {
+    return 'http://localhost:3001/api'
+  }
+  return host
+}
+
 export const request = {
   server: {
     get: async <T, Q>(
@@ -34,14 +41,17 @@ export const request = {
       { params, data }: { params?: Q; data?: Q } = {},
       { host }: { host?: HOST } = { host: HOST.CLIENT },
     ): Promise<T> => {
-      return client.get(`${host}${path}`, { data, params }).then(res => res.data)
+      const _host = getHost(host)
+      return client.get(`${_host}${path}`, { data, params }).then(res => res.data)
     },
     post: async <T, Q>(
       path: string,
       { params }: { params?: Q } = {},
       { host }: { host: HOST } = { host: HOST.CLIENT },
     ): Promise<T> => {
-      return client.post(`${host}${path}`, params).then(res => res.data)
+      const _host = getHost(host)
+      console.log(host)
+      return client.post(`${_host}${path}`, params).then(res => res.data)
     },
   },
 }

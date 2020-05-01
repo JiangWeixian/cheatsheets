@@ -32,13 +32,19 @@ export const github = {
         { host: HOST.SERVER },
       )
     },
+    // refs: https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
+    // refs: https://developer.github.com/v3/search/#search-issues-and-pull-requests
     async search(q: string): Promise<Github.Issue[]> {
-      return request.server.get(`/search/issue/`, { params: { q } }, { host: HOST.SERVER })
+      return request.server.get(
+        `/search/issues`,
+        { params: { q: `${q}+repo:${pkg.author.name}/${pkg.name}` } },
+        { host: HOST.SERVER },
+      )
     },
     async issues(labels?: string): Promise<Github.Issue[]> {
       return request.server.get(
-        `/repos/${pkg.author.name}/${pkg.name}/issues?labels=${labels}`,
-        {},
+        `/repos/${pkg.author.name}/${pkg.name}/issues?labels`,
+        { params: { labels } },
         { host: HOST.SERVER },
       )
     },
