@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState, useCallback } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import pkg from 'package.json'
@@ -12,6 +12,11 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
     initialData: props.data,
   })
+  const [keyword, setKeyword] = useState<string>()
+  const handleSearch = useCallback(async value => {
+    const data = await api.github.client.search(value)
+    console.log(data)
+  }, [])
   return (
     <Layout>
       <Meta />
@@ -21,9 +26,13 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         </h1>
         <input
           placeholder="label name"
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              handleSearch(keyword)
+            }
+          }}
           onChange={async e => {
-            const data = await api.github.server.search(e.target.value)
-            console.log(data)
+            setKeyword(e.target.value)
           }}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />

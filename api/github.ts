@@ -43,15 +43,15 @@ export const github = {
     },
     async issues(labels?: string): Promise<Github.Issue[]> {
       return request.server.get(
-        `/repos/${pkg.author.name}/${pkg.name}/issues?labels`,
+        `/repos/${pkg.author.name}/${pkg.name}/issues`,
         { params: { labels } },
         { host: HOST.SERVER },
       )
     },
   },
   client: {
-    async search(q: string): Promise<Github.Issue[]> {
-      return request.client.get(`/search`, { params: { q } }, { host: HOST.CLIENT })
+    async search(keyword: string): Promise<Github.Issue[]> {
+      return request.client.get(`/search`, { params: { keyword } }, { host: HOST.CLIENT })
     },
     async labels(): Promise<Github.Label[]> {
       return request.client.get(`/labels`, {}, { host: HOST.CLIENT })
