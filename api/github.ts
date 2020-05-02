@@ -34,6 +34,7 @@ export const github = {
     },
     // refs: https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
     // refs: https://developer.github.com/v3/search/#search-issues-and-pull-requests
+    // NOTE: 可以看看github issues搜索的结构，可以发现搜索是通过encodeURI方式加密的，而不是axios的encodeURIComponent
     async search(q: string): Promise<{ items: Github.Issue[] }> {
       return request.server.get(
         `/search/issues?q=${encodeURI(`${q}+label:chrome+repo:${pkg.author.name}/${pkg.name}`)}`,
