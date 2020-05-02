@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
 import markdownit from 'markdown-it'
@@ -8,6 +8,7 @@ import copy from 'copy-to-clipboard'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
+import zoom from 'medium-zoom'
 
 import { Github } from '~/api'
 import { getId } from '~/utils/sheet'
@@ -38,6 +39,9 @@ const EMPTY = {} as Github.Issue
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const id = router.query._id
+  useEffect(() => {
+    zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
+  }, [])
   return (
     <div
       className={cx(props.className, 'w-full')}
