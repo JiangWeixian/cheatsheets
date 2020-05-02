@@ -7,6 +7,7 @@ import { Link } from 'styled-cssgg'
 import copy from 'copy-to-clipboard'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { doHighlight } from '@lotips/core'
 
 import { Github } from '~/api'
 import { getId } from '~/utils/sheet'
@@ -28,12 +29,13 @@ const MarkdownIt = new markdownit({
 
 type SheetProps = {
   v?: Github.Issue
+  highlight?: string
   className?: string
 }
 
 const EMPTY = {} as Github.Issue
 
-export const Sheet = ({ v = EMPTY, ...props }: SheetProps) => {
+export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const id = router.query._id
   return (
@@ -45,7 +47,11 @@ export const Sheet = ({ v = EMPTY, ...props }: SheetProps) => {
     >
       <p className="mb-4 flex items-center">
         <a className="text-blue-600 " href={v.html_url} target="_blank">
-          {v.title}
+          <span
+            dangerouslySetInnerHTML={{
+              __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
+            }}
+          />
           {v.state === 'open' ? (
             <span className="rounded-lg inline-block bg-green-300 w-2 h-2 ml-2" />
           ) : (
@@ -58,7 +64,9 @@ export const Sheet = ({ v = EMPTY, ...props }: SheetProps) => {
           'shadow-outline': `${router.query.id}-${v.id}` === id,
         })}
         key={v.title}
-        dangerouslySetInnerHTML={{ __html: MarkdownIt.render(v.body || '') }}
+        dangerouslySetInnerHTML={{
+          __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
+        }}
       />
       <div className="flex italic justify-between items-center text-xs text-gray-600 mt-2">
         <Link

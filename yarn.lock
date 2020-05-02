@@ -1095,6 +1095,14 @@
   version "0.7.5"
   resolved "https://npm.midway.run/@emotion%2funitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
 
+"@lotips/core@^0.8.3-alpha.0":
+  version "0.8.3-alpha.0"
+  resolved "https://registry.yarnpkg.com/@lotips/core/-/core-0.8.3-alpha.0.tgz#68333e5330dd434e0abda64954ae7b3fc60bc07b"
+  integrity sha512-9NxoJvu4t89c9VdrnhINZyxWg95QqlGJ+HD3lIMvYZPEgurwEUxxjyJGSsLhtlXxU5ts/5MY6Xm+ZM+Rh1Sd+Q==
+  dependencies:
+    is-mobile "^2.2.1"
+    ms "2.1.2"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://npm.midway.run/@samverschueren%2fstream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
@@ -4183,6 +4191,11 @@ is-installed-globally@^0.3.1:
     global-dirs "^2.0.1"
     is-path-inside "^3.0.1"
 
+is-mobile@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/is-mobile/-/is-mobile-2.2.1.tgz#10f2320012c410cc285feecb13406bd586f1b2f8"
+  integrity sha512-6zELsfVFr326eq2CI53yvqq6YBanOxKBybwDT+MbMS2laBnK6Ez8m5XHSuTQQbnKRfpDzCod1CMWW5q3wZYMvA==
+
 is-npm@^1.0.0:
   version "1.0.0"
   resolved "https://npm.midway.run/is-npm/-/is-npm-1.0.0.tgz#f2fb63a65e4905b406c86072765a1a4dc793b9f4"
@@ -4985,7 +4998,7 @@ ms@2.1.1:
   version "2.1.1"
   resolved "https://npm.midway.run/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
 
-ms@^2.1.1:
+ms@2.1.2, ms@^2.1.1:
   version "2.1.2"
   resolved "https://npm.midway.run/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
 

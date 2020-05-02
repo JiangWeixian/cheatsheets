@@ -15,10 +15,12 @@ const Content = ({
   issues = [],
   labels,
   loading,
+  highlight,
 }: {
   issues?: Github.Issue[]
   labels?: Github.Label[]
   loading?: boolean
+  highlight?: string
 }) => {
   const transitions = useTrail<{ opacity: number }>(issues.length, {
     opacity: loading ? 0 : 1,
@@ -33,7 +35,7 @@ const Content = ({
         {transitions.map((props, index) => {
           return (
             <animated.div key={issues[index].id} style={props} className={'lg:w-2/4 w-full'}>
-              <Sheet className={'mb-4'} v={issues[index]} />
+              <Sheet highlight={highlight} className={'mb-4'} v={issues[index]} />
             </animated.div>
           )
         })}
@@ -94,7 +96,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
           }}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />
-        <Content issues={issues} labels={data} loading={loading} />
+        <Content highlight={keyword} issues={issues} labels={data} loading={loading} />
       </div>
     </Layout>
   )
