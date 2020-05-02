@@ -30,15 +30,18 @@ const MarkdownIt = new markdownit({
 
 type SheetProps = {
   v?: Github.Issue
+  label?: string
   highlight?: string
   className?: string
 }
 
 const EMPTY = {} as Github.Issue
 
-export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
+export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: SheetProps) => {
   const router = useRouter()
-  const id = router.query._id
+  const _label = label || v.labels[0].name
+  const queryId = router.query._id
+  const idcard = getId(_label, v)
   useEffect(() => {
     zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
   }, [])
@@ -47,7 +50,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       className={cx(props.className, 'w-full')}
       style={{ float: 'left' }}
       key={v.title}
-      id={`${router.query.id}-${v.id}`}
+      id={idcard}
     >
       <p className="mb-4 flex items-center">
         <a className="text-blue-600 " href={v.html_url} target="_blank">
@@ -65,7 +68,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       </p>
       <div
         className={cx('shadow w-full bg-white rounded overflow-hidden theme-default-content', {
-          'shadow-outline': `${router.query.id}-${v.id}` === id,
+          'shadow-outline': idcard === queryId,
         })}
         key={v.title}
         dangerouslySetInnerHTML={{
@@ -77,12 +80,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           style={{ '--ggs': 0.7 } as any}
           className="cursor-pointer"
           onClick={() => {
-            copy(
-              `https://jiangweixian-cheatsheets.now.sh/sheet/${router.query.id}?_id=${getId(
-                router.query.id as string,
-                v,
-              )}`,
-            )
+            copy(`https://jiangweixian-cheatsheets.now.sh/sheet/${_label}?_id=${idcard}`)
             window.alert('复制成功')
           }}
         />
