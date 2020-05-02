@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import useSWR from 'swr'
 import { Spinner } from 'styled-cssgg'
-import { useTransition, animated } from 'react-spring'
+import { animated, useTrail } from 'react-spring'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
@@ -20,10 +20,9 @@ const Content = ({
   labels?: Github.Label[]
   loading?: boolean
 }) => {
-  const transitions = useTransition(issues, item => item.id, {
-    from: { transform: 'translateY(-40px)' },
-    enter: { transform: 'translateY(0px)' },
-    leave: { transform: 'translateY(-40px)' },
+  const transitions = useTrail<{ opacity: number }>(issues.length, {
+    opacity: loading ? 0 : 1,
+    from: { opacity: 0 },
   })
   if (loading) {
     return <Spinner />
@@ -31,10 +30,10 @@ const Content = ({
   if (issues && issues.length !== 0) {
     return (
       <>
-        {transitions.map(({ item, props, key }) => {
+        {transitions.map((props, index) => {
           return (
-            <animated.div key={key} style={props} className={'lg:w-2/4 w-full'}>
-              <Sheet className={'mb-4'} v={item} />
+            <animated.div key={issues[index].id} style={props} className={'lg:w-2/4 w-full'}>
+              <Sheet className={'mb-4'} v={issues[index]} />
             </animated.div>
           )
         })}
@@ -75,7 +74,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   return (
     <Layout>
       <Meta />
-      <div className="contianer flex flex-col items-center w-full h-full bg-gray-100">
+      <div className="contianer flex flex-col items-center w-full min-h-full bg-gray-100">
         <h1 className="label lg:text-5xl text-xl text-gray-700 mt-40 lg:mt-56 lg:mb-10 mb-0">
           {pkg.author.name}'s <span className="text-gray-500">cheatsheets</span>
         </h1>
