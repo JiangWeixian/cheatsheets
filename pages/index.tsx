@@ -5,7 +5,8 @@ import useSWR from 'swr'
 import { Spinner } from 'styled-cssgg'
 import { animated, useTrail } from 'react-spring'
 
-import { api, Github } from '~/api'
+import { api } from '~/api/client'
+import { Github } from '~/interface/github'
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import pkg from 'package.json'
@@ -60,7 +61,7 @@ const Content = ({
 }
 
 const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
-  const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.client.labels, {
+  const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.labels, {
     initialData: props.data,
   })
   const [keyword, setKeyword] = useState<string>()
@@ -69,7 +70,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const handleSearch = useCallback(async value => {
     setLoading(true)
     setIssues(undefined)
-    const data = await api.github.client.search(value)
+    const data = await api.github.search(value)
     setLoading(false)
     setIssues(data.items)
   }, [])
@@ -103,7 +104,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.client.labels()
+  const data = await api.github.labels()
   return { props: { data } }
 }
 

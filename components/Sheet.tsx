@@ -10,7 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
 import zoom from 'medium-zoom'
 
-import { Github } from '~/api'
+import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
 
 dayjs.extend(relativeTime)

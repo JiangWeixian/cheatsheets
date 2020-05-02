@@ -3,7 +3,8 @@ import { NextPage, GetServerSideProps } from 'next'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 
-import { api, Github } from '~/api'
+import { Github } from '~/interface/github'
+import { api } from '~/api/client'
 import { getId } from '~/utils/sheet'
 import Layout from '~/components/Layout'
 import pkg from 'package.json'
@@ -15,7 +16,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const { data } = useSWR(
     [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id],
     (_name, id: string) => {
-      return api.github.client.issues(id)
+      return api.github.issues(id)
     },
     { initialData: props.data },
   )
@@ -45,7 +46,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.client.issues(ctx?.params?.id as string)
+  const data = await api.github.issues(ctx?.params?.id as string)
   return { props: { data } }
 }
 
