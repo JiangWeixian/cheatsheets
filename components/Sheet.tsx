@@ -28,16 +28,17 @@ const MarkdownIt = new markdownit({
 
 type SheetProps = {
   v?: Github.Issue
+  className?: string
 }
 
 const EMPTY = {} as Github.Issue
 
-export const Sheet = ({ v = EMPTY }: SheetProps) => {
+export const Sheet = ({ v = EMPTY, ...props }: SheetProps) => {
   const router = useRouter()
   const id = router.query._id
   return (
     <div
-      className="lg:w-2/4 w-full lg:pr-4 pb-4"
+      className={cx('lg:w-2/4 w-full', props.className)}
       style={{ float: 'left' }}
       key={v.title}
       id={`${router.query.id}-${v.id}`}

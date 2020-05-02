@@ -36,7 +36,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
         </h3>
         <div className="lg:w-3/4 w-11/12">
           {data?.map(v => {
-            return <Sheet v={v} />
+            return <Sheet className={'lg:mr-4 mb-4'} v={v} />
           })}
         </div>
       </div>

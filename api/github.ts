@@ -37,7 +37,7 @@ export const github = {
     // NOTE: 可以看看github issues搜索的结构，可以发现搜索是通过encodeURI方式加密的，而不是axios的encodeURIComponent
     async search(q: string): Promise<{ items: Github.Issue[] }> {
       return request.server.get(
-        `/search/issues?q=${encodeURI(`${q}+label:chrome+repo:${pkg.author.name}/${pkg.name}`)}`,
+        `/search/issues?q=${encodeURI(`${q}+repo:${pkg.author.name}/${pkg.name}`)}`,
         {},
         { host: HOST.SERVER },
       )
