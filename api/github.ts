@@ -36,8 +36,8 @@ export const github = {
     // refs: https://developer.github.com/v3/search/#search-issues-and-pull-requests
     async search(q: string): Promise<{ items: Github.Issue[] }> {
       return request.server.get(
-        `/search/issues`,
-        { params: { q: `${q}+repo:${pkg.author.name}/${pkg.name}` } },
+        `/search/issues?q=${encodeURI(`${q}+label:chrome+repo:${pkg.author.name}/${pkg.name}`)}`,
+        {},
         { host: HOST.SERVER },
       )
     },
