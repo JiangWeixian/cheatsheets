@@ -38,7 +38,7 @@ export const Sheet = ({ v = EMPTY, ...props }: SheetProps) => {
   const id = router.query._id
   return (
     <div
-      className={cx('lg:w-2/4 w-full', props.className)}
+      className={cx(props.className, 'w-full')}
       style={{ float: 'left' }}
       key={v.title}
       id={`${router.query.id}-${v.id}`}

@@ -3,6 +3,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import useSWR from 'swr'
 import { Spinner } from 'styled-cssgg'
+import { useTransition, animated } from 'react-spring'
 
 import { api, Github } from '~/api'
 import Layout from '~/components/Layout'
@@ -11,7 +12,7 @@ import pkg from 'package.json'
 import { Sheet } from '~/components/Sheet'
 
 const Content = ({
-  issues,
+  issues = [],
   labels,
   loading,
 }: {
@@ -19,14 +20,23 @@ const Content = ({
   labels?: Github.Label[]
   loading?: boolean
 }) => {
+  const transitions = useTransition(issues, item => item.id, {
+    from: { transform: 'translateY(-40px)' },
+    enter: { transform: 'translateY(0px)' },
+    leave: { transform: 'translateY(-40px)' },
+  })
   if (loading) {
     return <Spinner />
   }
-  if (issues) {
+  if (issues && issues.length !== 0) {
     return (
       <>
-        {issues.map(v => {
-          return <Sheet className={'mb-4'} v={v} />
+        {transitions.map(({ item, props, key }) => {
+          return (
+            <animated.div key={key} style={props} className={'lg:w-2/4 w-full'}>
+              <Sheet className={'mb-4'} v={item} />
+            </animated.div>
+          )
         })}
       </>
     )
