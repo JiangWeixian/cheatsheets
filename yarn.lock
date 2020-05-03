@@ -1095,10 +1095,10 @@
   version "0.7.5"
   resolved "https://npm.midway.run/@emotion%2funitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
 
-"@lotips/core@^0.8.3-alpha.0":
-  version "0.8.3-alpha.0"
-  resolved "https://registry.yarnpkg.com/@lotips/core/-/core-0.8.3-alpha.0.tgz#68333e5330dd434e0abda64954ae7b3fc60bc07b"
-  integrity sha512-9NxoJvu4t89c9VdrnhINZyxWg95QqlGJ+HD3lIMvYZPEgurwEUxxjyJGSsLhtlXxU5ts/5MY6Xm+ZM+Rh1Sd+Q==
+"@lotips/core@^0.8.3-alpha.2":
+  version "0.8.3-alpha.2"
+  resolved "https://registry.yarnpkg.com/@lotips/core/-/core-0.8.3-alpha.2.tgz#6d4fe59bf93c182d5cf9a7b8f8107ce5bf6c8ad8"
+  integrity sha512-o14mZwBdfpJ23y1WyYzlaBCvi7FdunnbtnpVrnEqmCQWz703L4wSkM011889Dl8qRoVAPcD8aELS93hhYF+lsA==
   dependencies:
     is-mobile "^2.2.1"
     ms "2.1.2"

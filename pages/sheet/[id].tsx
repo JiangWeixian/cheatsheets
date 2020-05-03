@@ -38,7 +38,12 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
         <div className="lg:w-3/4 w-11/12">
           {data?.map(v => {
             return (
-              <Sheet label={router.query.id as string} className={'lg:pr-4 pb-4 lg:w-2/4'} v={v} />
+              <Sheet
+                key={v.id}
+                label={router.query.id as string}
+                className={'lg:pr-4 pb-4 lg:w-2/4'}
+                v={v}
+              />
             )
           })}
         </div>
