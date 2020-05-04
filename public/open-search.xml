@@ -1,0 +1,5 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>CheatSheets</ShortName>
+    <Description>搜索 CheatSheet</Description>
+    <Url type="text/html" template="http://jiangweixian-cheatsheets.now.sh/?q={searchTerms}"/>
+</OpenSearchDescription>

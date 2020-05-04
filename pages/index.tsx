@@ -11,6 +11,7 @@ import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import pkg from 'package.json'
 import { Sheet } from '~/components/Sheet'
+import { useRouter } from 'next/router'
 
 const Content = ({
   issues = [],
@@ -64,9 +65,13 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   const { data } = useSWR(`${pkg.author.name}-${pkg.name}-labels`, api.github.labels, {
     initialData: props.data,
   })
-  const [keyword, setKeyword] = useState<string>()
+  const searchTerms = useRouter().query.q as string
+  const [keyword, setKeyword] = useState<string>(searchTerms)
   const [issues, setIssues] = useState<Github.Issue[]>()
   const [loading, setLoading] = useState<boolean>()
+  useEffect(() => {
+    handleSearch(searchTerms)
+  }, [searchTerms])
   const handleSearch = useCallback(async value => {
     setLoading(true)
     setIssues(undefined)
@@ -83,6 +88,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         </h1>
         <input
           placeholder="请输入关键词"
+          value={keyword}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               handleSearch(keyword)

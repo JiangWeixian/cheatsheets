@@ -34,6 +34,12 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap"
             rel="stylesheet"
           />
+          <link
+            rel="search"
+            href="/open-search.xml"
+            title="Search CheatSheets"
+            type="application/opensearchdescription+xml"
+          />
         </Head>
         <body>
           <Main />
