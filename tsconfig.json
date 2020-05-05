@@ -20,6 +20,7 @@
     "strict": true,
     "target": "es5",
     "baseUrl": ".",
+    "noImplicitThis": true,
     "paths": {
       "~/*": [
         "./*"

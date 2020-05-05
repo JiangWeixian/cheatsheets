@@ -1242,6 +1242,13 @@
   version "1.0.1"
   resolved "https://npm.midway.run/@umijs%2ferror-code-map/-/error-code-map-1.0.1.tgz#2a2dd7b4bcd11869e968264ff3dabacfabe8b874"
 
+"@use-rematch/core@^0.0.6-alpha.1":
+  version "0.0.6-alpha.1"
+  resolved "https://registry.yarnpkg.com/@use-rematch/core/-/core-0.0.6-alpha.1.tgz#f70f35835394a318817546c1c99e750e9eebb083"
+  integrity sha512-eowxdfmf4KHS6CU0NJhZ+pTN2ODg1uDs58/3Nsfkw1R3Tzf1B0BUvNzEjHqK4yjeBEP0y+cRCmVwCwvBUxlBtw==
+  dependencies:
+    lodash.flow "3.5.0"
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://npm.midway.run/@webassemblyjs%2fast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -4613,6 +4620,11 @@ locate-path@^5.0.0:
   resolved "https://npm.midway.run/locate-path/-/locate-path-5.0.0.tgz#1afba396afd676a6d42504d0a67a3a7eb9f62aa0"
   dependencies:
     p-locate "^4.1.0"
+
+lodash.flow@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.flow/-/lodash.flow-3.5.0.tgz#87bf40292b8cf83e4e8ce1a3ae4209e20071675a"
+  integrity sha1-h79AKSuM+D5OjOGjrkIJ4gBxZ1o=
 
 lodash.isempty@4.4.0:
   version "4.4.0"

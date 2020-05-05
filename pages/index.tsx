@@ -4,6 +4,7 @@ import Link from 'next/link'
 import useSWR from 'swr'
 import { Spinner } from 'styled-cssgg'
 import { animated, useTrail } from 'react-spring'
+import { useRematch } from '@use-rematch/core'
 
 import { api } from '~/api/client'
 import { Github } from '~/interface/github'
@@ -66,18 +67,54 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
     initialData: props.data,
   })
   const searchTerms = useRouter().query.q as string
-  const [keyword, setKeyword] = useState<string>(searchTerms)
-  const [issues, setIssues] = useState<Github.Issue[]>()
-  const [loading, setLoading] = useState<boolean>()
+  const { state, dispatch } = useRematch({
+    name: 'homepage',
+    state: {
+      issues: undefined,
+      loading: false,
+      keyword: searchTerms,
+    } as {
+      issues?: Github.Issue[]
+      loading: boolean
+      keyword: string
+    },
+    reducers: {
+      setIssues(state, issues?: Github.Issue[]) {
+        return {
+          ...state,
+          issues,
+        }
+      },
+      setKeyword(state, keyword: string) {
+        return {
+          ...state,
+          keyword,
+        }
+      },
+      toggleLoading(state) {
+        return {
+          ...state,
+          loading: !state.loading,
+        }
+      },
+    },
+    effects: {
+      async searchIssues(payload: string) {
+        if (!payload) {
+          return
+        }
+        this.toggleLoading()
+        const issues = await api.github.search(payload)
+        this.setIssues(issues.items)
+        this.toggleLoading()
+      },
+    },
+  })
   useEffect(() => {
     handleSearch(searchTerms)
   }, [searchTerms])
   const handleSearch = useCallback(async value => {
-    setLoading(true)
-    setIssues(undefined)
-    const data = await api.github.search(value)
-    setLoading(false)
-    setIssues(data.items)
+    await dispatch.searchIssues(value)
   }, [])
   return (
     <Layout>
@@ -88,22 +125,27 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         </h1>
         <input
           placeholder="请输入关键词"
-          value={keyword}
+          value={state.keyword}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              handleSearch(keyword)
+              handleSearch(state.keyword)
             }
           }}
           onChange={async e => {
+            dispatch.setKeyword(e.target.value)
             if (!e.target.value) {
-              setIssues(undefined)
+              dispatch.setIssues(undefined)
               return
             }
-            setKeyword(e.target.value)
           }}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />
-        <Content highlight={keyword} issues={issues} labels={data} loading={loading} />
+        <Content
+          highlight={state.keyword}
+          issues={state.issues}
+          labels={data}
+          loading={state.loading}
+        />
       </div>
     </Layout>
   )
