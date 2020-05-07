@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import markdownit from 'markdown-it'
 import prism from 'prismjs'
 import { Link } from 'styled-cssgg'
-import copy from 'copy-to-clipboard'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
@@ -12,6 +11,7 @@ import zoom from 'medium-zoom'
 
 import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
+import { share } from '~/utils/share'
 
 dayjs.extend(relativeTime)
 const md = new markdownit()
@@ -80,8 +80,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
           style={{ '--ggs': 0.7 } as any}
           className="cursor-pointer"
           onClick={() => {
-            copy(`https://jiangweixian-cheatsheets.now.sh/sheet/${_label}?_id=${idcard}`)
-            window.alert('复制成功')
+            share(idcard, _label, v.title, v.body)
           }}
         />
         <div>
