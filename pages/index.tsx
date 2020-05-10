@@ -14,6 +14,10 @@ import pkg from 'package.json'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 
+const unShipProps: any = {
+  enterkeyhint: 'search',
+}
+
 const Content = ({
   issues = [],
   labels,
@@ -126,6 +130,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         <input
           placeholder="请输入关键词"
           value={state.keyword}
+          {...unShipProps}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               handleSearch(state.keyword)
