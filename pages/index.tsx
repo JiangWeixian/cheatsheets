@@ -14,6 +14,7 @@ import pkg from 'package.json'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { Divider } from '~/components/Divider'
+import { GitLabel } from '~/components/GitLabel'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
@@ -35,39 +36,31 @@ const Content = ({
     from: { opacity: 0 },
   })
   if (status === 'init') {
-    ;<ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-2 w-8/12 list-inside">
-      {labels
-        ?.filter(v => !v.default)
-        .map(v => {
-          return (
-            <li className="text-blue-800 cursor-pointer hover:text-blue-500" key={v.name}>
-              <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
-                {v.name}
-              </Link>
-            </li>
-          )
-        })}
-    </ul>
+    return (
+      <>
+        <ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-1 w-11/12 list-inside">
+          {labels
+            ?.filter(v => !v.default)
+            .map(v => {
+              return <GitLabel value={v} />
+            })}
+        </ul>
+      </>
+    )
   }
   if (status === 'loading') {
     return <Spinner />
   }
   return (
-    <div className="lg:w-2/4 w-8/12">
-      <ul className="list-disc grid lg:grid-cols-3 grid-cols-2 list-inside">
+    <div className="lg:w-2/4 w-11/12">
+      <ul className="list-disc grid lg:grid-cols-3 grid-cols-1 list-inside">
         {labels
           ?.filter(v => !v.default)
           .map(v => {
-            return (
-              <li className="text-blue-800 cursor-pointer hover:text-blue-500" key={v.name}>
-                <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
-                  {v.name}
-                </Link>
-              </li>
-            )
+            return <GitLabel value={v} />
           })}
       </ul>
-      <Divider />
+      {labels?.filter(v => !v.default).length !== 0 ? <Divider /> : null}
       {issues && issues.length !== 0 ? (
         <>
           {transitions.map((props, index) => {
@@ -146,13 +139,12 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
           {pkg.author.name}'s <span className="text-gray-500">cheatsheets</span>
         </h1>
         <input
-          placeholder="请输入关键词"
+          placeholder="请输入关键词, Enter搜索更多"
           value={state.keyword}
           {...unShipProps}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               const target: any = e.target
-              dispatch.setKeyword(target.value)
               if (!target.value) {
                 dispatch.setIssues(undefined)
                 return
@@ -160,6 +152,7 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
               dispatch.searchIssues(target.value)
             }
           }}
+          onChange={e => dispatch.setKeyword(e.target.value)}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
         />
         <Content

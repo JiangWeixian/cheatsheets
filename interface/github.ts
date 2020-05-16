@@ -4,6 +4,7 @@ export namespace Github {
     name: string
     description: string
     default: boolean
+    color: string
   }
   export type Issue = {
     id: string

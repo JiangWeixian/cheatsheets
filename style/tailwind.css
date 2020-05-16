@@ -6,8 +6,8 @@
 body {
   height: 100vh;
   width: 100vw;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Fira Code', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
@@ -103,17 +103,4 @@ theme-default-content ul {
 .theme-default-content code {
   font-family: 'Fira Code', monospace;
   @apply bg-transparent text-blue-600 p-0 text-sm m-0;
-}
-
-/* divider */
-.divider {
-  font-family: 'Fira Code', monospace;
-  height: 40px;
-  background: linear-gradient(
-    to bottom,
-    transparent 20px,
-    rgb(160, 174, 192) 20px,
-    rgb(160, 174, 192) 22px,
-    transparent 22px
-  );
 }
