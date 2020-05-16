@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import useSWR from 'swr'
@@ -13,6 +13,7 @@ import { Meta } from '~/components/Meta'
 import pkg from 'package.json'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
+import { Divider } from '~/components/Divider'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
@@ -21,36 +22,20 @@ const unShipProps: any = {
 const Content = ({
   issues = [],
   labels,
-  loading,
+  status,
   highlight,
 }: {
   issues?: Github.Issue[]
   labels?: Github.Label[]
-  loading?: boolean
+  status?: 'loading' | 'loaded' | 'init'
   highlight?: string
 }) => {
   const transitions = useTrail<{ opacity: number }>(issues.length, {
-    opacity: loading ? 0 : 1,
+    opacity: status === 'loading' ? 0 : 1,
     from: { opacity: 0 },
   })
-  if (loading) {
-    return <Spinner />
-  }
-  if (issues && issues.length !== 0) {
-    return (
-      <>
-        {transitions.map((props, index) => {
-          return (
-            <animated.div key={issues[index].id} style={props} className="lg:w-2/4 w-11/12">
-              <Sheet highlight={highlight} className={'mb-4'} v={issues[index]} />
-            </animated.div>
-          )
-        })}
-      </>
-    )
-  }
-  return (
-    <ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-2 w-8/12 list-inside">
+  if (status === 'init') {
+    ;<ul className="list-disc grid lg:grid-cols-3 lg:w-2/4 grid-cols-2 w-8/12 list-inside">
       {labels
         ?.filter(v => !v.default)
         .map(v => {
@@ -63,6 +48,38 @@ const Content = ({
           )
         })}
     </ul>
+  }
+  if (status === 'loading') {
+    return <Spinner />
+  }
+  return (
+    <div className="lg:w-2/4 w-8/12">
+      <ul className="list-disc grid lg:grid-cols-3 grid-cols-2 list-inside">
+        {labels
+          ?.filter(v => !v.default)
+          .map(v => {
+            return (
+              <li className="text-blue-800 cursor-pointer hover:text-blue-500" key={v.name}>
+                <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
+                  {v.name}
+                </Link>
+              </li>
+            )
+          })}
+      </ul>
+      <Divider />
+      {issues && issues.length !== 0 ? (
+        <>
+          {transitions.map((props, index) => {
+            return (
+              <animated.div key={issues[index].id} style={props}>
+                <Sheet highlight={highlight} className={'mb-4'} v={issues[index]} />
+              </animated.div>
+            )
+          })}
+        </>
+      ) : null}
+    </div>
   )
 }
 
@@ -75,18 +92,19 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
     name: 'homepage',
     state: {
       issues: undefined,
-      loading: false,
       keyword: searchTerms,
+      status: 'init',
     } as {
       issues?: Github.Issue[]
-      loading: boolean
       keyword: string
+      status: 'loading' | 'loaded' | 'init'
     },
     reducers: {
       setIssues(state, issues?: Github.Issue[]) {
         return {
           ...state,
           issues,
+          status: !issues ? 'init' : state.status,
         }
       },
       setKeyword(state, keyword: string) {
@@ -95,10 +113,10 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
           keyword,
         }
       },
-      toggleLoading(state) {
+      setStatus(state, status: 'loading' | 'loaded' | 'init') {
         return {
           ...state,
-          loading: !state.loading,
+          status,
         }
       },
     },
@@ -107,19 +125,19 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         if (!payload) {
           return
         }
-        this.toggleLoading()
+        this.setStatus('loading')
         const issues = await api.github.search(payload)
         this.setIssues(issues.items)
-        this.toggleLoading()
+        this.setStatus('loaded')
       },
     },
   })
   useEffect(() => {
-    handleSearch(searchTerms)
+    dispatch.searchIssues(searchTerms)
   }, [searchTerms])
-  const handleSearch = useCallback(async value => {
-    await dispatch.searchIssues(value)
-  }, [])
+  const labels = useMemo(() => {
+    return state.keyword ? data?.filter(v => v.name.includes(state.keyword)) : data
+  }, [state.keyword, data])
   return (
     <Layout>
       <Meta />
@@ -133,14 +151,13 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
           {...unShipProps}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              handleSearch(state.keyword)
-            }
-          }}
-          onChange={async e => {
-            dispatch.setKeyword(e.target.value)
-            if (!e.target.value) {
-              dispatch.setIssues(undefined)
-              return
+              const target: any = e.target
+              dispatch.setKeyword(target.value)
+              if (!target.value) {
+                dispatch.setIssues(undefined)
+                return
+              }
+              dispatch.searchIssues(target.value)
             }
           }}
           className="shadow appearance-none border focus:outline-none focus:shadow-outline md:w-2/4 lg:w-2/4 w-11/12 h-12 text-gray-500 rounded m-8 p-2"
@@ -148,8 +165,8 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
         <Content
           highlight={state.keyword}
           issues={state.issues}
-          labels={data}
-          loading={state.loading}
+          labels={labels}
+          status={state.status}
         />
       </div>
     </Layout>

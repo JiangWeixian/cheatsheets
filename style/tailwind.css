@@ -23,11 +23,7 @@ body {
   font-family: 'Fira Code', monospace;
 }
 
-/* @font-face {
-  font-family: "fira";
-  src: url("../assets/FiraCode-Regular.ttf") format("truetype"),
-} */
-
+/* markdown & sheet */
 /* content */
 .theme-default-content p {
   @apply bg-white;
@@ -107,4 +103,17 @@ theme-default-content ul {
 .theme-default-content code {
   font-family: 'Fira Code', monospace;
   @apply bg-transparent text-blue-600 p-0 text-sm m-0;
+}
+
+/* divider */
+.divider {
+  font-family: 'Fira Code', monospace;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent 20px,
+    rgb(160, 174, 192) 20px,
+    rgb(160, 174, 192) 22px,
+    transparent 22px
+  );
 }
