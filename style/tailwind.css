@@ -98,7 +98,7 @@ theme-default-content ul {
 }
 /* code */
 .theme-default-content pre {
-  @apply m-0 bg-gray-100;
+  @apply m-0 bg-white;
 }
 .theme-default-content code {
   font-family: 'Fira Code', monospace;

@@ -1242,7 +1242,7 @@
   version "1.0.1"
   resolved "https://npm.midway.run/@umijs%2ferror-code-map/-/error-code-map-1.0.1.tgz#2a2dd7b4bcd11869e968264ff3dabacfabe8b874"
 
-"@use-rematch/core@^0.0.6-alpha.1":
+"@use-rematch/core@0.0.6-alpha.1":
   version "0.0.6-alpha.1"
   resolved "https://registry.yarnpkg.com/@use-rematch/core/-/core-0.0.6-alpha.1.tgz#f70f35835394a318817546c1c99e750e9eebb083"
   integrity sha512-eowxdfmf4KHS6CU0NJhZ+pTN2ODg1uDs58/3Nsfkw1R3Tzf1B0BUvNzEjHqK4yjeBEP0y+cRCmVwCwvBUxlBtw==
