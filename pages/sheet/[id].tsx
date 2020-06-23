@@ -16,7 +16,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const { data } = useSWR(
     [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id],
     (_name, id: string) => {
-      return api.github.issues(id)
+      return api.github.issues({ label: id })
     },
     { initialData: props.data },
   )
@@ -32,16 +32,13 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
       <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
-        <h3 className="label lg:text-4xl text-xl text-gray-700 lg:my-20 my-5 mt-20">
-          {router.query.id} <span className="text-gray-500">{'cheatsheet'}</span>
-        </h3>
-        <div className="lg:w-3/4 w-11/12">
+        <div className="w-11/12">
           {data?.map(v => {
             return (
               <Sheet
                 key={v.id}
                 label={router.query.id as string}
-                className={'lg:pr-4 pb-4 lg:w-2/4'}
+                className="w-1/2 float-left"
                 v={v}
               />
             )
@@ -53,7 +50,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.issues(ctx?.params?.id as string)
+  const data = await api.github.issues({ label: ctx?.params?.id as string })
   return { props: { data } }
 }
 

@@ -63,9 +63,12 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
         </a>
       </p>
       <div
-        className={cx('shadow w-full bg-white rounded overflow-hidden theme-default-content', {
-          'shadow-outline': idcard === queryId,
-        })}
+        className={cx(
+          'shadow w-full bg-white rounded overflow-hidden theme-default-content hover:shadow-md',
+          {
+            'shadow-outline': idcard === queryId,
+          },
+        )}
         key={v.title}
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),

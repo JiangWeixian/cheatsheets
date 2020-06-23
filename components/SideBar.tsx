@@ -1,6 +1,5 @@
 import React from 'react'
 import { useInfiniteQuery } from 'react-query'
-import styled from 'styled-components'
 import { useRematch } from '@use-rematch/core'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
@@ -50,13 +49,10 @@ export const SideBar = (props: { className?: string }) => {
     },
   })
   return (
-    <StyledSideBar
+    <div
       data-role="side-bar"
-      className={cx('bg-gray-800 h-full p-4 pt-0 box-border', props.className)}
+      className={cx('bg-gray-800 h-full p-4 box-border flex flex-col', props.className)}
     >
-      <h2 className="uppercase text-white font-bold mb-2 h-16 text-3xl flex items-center">
-        <span>cheatsheet</span>
-      </h2>
       <input
         value={state.keyword}
         {...unShipProps}
@@ -67,9 +63,9 @@ export const SideBar = (props: { className?: string }) => {
           }
         }}
         onChange={e => dispatch.setKeyword(e.target.value)}
-        className="shadow appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
+        className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
       />
-      <ul className="flex-1 overflow-scroll">
+      <ul className="flex-1 overflow-scroll pt-4">
         {data?.map(page => {
           return (
             <>
@@ -84,20 +80,6 @@ export const SideBar = (props: { className?: string }) => {
           )
         })}
       </ul>
-    </StyledSideBar>
+    </div>
   )
 }
-
-const StyledTitle = styled.h2`
-  font-weight: 900;
-  letter-spacing: 4px;
-  font-size: 24px;
-`
-
-const StyledSideBar = styled.div`
-  /* position: fixed; */
-  /* top: 0px; */
-  /* left: 0px; */
-  display: flex;
-  flex-direction: column;
-`
