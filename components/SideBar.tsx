@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import cx from 'classnames'
 
 import { api } from '~/api/client'
+import { useSearchIssue } from '~/hooks/use-search-issue'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
@@ -23,6 +24,7 @@ export const SideBar = (props: { className?: string }) => {
     },
   )
   const searchTerms = useRouter().query.q as string
+  const { handleSearch } = useSearchIssue()
   const { state, dispatch } = useRematch({
     name: 'homepage',
     state: {
@@ -52,25 +54,27 @@ export const SideBar = (props: { className?: string }) => {
       data-role="side-bar"
       className={cx('bg-black h-full p-4 box-border', props.className)}
     >
+      <h2 className="uppercase text-white bold mb-2 text-4xl">cheatsheet</h2>
       <input
         value={state.keyword}
         {...unShipProps}
         onKeyDown={e => {
           if (e.key === 'Enter') {
             // search issues
+            handleSearch((e.target as any).value)
           }
         }}
         onChange={e => dispatch.setKeyword(e.target.value)}
-        className="shadow appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 text-gray-500 rounded"
+        className="shadow appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-10 p-2 text-gray-500 rounded"
       />
       <ul className="flex-1 overflow-scroll">
         {data?.map(page => {
           return (
             <>
               {page.data
-                .filter(v => v.name.includes(state.keyword))
+                .filter(v => v.name.includes(state.keyword.toLowerCase()))
                 .map(v => (
-                  <li className="text-white rounded cursor-pointer p-4 hover:bg-indigo-900">
+                  <li className="text-gray-100 rounded cursor-pointer bold p-4 hover:bg-indigo-900">
                     {v.name}
                   </li>
                 ))}
@@ -81,6 +85,12 @@ export const SideBar = (props: { className?: string }) => {
     </StyledSideBar>
   )
 }
+
+const StyledTitle = styled.h2`
+  font-weight: 900;
+  letter-spacing: 4px;
+  font-size: 24px;
+`
 
 const StyledSideBar = styled.div`
   /* position: fixed; */

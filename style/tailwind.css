@@ -21,6 +21,7 @@ body {
 
 .label {
   font-family: 'Fira Code', monospace;
+  @apply font-bold;
 }
 
 /* markdown & sheet */
@@ -102,5 +103,5 @@ theme-default-content ul {
 }
 .theme-default-content code {
   font-family: 'Fira Code', monospace;
-  @apply bg-transparent text-blue-600 p-0 text-sm m-0;
+  @apply bg-transparent text-indigo-600 p-0 text-sm m-0;
 }
