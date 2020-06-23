@@ -18,8 +18,8 @@ export const github = {
   async login(): Promise<{ data: any }> {
     return server.get('/user', {})
   },
-  async labels(): Promise<Github.Label[]> {
-    return server.get(`/repos/${pkg.author.name}/${pkg.name}/labels`, {})
+  async labels(page?: number): Promise<Github.Label[]> {
+    return server.get(`/repos/${pkg.author.name}/${pkg.name}/labels?page=${page}`, {})
   },
   // refs: https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
   // refs: https://developer.github.com/v3/search/#search-issues-and-pull-requests

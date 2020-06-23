@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
-import Link from 'next/link'
 import useSWR from 'swr'
 import { Spinner } from 'styled-cssgg'
 import { animated, useTrail } from 'react-spring'
@@ -134,10 +133,13 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
   return (
     <Layout>
       <Meta />
-      <div className="contianer flex flex-col items-center w-full min-h-full bg-gray-100">
-        <h1 className="label lg:text-5xl text-xl text-gray-700 mt-40 lg:mt-56 lg:mb-10 mb-0">
-          {pkg.author.name}'s <span className="text-gray-500">cheatsheets</span>
-        </h1>
+      <Content
+        highlight={state.keyword}
+        issues={state.issues}
+        labels={labels}
+        status={state.status}
+      />
+      {/* <div className="contianer flex flex-col items-center w-8/12 min-h-full bg-gray-100">
         <input
           placeholder="请输入关键词, Enter搜索更多"
           value={state.keyword}
@@ -161,14 +163,14 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
           labels={labels}
           status={state.status}
         />
-      </div>
+      </div> */}
     </Layout>
   )
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.labels()
-  return { props: { data } }
+  // const data = await api.github.labels()
+  return { props: { data: [] } }
 }
 
 export default IndexPage

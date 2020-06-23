@@ -6,6 +6,7 @@ import Head from 'next/head'
 import pkg from 'package.json'
 import Github from '../assets/github.svg'
 import Twitter from '../assets/twitter.svg'
+import { SideBar } from './SideBar'
 
 const G = Github as any
 const T = Twitter as any
@@ -16,11 +17,12 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="w-full h-full">
+    <div className="flex w-full bg-gray-100 h-full">
       <Head>
         <title>jiangweixian's cheatsheet</title>
       </Head>
-      <div className="fixed flex w-full h-10 items-center px-4 justify-between bg-gray-100 z-50">
+      <SideBar />
+      {/* <header>
         <Home
           onClick={() => {
             router.push({
@@ -46,8 +48,8 @@ const Layout = ({ children }: Props) => {
             className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
           />
         </div>
-      </div>
-      {children}
+      </header> */}
+      <div className="w-8/12 bg-gray-100">{children}</div>
     </div>
   )
 }

@@ -16,8 +16,8 @@ export const github = {
   async search(keyword: string): Promise<{ items: Github.Issue[] }> {
     return client.get(`/search`, { params: { keyword } })
   },
-  async labels(): Promise<Github.Label[]> {
-    return client.get(`/labels`, {})
+  async labels(page?: number): Promise<Github.Label[]> {
+    return client.get(`/labels`, { params: { page } })
   },
   async issues(label?: string): Promise<Github.Issue[]> {
     if (label === undefined) {
