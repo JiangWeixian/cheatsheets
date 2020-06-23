@@ -19,10 +19,13 @@ export const github = {
   async labels(page?: number): Promise<Github.Label[]> {
     return client.get(`/labels`, { params: { page } })
   },
-  async issues(label?: string): Promise<Github.Issue[]> {
-    if (label === undefined) {
-      return []
-    }
-    return client.get(`/sheet`, { params: { label } })
+  async issues({
+    label,
+    sort = 'updated',
+  }: {
+    label?: string
+    sort?: 'updated'
+  }): Promise<Github.Issue[]> {
+    return client.get(`/sheet`, { params: { label, sort } })
   },
 }

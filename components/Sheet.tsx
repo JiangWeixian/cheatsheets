@@ -33,6 +33,7 @@ type SheetProps = {
   label?: string
   highlight?: string
   className?: string
+  style?: React.CSSProperties
 }
 
 const EMPTY = {} as Github.Issue
@@ -46,12 +47,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
     zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
   }, [])
   return (
-    <div
-      className={cx(props.className, 'w-full')}
-      style={{ float: 'left' }}
-      key={v.title}
-      id={idcard}
-    >
+    <div className={props.className} style={props.style} key={v.title} id={idcard}>
       <p className="mb-4 flex items-center">
         <a className="text-blue-600 " href={v.html_url} target="_blank">
           <span

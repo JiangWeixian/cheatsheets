@@ -21,9 +21,9 @@ const Layout = ({ children }: Props) => {
       <Head>
         <title>jiangweixian's cheatsheet</title>
       </Head>
-      <SideBar />
-      <div className="w-full bg-gray-100 flex flex-col">
-        <header className="w-full flex justify-between items-center h-10 p-4 box-border">
+      <SideBar className="w-3/12" />
+      <div className="w-9/12 h-full bg-gray-100 flex flex-col overflow-scroll">
+        <header className="w-full flex justify-between items-center h-10 px-12 py-4 box-border">
           <Home
             onClick={() => {
               router.push({

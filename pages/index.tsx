@@ -34,13 +34,17 @@ const Content = ({
     return <Spinner />
   }
   return (
-    <div className="lg:w-full w-11/12">
+    <div className="w-full p-12 box-border">
       {issues && issues.length !== 0 ? (
         <>
           {transitions.map((props, index) => {
             return (
-              <animated.div key={issues[index].id} style={props}>
-                <Sheet highlight={highlight} className={'mb-4'} v={issues[index]} />
+              <animated.div
+                key={issues[index].id}
+                className="mb-4 w-full"
+                style={{ ...props, float: 'left' }}
+              >
+                <Sheet highlight={highlight} v={issues[index]} />
               </animated.div>
             )
           })}

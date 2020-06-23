@@ -21,16 +21,29 @@ export const github = {
   async labels(page?: number): Promise<Github.Label[]> {
     return server.get(`/repos/${pkg.author.name}/${pkg.name}/labels?page=${page}`, {})
   },
-  // refs: https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
-  // refs: https://developer.github.com/v3/search/#search-issues-and-pull-requests
-  // NOTE: 可以看看github issues搜索的结构，可以发现搜索是通过encodeURI方式加密的，而不是axios的encodeURIComponent
+  /**
+   * 可以看看github issues搜索的结构，可以发现搜索是通过encodeURI方式加密的，而不是axios的encodeURIComponent
+   * refs:
+   * - https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
+   * - https://developer.github.com/v3/search/#search-issues-and-pull-requests
+   */
   async search(q: string): Promise<{ items: Github.Issue[] }> {
     return server.get(
       `/search/issues?q=${encodeURI(`${q}+repo:${pkg.author.name}/${pkg.name}`)}`,
       {},
     )
   },
-  async issues(labels?: string): Promise<Github.Issue[]> {
-    return server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, { params: { labels } })
+  /**
+   * list repo issues
+   * refs: https://developer.github.com/v3/issues/#list-repository-issues
+   */
+  async issues({
+    labels,
+    sort = 'updated',
+  }: {
+    labels: string
+    sort?: 'updated' | string
+  }): Promise<Github.Issue[]> {
+    return server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, { params: { labels, sort } })
   },
 }

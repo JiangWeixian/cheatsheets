@@ -3,6 +3,7 @@ import { useInfiniteQuery } from 'react-query'
 import styled from 'styled-components'
 import { useRematch } from '@use-rematch/core'
 import { useRouter } from 'next/router'
+import cx from 'classnames'
 
 import { api } from '~/api/client'
 
@@ -10,7 +11,7 @@ const unShipProps: any = {
   enterkeyhint: 'search',
 }
 
-export const SideBar = () => {
+export const SideBar = (props: { className?: string }) => {
   const { data } = useInfiniteQuery(
     'labels',
     async (_key, page: number = 1) => {
@@ -47,7 +48,10 @@ export const SideBar = () => {
     },
   })
   return (
-    <StyledSideBar data-role="side-bar" className="bg-black w-4/12 h-full p-4 box-border">
+    <StyledSideBar
+      data-role="side-bar"
+      className={cx('bg-black h-full p-4 box-border', props.className)}
+    >
       <input
         value={state.keyword}
         {...unShipProps}

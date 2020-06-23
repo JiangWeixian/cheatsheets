@@ -6,6 +6,10 @@ import { useState } from 'react'
 export const useSearchIssue = ({ defaultKeyword }: { defaultKeyword: string }) => {
   const [keyword, setKeyword] = useState<string>(defaultKeyword)
   const { data, status, refetch } = useQuery(['issues', keyword], async (key, keyword) => {
+    if (!keyword) {
+      const issues = await api.github.issues({ sort: 'updated' })
+      return issues
+    }
     const issues = await api.github.search(keyword)
     return issues.items
   })
