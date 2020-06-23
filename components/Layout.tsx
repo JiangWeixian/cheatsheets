@@ -22,34 +22,36 @@ const Layout = ({ children }: Props) => {
         <title>jiangweixian's cheatsheet</title>
       </Head>
       <SideBar />
-      {/* <header>
-        <Home
-          onClick={() => {
-            router.push({
-              pathname: '/',
-            })
-          }}
-          style={{ '--ggs': 0.95 } as any}
-          className="w-10 h-10 text-gray-500 hover:text-gray-700 cursor-pointer"
-        />
-        <div className="flex items-center">
-          <G
-            width={20}
+      <div className="w-full bg-gray-100 flex flex-col">
+        <header className="w-full flex justify-between items-center h-10 p-4 box-border">
+          <Home
             onClick={() => {
-              window.open(`https://github.com/${pkg.author.name}`)
+              router.push({
+                pathname: '/',
+              })
             }}
-            className="mr-8 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+            style={{ '--ggs': 0.95 } as any}
+            className="w-10 h-10 text-gray-500 hover:text-gray-700 cursor-pointer"
           />
-          <T
-            width={20}
-            onClick={() => {
-              window.open(`https://twitter.com/${pkg.author.name}`)
-            }}
-            className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
-          />
-        </div>
-      </header> */}
-      <div className="w-8/12 bg-gray-100">{children}</div>
+          <div className="flex items-center">
+            <G
+              width={20}
+              onClick={() => {
+                window.open(`https://github.com/${pkg.author.name}`)
+              }}
+              className="mr-8 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+            />
+            <T
+              width={20}
+              onClick={() => {
+                window.open(`https://twitter.com/${pkg.author.name}`)
+              }}
+              className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+            />
+          </div>
+        </header>
+        {children}
+      </div>
     </div>
   )
 }

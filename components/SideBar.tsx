@@ -1,8 +1,14 @@
 import React from 'react'
 import { useInfiniteQuery } from 'react-query'
 import styled from 'styled-components'
+import { useRematch } from '@use-rematch/core'
+import { useRouter } from 'next/router'
 
 import { api } from '~/api/client'
+
+const unShipProps: any = {
+  enterkeyhint: 'search',
+}
 
 export const SideBar = () => {
   const { data } = useInfiniteQuery(
@@ -15,18 +21,55 @@ export const SideBar = () => {
       getFetchMore: last => last.page + 1,
     },
   )
+  const searchTerms = useRouter().query.q as string
+  const { state, dispatch } = useRematch({
+    name: 'homepage',
+    state: {
+      keyword: searchTerms ?? '',
+      status: 'init',
+    } as {
+      keyword: string
+      status: 'loading' | 'loaded' | 'init'
+    },
+    reducers: {
+      setKeyword(state, keyword: string) {
+        return {
+          ...state,
+          keyword,
+        }
+      },
+      setStatus(state, status: 'loading' | 'loaded' | 'init') {
+        return {
+          ...state,
+          status,
+        }
+      },
+    },
+  })
   return (
     <StyledSideBar data-role="side-bar" className="bg-black w-4/12 h-full p-4 box-border">
-      <input className="flex-0 h-4 bg-white" />
+      <input
+        value={state.keyword}
+        {...unShipProps}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            // search issues
+          }
+        }}
+        onChange={e => dispatch.setKeyword(e.target.value)}
+        className="shadow appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 text-gray-500 rounded"
+      />
       <ul className="flex-1 overflow-scroll">
         {data?.map(page => {
           return (
             <>
-              {page.data.map(v => (
-                <li className="text-white rounded cursor-pointer p-4 hover:bg-indigo-900">
-                  {v.name}
-                </li>
-              ))}
+              {page.data
+                .filter(v => v.name.includes(state.keyword))
+                .map(v => (
+                  <li className="text-white rounded cursor-pointer p-4 hover:bg-indigo-900">
+                    {v.name}
+                  </li>
+                ))}
             </>
           )
         })}
