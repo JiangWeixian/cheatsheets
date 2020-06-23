@@ -52,9 +52,11 @@ export const SideBar = (props: { className?: string }) => {
   return (
     <StyledSideBar
       data-role="side-bar"
-      className={cx('bg-black h-full p-4 box-border', props.className)}
+      className={cx('bg-gray-800 h-full p-4 pt-0 box-border', props.className)}
     >
-      <h2 className="uppercase text-white bold mb-2 text-4xl">cheatsheet</h2>
+      <h2 className="uppercase text-white font-bold mb-2 h-16 text-3xl flex items-center">
+        <span>cheatsheet</span>
+      </h2>
       <input
         value={state.keyword}
         {...unShipProps}
@@ -65,7 +67,7 @@ export const SideBar = (props: { className?: string }) => {
           }
         }}
         onChange={e => dispatch.setKeyword(e.target.value)}
-        className="shadow appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-10 p-2 text-gray-500 rounded"
+        className="shadow appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
       />
       <ul className="flex-1 overflow-scroll">
         {data?.map(page => {
@@ -74,7 +76,7 @@ export const SideBar = (props: { className?: string }) => {
               {page.data
                 .filter(v => v.name.includes(state.keyword.toLowerCase()))
                 .map(v => (
-                  <li className="text-gray-100 rounded cursor-pointer bold p-4 hover:bg-indigo-900">
+                  <li className="text-gray-100 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900">
                     {v.name}
                   </li>
                 ))}

@@ -48,7 +48,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   }, [])
   return (
     <div className={props.className} style={props.style} key={v.title} id={idcard}>
-      <p className="mb-4 flex items-center">
+      <p className="mb-4 flex items-center font-bold">
         <a className="text-indigo-600 " href={v.html_url} target="_blank">
           <span
             dangerouslySetInnerHTML={{
