@@ -64,7 +64,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
       </p>
       <div
         className={cx(
-          'shadow w-full bg-white rounded overflow-hidden theme-default-content hover:shadow-md',
+          'shadow w-full bg-white rounded overflow-hidden theme-default-content hover:shadow-xl',
           {
             'shadow-outline': idcard === queryId,
           },
