@@ -6,6 +6,7 @@ import cx from 'classnames'
 
 import { api } from '~/api/client'
 import { useSearchIssue } from '~/hooks/use-search-issue'
+import Link from 'next/link'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
@@ -72,9 +73,14 @@ export const SideBar = (props: { className?: string }) => {
               {page.data
                 .filter(v => v.name.toLowerCase().includes(state.keyword))
                 .map(v => (
-                  <li className="text-gray-100 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900">
-                    {v.name}
-                  </li>
+                  <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
+                    <li
+                      title={v.description}
+                      className="text-gray-300 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900"
+                    >
+                      {v.name}
+                    </li>
+                  </Link>
                 ))}
             </>
           )
