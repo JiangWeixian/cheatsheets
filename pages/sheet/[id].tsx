@@ -31,19 +31,17 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   return (
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
-      <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
-        <div className="w-11/12">
-          {data?.map(v => {
-            return (
-              <Sheet
-                key={v.id}
-                label={router.query.id as string}
-                className="w-1/2 float-left"
-                v={v}
-              />
-            )
-          })}
-        </div>
+      <div className="bg-gray-100 overflow-scroll px-12 pt-10">
+        {data?.map(v => {
+          return (
+            <Sheet
+              key={v.id}
+              label={router.query.id as string}
+              className="w-1/2 pr-4 pb-4 float-left"
+              v={v}
+            />
+          )
+        })}
       </div>
     </Layout>
   )

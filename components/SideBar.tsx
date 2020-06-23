@@ -70,9 +70,9 @@ export const SideBar = (props: { className?: string }) => {
           return (
             <>
               {page.data
-                .filter(v => v.name.includes(state.keyword.toLowerCase()))
+                .filter(v => v.name.toLowerCase().includes(state.keyword))
                 .map(v => (
-                  <li className="text-gray-100 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900 hover:shadow-xl">
+                  <li className="text-gray-100 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900">
                     {v.name}
                   </li>
                 ))}

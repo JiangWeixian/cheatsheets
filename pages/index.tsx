@@ -9,6 +9,7 @@ import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
+import { api } from '~/api/client'
 
 const Content = ({
   issues = [],
@@ -24,7 +25,7 @@ const Content = ({
     from: { opacity: 0 },
   })
   if (status === 'loading') {
-    return <Spinner />
+    return <Spinner className="m-auto pt-10" />
   }
   return (
     <div className="w-full p-12 box-border">
@@ -43,9 +44,9 @@ const Content = ({
   )
 }
 
-const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
+const IndexPage: NextPage<{ data: Github.Issue[] }> = props => {
   const defaultKeyword = useRouter().query.q as string
-  const { data: issues, status } = useSearchIssue({ defaultKeyword })
+  const { data: issues, status } = useSearchIssue({ defaultKeyword, initialIssues: props.data })
   return (
     <Layout>
       <Meta />
@@ -55,8 +56,8 @@ const IndexPage: NextPage<{ data: Github.Label[] }> = props => {
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  // const data = await api.github.labels()
-  return { props: { data: [] } }
+  const data = await api.github.issues({ sort: 'updated' })
+  return { props: { data } }
 }
 
 export default IndexPage
