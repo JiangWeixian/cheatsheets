@@ -4,6 +4,12 @@ import { Github } from '~/interface/github'
 import { HOST } from '~/interface/host'
 import pkg from '~/package.json'
 
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config()
+}
+
+console.log(process.env.GITHUB_KEY)
+
 const server = axios.create()
 server.defaults.headers.authorization = `token ${process.env.GITHUB_KEY}`
 server.defaults.baseURL = HOST.SERVER
