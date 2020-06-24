@@ -45,18 +45,18 @@ const Content = ({
 }
 
 const IndexPage: NextPage<{ data: Github.Issue[] }> = props => {
-  const defaultKeyword = useRouter().query.q as string
-  const { data: issues, status } = useSearchIssue({ defaultKeyword, initialIssues: props.data })
+  const keyword = useRouter().query.q as string
+  const { data: issues, status } = useSearchIssue({ initialIssues: props.data })
   return (
     <Layout>
       <Meta />
-      <Content highlight={defaultKeyword} issues={issues} status={status} />
+      <Content highlight={keyword} issues={issues} status={status} />
     </Layout>
   )
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.issues({ sort: 'updated' })
+  const data = await api.github.search(_ctx.query.q as string)
   return { props: { data } }
 }
 

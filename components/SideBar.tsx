@@ -62,7 +62,7 @@ export const SideBar = (props: { className?: string }) => {
       <div className="relative flex items-center">
         <input
           value={state.keyword}
-          placeholder="Search snippets"
+          placeholder="Search cheatsheets"
           {...unShipProps}
           onKeyDown={e => {
             if (e.key === 'Enter') {
