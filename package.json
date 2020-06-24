@@ -52,7 +52,6 @@
     "styled-components": "5.1.0",
     "styled-cssgg": "1.1.1-1",
     "styled-webgradients": "1.0.0-1",
-    "swr": "0.2.0",
     "tailwindcss": "1.2.0"
   },
   "devDependencies": {
