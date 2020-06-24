@@ -20,7 +20,7 @@ export const useSearchIssue = (
     { initialData: initialIssues },
   )
   const handleSearch = useCallback(value => {
-    router.push(`/?q=${value}`)
+    router.push({ pathname: '/', query: { q: value } })
   }, [])
   return {
     handleSearch,
