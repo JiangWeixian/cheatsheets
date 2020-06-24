@@ -11,7 +11,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  color: #2c3e50;
 }
 
 #__next {
@@ -19,26 +18,30 @@ body {
   width: 100%;
 }
 
-.label {
-  font-family: 'Fira Code', monospace;
-}
-
 /* markdown & sheet */
 /* content */
+.theme-default-content {
+  @apply text-gray-700;
+}
 .theme-default-content p {
   @apply bg-white;
 }
 .theme-default-content p,
 .theme-default-content td {
-  @apply text-gray-600 text-sm;
+  @apply text-base;
 }
+/* link */
+.theme-default-content a {
+  @apply text-indigo-600;
+}
+
 /* description */
 .theme-default-content p,
 .theme-default-content h3 {
   font-size: 1rem;
   margin: 0;
   padding: 0.25rem 0 0.25rem 1rem;
-  @apply p-4 text-base text-gray-600 text-sm;
+  @apply p-4 text-base text-base;
 }
 .theme-default-content h3,
 .theme-default-content blockquote {
@@ -49,19 +52,22 @@ body {
 }
 /* ul child section */
 .theme-default-content ul {
-  @apply border-b-2 border-gray-200 m-0 p-0 text-sm;
+  @apply border-b-2 border-gray-200 m-0 p-0 text-base;
 }
 .theme-default-content ul li {
   border-bottom-width: 1px;
   @apply border-gray-100 p-4;
 }
+.theme-default-content ul li > p {
+  @apply p-0;
+}
 /* ul table like section */
 @media screen and (min-width: 1024px) {
-  .theme-default-content ul li code:only-child {
+  .theme-default-content ul li code:last-child {
     @apply float-right;
   }
 }
-.theme-default-content ul li code:only-child {
+.theme-default-content ul li code:last-child {
   @apply block;
 }
 /* table child section */
@@ -91,7 +97,7 @@ td {
 /* ol section */
 .theme-default-content ol,
 theme-default-content ul {
-  @apply p-4 list-decimal list-inside text-sm;
+  @apply p-4 list-decimal list-inside text-base;
 }
 .theme-default-content ol li p {
   @apply inline-block;
@@ -102,5 +108,5 @@ theme-default-content ul {
 }
 .theme-default-content code {
   font-family: 'Fira Code', monospace;
-  @apply bg-transparent text-blue-600 p-0 text-sm m-0;
+  @apply bg-transparent text-indigo-600 p-0 text-base m-0;
 }

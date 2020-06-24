@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
-import useSWR from 'swr'
+import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 
 import { Github } from '~/interface/github'
@@ -13,10 +13,10 @@ import { Sheet } from '~/components/Sheet'
 
 const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const router = useRouter()
-  const { data } = useSWR(
-    [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id],
-    (_name, id: string) => {
-      return api.github.issues(id)
+  const { data } = useQuery(
+    [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id as string],
+    (_key, id: string) => {
+      return api.github.issues({ label: id })
     },
     { initialData: props.data },
   )
@@ -31,29 +31,24 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   return (
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
-      <div className="flex flex-col h-full w-full contianer items-center bg-gray-100 overflow-scroll">
-        <h3 className="label lg:text-4xl text-xl text-gray-700 lg:my-20 my-5 mt-20">
-          {router.query.id} <span className="text-gray-500">{'cheatsheet'}</span>
-        </h3>
-        <div className="lg:w-3/4 w-11/12">
-          {data?.map(v => {
-            return (
-              <Sheet
-                key={v.id}
-                label={router.query.id as string}
-                className={'lg:pr-4 pb-4 lg:w-2/4'}
-                v={v}
-              />
-            )
-          })}
-        </div>
+      <div className="bg-gray-100 overflow-scroll px-12 pt-10">
+        {data?.map(v => {
+          return (
+            <Sheet
+              key={v.id}
+              label={router.query.id as string}
+              className="w-1/2 pr-4 pb-4 float-left"
+              v={v}
+            />
+          )
+        })}
       </div>
     </Layout>
   )
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.issues(ctx?.params?.id as string)
+  const data = await api.github.issues({ label: ctx?.params?.id as string })
   return { props: { data } }
 }
 

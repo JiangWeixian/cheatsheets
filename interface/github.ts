@@ -17,4 +17,5 @@ export namespace Github {
     state: 'open' | 'state'
     labels: Label[]
   }
+  export type Status = 'loading' | 'success' | 'error'
 }

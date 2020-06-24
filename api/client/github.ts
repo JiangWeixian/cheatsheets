@@ -13,16 +13,23 @@ client.interceptors.response.use(
 )
 
 export const github = {
-  async search(keyword: string): Promise<{ items: Github.Issue[] }> {
-    return client.get(`/search`, { params: { keyword } })
-  },
-  async labels(): Promise<Github.Label[]> {
-    return client.get(`/labels`, {})
-  },
-  async issues(label?: string): Promise<Github.Issue[]> {
-    if (label === undefined) {
-      return []
+  async search(keyword: string): Promise<Github.Issue[]> {
+    if (!keyword) {
+      return client.get(`/sheet`, { params: { sort: 'updated' } })
     }
-    return client.get(`/sheet`, { params: { label } })
+    const result = await client.get(`/search`, { params: { keyword } })
+    return { ...result, data: { ...result.data.items } } as any
+  },
+  async labels(page?: number): Promise<Github.Label[]> {
+    return client.get(`/labels`, { params: { page } })
+  },
+  async issues({
+    label,
+    sort = 'updated',
+  }: {
+    label?: string
+    sort?: 'updated'
+  }): Promise<Github.Issue[]> {
+    return client.get(`/sheet`, { params: { label, sort } })
   },
 }
