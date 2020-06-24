@@ -63,11 +63,11 @@ body {
 }
 /* ul table like section */
 @media screen and (min-width: 1024px) {
-  .theme-default-content ul li code:only-child {
+  .theme-default-content ul li code:last-child {
     @apply float-right;
   }
 }
-.theme-default-content ul li code:only-child {
+.theme-default-content ul li code:last-child {
   @apply block;
 }
 /* table child section */

@@ -1,36 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
-import markdownit from 'markdown-it'
-import prism from 'prismjs'
 import { Link } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
-import lazyimage from 'markdown-it-image-lazy-loading'
 
 import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
 import { share } from '~/utils/share'
-import { quoteInlineCode } from '~/utils/md'
+import { createMarkdownRenderer } from '~/utils/md'
 
 dayjs.extend(relativeTime)
-const md = new markdownit()
-const maps: { [key: string]: string } = {}
-const MarkdownIt = new markdownit({
-  highlight: function(str, lang) {
-    const language = maps[lang] || lang
-    if (prism.languages[language]) {
-      const code = prism.highlight(str, prism.languages[language], language)
-      return `<pre class="language-${lang}"><code>${code}</code></pre>`
-    }
-
-    return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
-  },
-})
-// enable native lazy loading image
-MarkdownIt.use(lazyimage)
-MarkdownIt.use(quoteInlineCode)
+const MarkdownIt = createMarkdownRenderer()
 
 type SheetProps = {
   v?: Github.Issue
