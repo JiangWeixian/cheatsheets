@@ -5,7 +5,7 @@ import { HOST } from '~/interface/host'
 import pkg from '~/package.json'
 
 const server = axios.create()
-server.defaults.headers.authorization = 'token aa3a141257ba091169ae557f5d076aea93e49aaa'
+server.defaults.headers.authorization = `token ${process.env.GITHUB_KEY}`
 server.defaults.baseURL = HOST.SERVER
 server.interceptors.response.use(
   async res => {
