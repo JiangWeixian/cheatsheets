@@ -8,7 +8,6 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
 import lazyimage from 'markdown-it-image-lazy-loading'
-import zoom from 'medium-zoom'
 
 import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
@@ -48,9 +47,6 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   const _label = label || v.labels[0].name
   const queryId = router.query._id
   const idcard = getId(_label, v)
-  useEffect(() => {
-    zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
-  }, [])
   return (
     <div className={props.className} style={props.style} key={v.title} id={idcard}>
       <p className="mb-4 flex items-center font-bold text-lg">

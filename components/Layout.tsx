@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Home } from 'styled-cssgg'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import zoom from 'medium-zoom'
 
 import pkg from 'package.json'
 import Github from '../assets/github.svg'
@@ -17,6 +18,9 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const router = useRouter()
+  useEffect(() => {
+    zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
+  }, [])
   return (
     <div className="flex w-full bg-gray-100 h-full">
       <Head>

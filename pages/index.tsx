@@ -33,7 +33,7 @@ const Content = ({
         <>
           {transitions.map((props, index) => {
             return (
-              <animated.div key={issues[index].id} className="mb-4 w-full float-left" style={props}>
+              <animated.div key={index} className="mb-4 w-full float-left" style={props}>
                 <Sheet highlight={highlight} v={issues[index]} />
               </animated.div>
             )
