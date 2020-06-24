@@ -28,6 +28,7 @@ const MarkdownIt = new markdownit({
     return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
   },
 })
+// enable native lazy loading image
 MarkdownIt.use(lazyimage)
 
 type SheetProps = {
@@ -50,7 +51,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   }, [])
   return (
     <div className={props.className} style={props.style} key={v.title} id={idcard}>
-      <p className="mb-4 flex items-center font-bold">
+      <p className="mb-4 flex items-center font-bold text-lg">
         <a className="text-indigo-600 " href={v.html_url} target="_blank">
           <span
             dangerouslySetInnerHTML={{
