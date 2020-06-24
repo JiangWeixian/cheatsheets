@@ -15,8 +15,8 @@ export const useSearchIssue = (
 ) => {
   const keyword = useRef(defaultKeyword)
   const { data, status, refetch } = useQuery(
-    ['issues'],
-    async key => {
+    'issues',
+    async () => {
       if (!keyword.current) {
         const issues = await api.github.issues({ sort: 'updated' })
         return issues

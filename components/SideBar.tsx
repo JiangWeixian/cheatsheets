@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import cx from 'classnames'
 import Link from 'next/link'
 import { Search } from 'styled-cssgg'
+import { animated, useSpring } from 'react-spring'
 
 import { api } from '~/api/client'
 import { useSearchIssue } from '~/hooks/use-search-issue'
@@ -24,6 +25,9 @@ export const SideBar = (props: { className?: string }) => {
       getFetchMore: last => last.page + 1,
     },
   )
+  const opacity = useSpring({
+    opacity: data.length === 0 ? 0 : 1,
+  })
   const searchTerms = useRouter().query.q as string
   const { handleSearch } = useSearchIssue()
   const { state, dispatch } = useRematch({
@@ -71,7 +75,7 @@ export const SideBar = (props: { className?: string }) => {
         />
         <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
       </div>
-      <ul className="flex-1 overflow-scroll pt-4">
+      <animated.ul className="flex-1 overflow-scroll pt-4" style={opacity}>
         {data?.map(page => {
           return (
             <>
@@ -90,7 +94,7 @@ export const SideBar = (props: { className?: string }) => {
             </>
           )
         })}
-      </ul>
+      </animated.ul>
     </div>
   )
 }
