@@ -71,7 +71,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}
       />
-      <div className="flex italic justify-between items-center text-xs text-gray-600 mt-2">
+      <div className="flex italic justify-between items-center text-sm text-gray-600 mt-2">
         <Link
           style={{ '--ggs': 0.7 } as any}
           className="cursor-pointer"

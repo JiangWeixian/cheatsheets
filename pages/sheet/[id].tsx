@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
-import useSWR from 'swr'
+import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 
 import { Github } from '~/interface/github'
@@ -13,9 +13,9 @@ import { Sheet } from '~/components/Sheet'
 
 const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const router = useRouter()
-  const { data } = useSWR(
-    [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id],
-    (_name, id: string) => {
+  const { data } = useQuery(
+    [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id as string],
+    (_key, id: string) => {
       return api.github.issues({ label: id })
     },
     { initialData: props.data },
