@@ -13,6 +13,7 @@ import zoom from 'medium-zoom'
 import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
 import { share } from '~/utils/share'
+import { quoteInlineCode } from '~/utils/md'
 
 dayjs.extend(relativeTime)
 const md = new markdownit()
@@ -30,6 +31,7 @@ const MarkdownIt = new markdownit({
 })
 // enable native lazy loading image
 MarkdownIt.use(lazyimage)
+MarkdownIt.use(quoteInlineCode)
 
 type SheetProps = {
   v?: Github.Issue
