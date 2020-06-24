@@ -1,5 +1,6 @@
 # common
 node_modules
+.env
 
 # editor
 .DS_Store
