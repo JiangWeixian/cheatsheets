@@ -7,6 +7,7 @@ import { Link } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
+import lazyimage from 'markdown-it-image-lazy-loading'
 import zoom from 'medium-zoom'
 
 import { Github } from '~/interface/github'
@@ -27,6 +28,7 @@ const MarkdownIt = new markdownit({
     return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
   },
 })
+MarkdownIt.use(lazyimage)
 
 type SheetProps = {
   v?: Github.Issue
