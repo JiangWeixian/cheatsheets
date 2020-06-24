@@ -3,10 +3,11 @@ import { useInfiniteQuery } from 'react-query'
 import { useRematch } from '@use-rematch/core'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
+import Link from 'next/link'
+import { Search } from 'styled-cssgg'
 
 import { api } from '~/api/client'
 import { useSearchIssue } from '~/hooks/use-search-issue'
-import Link from 'next/link'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
@@ -54,18 +55,22 @@ export const SideBar = (props: { className?: string }) => {
       data-role="side-bar"
       className={cx('bg-gray-800 h-full p-4 box-border flex flex-col', props.className)}
     >
-      <input
-        value={state.keyword}
-        {...unShipProps}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            // search issues
-            handleSearch((e.target as any).value)
-          }
-        }}
-        onChange={e => dispatch.setKeyword(e.target.value)}
-        className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
-      />
+      <div className="relative flex items-center">
+        <input
+          value={state.keyword}
+          placeholder="Search snippets"
+          {...unShipProps}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              // search issues
+              handleSearch((e.target as any).value)
+            }
+          }}
+          onChange={e => dispatch.setKeyword(e.target.value)}
+          className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
+        />
+        <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
+      </div>
       <ul className="flex-1 overflow-scroll pt-4">
         {data?.map(page => {
           return (
