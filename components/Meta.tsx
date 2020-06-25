@@ -12,7 +12,7 @@ export type MetaProps = {
 
 export const Meta = ({
   title = `Jiangweixian's Cheatsheets`,
-  description = 'less to mor',
+  description = 'less to more',
 }: MetaProps) => {
   return (
     <Head>
