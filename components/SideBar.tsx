@@ -4,8 +4,9 @@ import { useRematch } from '@use-rematch/core'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
 import Link from 'next/link'
-import { Search } from 'styled-cssgg'
+import { Search, Spinner } from 'styled-cssgg'
 import { animated, useSpring } from 'react-spring'
+import InfiniteScroll from 'react-infinite-scroller'
 
 import { api } from '~/api/client'
 import { useSearchIssue } from '~/hooks/use-search-issue'
@@ -15,14 +16,15 @@ const unShipProps: any = {
 }
 
 export const SideBar = (props: { className?: string }) => {
-  const { data } = useInfiniteQuery(
+  const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
     'labels',
     async (_key, page: number = 1) => {
-      const data = await api.github.labels()
+      console.log(page)
+      const data = await api.github.labels(page)
       return { data, page }
     },
     {
-      getFetchMore: last => last.page + 1,
+      getFetchMore: last => (last.data.length === 30 ? last.page + 1 : undefined),
     },
   )
   const opacity = useSpring({
@@ -76,24 +78,35 @@ export const SideBar = (props: { className?: string }) => {
         <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
       </div>
       <animated.ul className="flex-1 overflow-scroll pt-4" style={opacity}>
-        {data?.map(page => {
-          return (
-            <>
-              {page.data
-                .filter(v => v.name.toLowerCase().includes(state.keyword))
-                .map(v => (
-                  <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
-                    <li
-                      title={v.description}
-                      className="text-gray-300 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900"
-                    >
-                      {v.name}
-                    </li>
-                  </Link>
-                ))}
-            </>
-          )
-        })}
+        <InfiniteScroll
+          hasMore={!isFetching && canFetchMore}
+          useWindow={false}
+          loadMore={() => fetchMore()}
+          loader={
+            <div className="w-full flex items-center justify-center">
+              <Spinner />
+            </div>
+          }
+        >
+          {data?.map(page => {
+            return (
+              <>
+                {page.data
+                  .filter(v => v.name.toLowerCase().includes(state.keyword))
+                  .map(v => (
+                    <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
+                      <li
+                        title={v.description}
+                        className="text-gray-300 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900"
+                      >
+                        {v.name}
+                      </li>
+                    </Link>
+                  ))}
+              </>
+            )
+          })}
+        </InfiniteScroll>
       </animated.ul>
     </div>
   )

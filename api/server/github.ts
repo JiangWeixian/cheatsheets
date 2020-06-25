@@ -8,8 +8,6 @@ if (process.env.NODE_ENV === 'development') {
   require('dotenv').config()
 }
 
-console.log(process.env.GITHUB_KEY)
-
 const server = axios.create()
 server.defaults.headers.authorization = `token ${process.env.GITHUB_KEY}`
 server.defaults.baseURL = HOST.SERVER
@@ -24,7 +22,7 @@ export const github = {
   async login(): Promise<{ data: any }> {
     return server.get('/user', {})
   },
-  async labels(page?: number): Promise<Github.Label[]> {
+  async labels(page?: string): Promise<Github.Label[]> {
     return server.get(`/repos/${pkg.author.name}/${pkg.name}/labels?page=${page}`, {})
   },
   /**
