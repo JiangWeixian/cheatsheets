@@ -1,6 +1,6 @@
 ![cheatsheets](https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png)
 
-💯
+*help! for some reason, I can not get env variable in production *
 
 ## usage
 
