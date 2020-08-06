@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const server = axios.create()
-server.defaults.headers.authorization = `token ${process.env.GITHUB_KEY}`
+server.defaults.headers.authorization = `token ${process.env.NEXT_PUBLIC_ENV_LOCAL_VARIABLE}`
 server.defaults.baseURL = HOST.SERVER
 server.interceptors.response.use(
   async res => {
