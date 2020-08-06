@@ -1,5 +1,7 @@
 ![cheatsheets](https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png)
 
+💯
+
 ## usage
 
 1. use this repo as template
