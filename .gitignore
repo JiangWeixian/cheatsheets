@@ -33,3 +33,4 @@ es
 # nextjs
 .next
 out
+.vercel
