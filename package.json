@@ -38,7 +38,7 @@
     "markdown-it": "10.0.0",
     "markdown-it-image-lazy-loading": "^1.0.2",
     "medium-zoom": "^1.0.5",
-    "next": "9.3.5",
+    "next": "^9.5.1",
     "next-fonts": "1.0.3",
     "nprogress": "0.2.0",
     "postcss-extend-rule": "3.0.0",
