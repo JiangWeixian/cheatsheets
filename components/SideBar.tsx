@@ -19,7 +19,6 @@ export const SideBar = (props: { className?: string }) => {
   const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
     'labels',
     async (_key, page: number = 1) => {
-      console.log(page)
       const data = await api.github.labels(page)
       return { data, page }
     },
