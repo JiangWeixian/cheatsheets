@@ -47,6 +47,7 @@ const Content = ({
 const IndexPage: NextPage<{ data: Github.Issue[] }> = props => {
   const keyword = useRouter().query.q as string
   const { data: issues, status } = useSearchIssue({ initialIssues: props.data })
+  console.log(process.env.NEXT_PUBLIC_GITHUB_KEY)
   return (
     <Layout>
       <Meta />

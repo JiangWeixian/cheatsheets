@@ -11,7 +11,7 @@ server.interceptors.request.use(
     return {
       ...config,
       headers: {
-        Authorization: `token ${process.env.GITHUB_KEY}`,
+        Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_KEY}`,
       },
     }
   },

@@ -71,7 +71,6 @@
     "babel-plugin-inline-react-svg": "1.1.1",
     "babel-plugin-prismjs": "2.0.1",
     "cross-env": "6.0.3",
-    "dotenv": "^8.2.0",
     "husky": "3.1.0",
     "next-images": "1.4.0",
     "np": "5.2.1",
