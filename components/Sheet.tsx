@@ -26,7 +26,7 @@ const EMPTY = {} as Github.Issue
 
 export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: SheetProps) => {
   const router = useRouter()
-  const _label = label || v.labels[0].name
+  const _label = label || v.labels?.[0]?.name
   const queryId = router.query._id
   const idcard = getId(_label, v)
   return (

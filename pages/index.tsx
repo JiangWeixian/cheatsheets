@@ -2,6 +2,7 @@ import React from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import { Spinner } from 'styled-cssgg'
 import { animated, useTrail } from 'react-spring'
+import { QueryStatus } from 'react-query'
 
 import { Github } from '~/interface/github'
 import Layout from '~/components/Layout'
@@ -9,7 +10,7 @@ import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
-import { api } from '~/api/client'
+import { api as server } from '~/request/server'
 
 const Content = ({
   issues = [],
@@ -17,7 +18,7 @@ const Content = ({
   highlight,
 }: {
   issues?: Github.Issue[]
-  status?: Github.Status
+  status?: QueryStatus
   highlight?: string
 }) => {
   const transitions = useTrail<{ opacity: number }>(issues.length, {
@@ -29,12 +30,12 @@ const Content = ({
   }
   return (
     <div className="w-full p-12 box-border">
-      {issues && issues.length !== 0 ? (
+      {issues?.length !== 0 ? (
         <>
           {transitions.map((props, index) => {
             return (
               <animated.div key={index} className="mb-4 w-full float-left" style={props}>
-                <Sheet highlight={highlight} v={issues[index]} />
+                <Sheet highlight={highlight} v={issues?.[index]} />
               </animated.div>
             )
           })}
@@ -56,7 +57,7 @@ const IndexPage: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.search(_ctx.query.q as string)
+  const data = await server.github.search(_ctx.query.q as string)
   return { props: { data } }
 }
 

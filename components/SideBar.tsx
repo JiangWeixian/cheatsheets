@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useRematch } from '@use-rematch/core'
 import { useRouter } from 'next/router'
@@ -8,8 +8,9 @@ import { Search, Spinner } from 'styled-cssgg'
 import { animated, useSpring } from 'react-spring'
 import InfiniteScroll from 'react-infinite-scroller'
 
-import { api } from '~/api/client'
+import { api } from '~/request/client'
 import { useSearchIssue } from '~/hooks/use-search-issue'
+import { Github } from '~/interface/github'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
@@ -23,11 +24,14 @@ export const SideBar = (props: { className?: string }) => {
       return { data, page }
     },
     {
-      getFetchMore: last => (last.data.length === 30 ? last.page + 1 : undefined),
+      getFetchMore: last => (last?.data?.length === 30 ? last.page + 1 : undefined),
     },
   )
+  useEffect(() => {
+    fetchMore()
+  }, [])
   const opacity = useSpring({
-    opacity: data.length === 0 ? 0 : 1,
+    opacity: data?.length === 0 ? 0 : 1,
   })
   const searchTerms = useRouter().query.q as string
   const { handleSearch } = useSearchIssue()
@@ -91,8 +95,8 @@ export const SideBar = (props: { className?: string }) => {
             return (
               <>
                 {page.data
-                  .filter(v => v.name.toLowerCase().includes(state.keyword))
-                  .map(v => (
+                  ?.filter(v => v.name.toLowerCase().includes(state.keyword))
+                  ?.map(v => (
                     <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
                       <li
                         title={v.description}

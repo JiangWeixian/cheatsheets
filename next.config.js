@@ -6,7 +6,6 @@ module.exports = withFonts(
   withImages({
     webpack: config => {
       config.resolve.alias['~'] = path.join(__dirname, '')
-      config.resolve.alias['@'] = path.join(__dirname, 'pages')
       return config
     },
     env: {

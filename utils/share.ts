@@ -10,10 +10,10 @@ export const share = (
     ;(navigator as any).share({
       title,
       text,
-      url: `https://jiangweixian-cheatsheets.now.sh/sheet/${_label}?_id=${_id}`,
+      url: `${window.location.origin}/sheet/${_label}?_id=${_id}`,
     })
     return
   }
-  copy(`https://jiangweixian-cheatsheets.now.sh/sheet/${_label}?_id=${_id}`)
+  copy(`${window.location.origin}/sheet/${_label}?_id=${_id}`)
   window.alert('复制成功')
 }

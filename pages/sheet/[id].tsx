@@ -4,7 +4,8 @@ import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 
 import { Github } from '~/interface/github'
-import { api } from '~/api/client'
+import { api as server } from '~/request/server'
+import { api as client } from '~/request/client'
 import { getId } from '~/utils/sheet'
 import Layout from '~/components/Layout'
 import pkg from 'package.json'
@@ -16,7 +17,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const { data } = useQuery(
     [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id as string],
     (_key, id: string) => {
-      return api.github.issues({ label: id })
+      return client.github.issues({ labels: id })
     },
     { initialData: props.data },
   )
@@ -48,7 +49,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await api.github.issues({ label: ctx?.params?.id as string })
+  const data = await server.github.issues({ labels: ctx?.params?.id as string, sort: 'updated' })
   return { props: { data } }
 }
 

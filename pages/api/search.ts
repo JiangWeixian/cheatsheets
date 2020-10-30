@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { api } from '~/api/server'
+import { api } from '~/request/server'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

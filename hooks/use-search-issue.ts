@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 
-import { api } from '~/api/client'
+import { api as client } from '~/request/client'
 import { useCallback } from 'react'
 import { Github } from '~/interface/github'
 
@@ -14,7 +14,7 @@ export const useSearchIssue = (
   const { data, status } = useQuery(
     ['issues', router.query.q as string],
     async (_key, keyword: string) => {
-      const issues = await api.github.search(keyword)
+      const issues = await client.github.search(keyword)
       return issues
     },
     { initialData: initialIssues },
