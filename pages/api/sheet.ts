@@ -4,7 +4,7 @@ import { api } from '~/request/server'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const items = await api.github.issues({
-      labels: req.query.label as string,
+      labels: req.query.labels as string,
       sort: req.query.sort as string,
     })
     res.status(200).json(items)
