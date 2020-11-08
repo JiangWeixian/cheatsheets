@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useRematch } from '@use-rematch/core'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
 import Link from 'next/link'
-import { Search, Spinner } from 'styled-cssgg'
+import { Search, Spinner, PushChevronLeft, PushChevronRight } from 'styled-cssgg'
 import { animated, useSpring } from 'react-spring'
 import InfiniteScroll from 'react-infinite-scroller'
 
@@ -27,11 +27,15 @@ export const SideBar = (props: { className?: string }) => {
       getFetchMore: last => (last?.data?.length === 30 ? last.page + 1 : undefined),
     },
   )
+  const [collapsed, setCollapsed] = useState(false)
   useEffect(() => {
     fetchMore()
   }, [])
   const opacity = useSpring({
     opacity: data?.length === 0 ? 0 : 1,
+  })
+  const width = useSpring({
+    width: collapsed ? 80 : 300,
   })
   const searchTerms = useRouter().query.q as string
   const { handleSearch } = useSearchIssue()
@@ -60,9 +64,10 @@ export const SideBar = (props: { className?: string }) => {
     },
   })
   return (
-    <div
+    <animated.div
       data-role="side-bar"
-      className={cx('bg-gray-800 h-full p-4 box-border flex flex-col', props.className)}
+      style={width}
+      className={cx('bg-gray-800 h-full p-4 box-border flex flex-col relative', props.className)}
     >
       <div className="relative flex items-center">
         <input
@@ -111,6 +116,12 @@ export const SideBar = (props: { className?: string }) => {
           })}
         </InfiniteScroll>
       </animated.ul>
-    </div>
+      <div
+        onClick={() => setCollapsed(prev => !prev)}
+        className="relative right-0 bottom-0 w-full flex justify-center text-white"
+      >
+        {collapsed ? <PushChevronRight /> : <PushChevronLeft />}
+      </div>
+    </animated.div>
   )
 }
