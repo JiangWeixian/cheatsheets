@@ -26,9 +26,12 @@ const Layout = ({ children }: Props) => {
       <Head>
         <title>jiangweixian's cheatsheet</title>
       </Head>
-      <SideBar className="w-3/12" />
-      <div className="w-9/12 h-full bg-gray-100 flex flex-col overflow-scroll pt-20">
-        <header className="w-9/12 fixed top-0 flex justify-between items-center h-20 px-12 py-4 box-border bg-gray-100 z-10">
+      <SideBar className="flex-grow-0" />
+      <div className="flex-grow h-full bg-gray-100 flex flex-col" style={{ flexBasis: 0 }}>
+        <header
+          className="flex-grow-0 w-full relative flex justify-between items-center px-12 box-border bg-gray-100 z-10"
+          style={{ flexBasis: '5rem' }}
+        >
           <h3 className="label text-3xl text-gray-700 absolute top-0 left-0 right-0 bottom-0 m-auto flex items-center justify-center pointer-events-none">
             {router.query.id} <span className="text-gray-500 ml-4">{'cheatsheet'}</span>
           </h3>
@@ -58,7 +61,9 @@ const Layout = ({ children }: Props) => {
             />
           </div>
         </header>
-        {children}
+        <div className="overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
+          {children}
+        </div>
       </div>
     </div>
   )

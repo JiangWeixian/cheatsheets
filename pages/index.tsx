@@ -29,7 +29,7 @@ const Content = ({
     return <Spinner className="m-auto pt-10" />
   }
   return (
-    <div className="w-full p-12 box-border">
+    <div className="p-12">
       {issues?.length !== 0 ? (
         <>
           {transitions.map((props, index) => {

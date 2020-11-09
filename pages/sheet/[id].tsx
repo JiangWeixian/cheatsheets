@@ -32,7 +32,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   return (
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
-      <div className="bg-gray-100 overflow-scroll px-12 pt-10">
+      <div className="p-12">
         {data?.map(v => {
           return (
             <Sheet

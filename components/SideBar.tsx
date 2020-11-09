@@ -34,8 +34,9 @@ export const SideBar = (props: { className?: string }) => {
   const opacity = useSpring({
     opacity: data?.length === 0 ? 0 : 1,
   })
-  const width = useSpring({
-    width: collapsed ? 80 : 300,
+  const collapsedSpring = useSpring({
+    width: collapsed ? 64 : 300,
+    opacity: collapsed ? 0 : 1,
   })
   const searchTerms = useRouter().query.q as string
   const { handleSearch } = useSearchIssue()
@@ -66,26 +67,35 @@ export const SideBar = (props: { className?: string }) => {
   return (
     <animated.div
       data-role="side-bar"
-      style={width}
+      style={{ width: collapsedSpring.width }}
       className={cx('bg-gray-800 h-full p-4 box-border flex flex-col relative', props.className)}
     >
-      <div className="relative flex items-center">
-        <input
-          value={state.keyword}
-          placeholder="Search cheatsheets"
-          {...unShipProps}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              // search issues
-              handleSearch((e.target as any).value)
-            }
-          }}
-          onChange={e => dispatch.setKeyword(e.target.value)}
-          className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
-        />
-        <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
+      <div className="relative flex items-center justify-center">
+        {!collapsed ? (
+          <>
+            <input
+              value={state.keyword}
+              placeholder="Search cheatsheets"
+              {...unShipProps}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  // search issues
+                  handleSearch((e.target as any).value)
+                }
+              }}
+              onChange={e => dispatch.setKeyword(e.target.value)}
+              className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
+            />
+            <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
+          </>
+        ) : (
+          <Search onClick={() => setCollapsed(false)} className="text-gray-500 cursor-pointer" />
+        )}
       </div>
-      <animated.ul className="flex-1 overflow-scroll pt-4" style={opacity}>
+      <animated.ul
+        className="flex-1 overflow-scroll pt-4"
+        style={{ opacity: collapsedSpring.opacity }}
+      >
         <InfiniteScroll
           hasMore={!isFetching && canFetchMore}
           useWindow={false}
@@ -118,7 +128,7 @@ export const SideBar = (props: { className?: string }) => {
       </animated.ul>
       <div
         onClick={() => setCollapsed(prev => !prev)}
-        className="relative right-0 bottom-0 w-full flex justify-center text-white"
+        className="relative right-0 bottom-0 w-full flex justify-center text-white cursor-pointer"
       >
         {collapsed ? <PushChevronRight /> : <PushChevronLeft />}
       </div>
