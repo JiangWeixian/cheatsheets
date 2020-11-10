@@ -5,16 +5,18 @@ import { useRouter } from 'next/router'
 import cx from 'classnames'
 import Link from 'next/link'
 import { Search, Spinner, PushChevronLeft, PushChevronRight } from 'styled-cssgg'
-import { animated, useSpring } from 'react-spring'
+import { animated, useSpring, useTransition } from 'react-spring'
 import InfiniteScroll from 'react-infinite-scroller'
 
 import { api } from '~/request/client'
 import { useSearchIssue } from '~/hooks/use-search-issue'
-import { Github } from '~/interface/github'
 
 const unShipProps: any = {
   enterkeyhint: 'search',
 }
+
+const AnimatedPushChevronLeft = animated(PushChevronLeft)
+const AnimatedPushChevronRight = animated(PushChevronRight)
 
 export const SideBar = (props: { className?: string }) => {
   const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
@@ -31,12 +33,14 @@ export const SideBar = (props: { className?: string }) => {
   useEffect(() => {
     fetchMore()
   }, [])
-  const opacity = useSpring({
-    opacity: data?.length === 0 ? 0 : 1,
-  })
   const collapsedSpring = useSpring({
     width: collapsed ? 64 : 300,
     opacity: collapsed ? 0 : 1,
+  })
+  const collapsedTransitions = useTransition(collapsed, null, {
+    from: { position: 'absolute', opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
   })
   const searchTerms = useRouter().query.q as string
   const { handleSearch } = useSearchIssue()
@@ -70,31 +74,38 @@ export const SideBar = (props: { className?: string }) => {
       style={{ width: collapsedSpring.width }}
       className={cx('bg-gray-800 h-full p-4 box-border flex flex-col relative', props.className)}
     >
-      <div className="relative flex items-center justify-center">
-        {!collapsed ? (
-          <>
-            <input
-              value={state.keyword}
-              placeholder="Search cheatsheets"
-              {...unShipProps}
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  // search issues
-                  handleSearch((e.target as any).value)
-                }
-              }}
-              onChange={e => dispatch.setKeyword(e.target.value)}
-              className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
-            />
-            <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
-          </>
-        ) : (
-          <Search onClick={() => setCollapsed(false)} className="text-gray-500 cursor-pointer" />
-        )}
+      <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
+        {collapsedTransitions.map(({ item, props }) => {
+          return item ? (
+            <animated.div style={props} className="h-12 p-2 flex items-center justify-center">
+              <Search
+                onClick={() => setCollapsed(false)}
+                className="text-gray-500 cursor-pointer"
+              />
+            </animated.div>
+          ) : (
+            <animated.div className="w-full flex items-center justify-center" style={props}>
+              <input
+                value={state.keyword}
+                placeholder="Search cheatsheets"
+                {...unShipProps}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    // search issues
+                    handleSearch((e.target as any).value)
+                  }
+                }}
+                onChange={e => dispatch.setKeyword(e.target.value)}
+                className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
+              />
+              <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
+            </animated.div>
+          )
+        })}
       </div>
       <animated.ul
-        className="flex-1 overflow-scroll pt-4"
-        style={{ opacity: collapsedSpring.opacity }}
+        className="flex-1 flex-grow overflow-scroll pt-4"
+        style={{ opacity: collapsedSpring.opacity, flexBasis: 0 }}
       >
         <InfiniteScroll
           hasMore={!isFetching && canFetchMore}
@@ -128,9 +139,15 @@ export const SideBar = (props: { className?: string }) => {
       </animated.ul>
       <div
         onClick={() => setCollapsed(prev => !prev)}
-        className="relative right-0 bottom-0 w-full flex justify-center text-white cursor-pointer"
+        className="relative right-0 bottom-0 w-full flex flex-grow-0 justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer"
       >
-        {collapsed ? <PushChevronRight /> : <PushChevronLeft />}
+        {collapsedTransitions.map(({ item, props }) => {
+          return item ? (
+            <AnimatedPushChevronRight style={props} />
+          ) : (
+            <AnimatedPushChevronLeft style={props} />
+          )
+        })}
       </div>
     </animated.div>
   )
