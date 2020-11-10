@@ -32,7 +32,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   return (
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
-      <div className="p-12">
+      <div className="p-12 xl:max-w-screen-lg m-auto">
         {data?.map(v => {
           return (
             <Sheet

@@ -29,7 +29,7 @@ const Content = ({
     return <Spinner className="m-auto pt-10" />
   }
   return (
-    <div className="p-12">
+    <div className="p-12 xl:max-w-screen-lg m-auto">
       {issues?.length !== 0 ? (
         <>
           {transitions.map((props, index) => {
