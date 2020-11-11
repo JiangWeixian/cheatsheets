@@ -87,7 +87,7 @@ export const SideBar = (props: { className?: string }) => {
             <animated.div className="w-full flex items-center justify-center" style={props}>
               <input
                 value={state.keyword}
-                placeholder="Search cheatsheets"
+                placeholder="label or keywords"
                 {...unShipProps}
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
@@ -96,7 +96,7 @@ export const SideBar = (props: { className?: string }) => {
                   }
                 }}
                 onChange={e => dispatch.setKeyword(e.target.value)}
-                className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
+                className="placeholder-gray-400 shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
               />
               <Search
                 className="text-gray-500"
