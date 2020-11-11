@@ -32,8 +32,8 @@ const Layout = ({ children }: Props) => {
           className="flex-grow-0 w-full relative flex justify-between items-center px-12 box-border bg-gray-100 z-10"
           style={{ flexBasis: '5rem' }}
         >
-          <h3 className="label text-3xl text-gray-700 absolute top-0 left-0 right-0 bottom-0 m-auto flex items-center justify-center pointer-events-none">
-            {router.query.id} <span className="text-gray-500 ml-4">{'cheatsheet'}</span>
+          <h3 className="font-semibold label text-2xl text-gray-700 absolute top-0 left-0 right-0 bottom-0 m-auto flex items-center justify-center pointer-events-none">
+            {router.query.id} <span className="text-gray-500 ml-4 font-normal">{'cheatsheet'}</span>
           </h3>
           <Home
             onClick={() => {

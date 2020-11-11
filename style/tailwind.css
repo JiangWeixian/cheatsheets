@@ -30,14 +30,14 @@ body {
 /* markdown & sheet */
 /* content */
 .theme-default-content {
-  @apply text-gray-700;
+  @apply text-gray-700 text-sm;
 }
 .theme-default-content p {
   @apply bg-white;
 }
 .theme-default-content p,
 .theme-default-content td {
-  @apply text-base;
+  @apply text-sm;
 }
 /* link */
 .theme-default-content a {
@@ -47,10 +47,10 @@ body {
 /* description */
 .theme-default-content p,
 .theme-default-content h3 {
-  font-size: 1rem;
+  font-size: 0.875rem;
   margin: 0;
   padding: 0.25rem 0 0.25rem 1rem;
-  @apply p-4 text-base text-base;
+  @apply p-4 text-sm text-sm;
 }
 .theme-default-content h3,
 .theme-default-content blockquote {
@@ -61,7 +61,7 @@ body {
 }
 /* ul child section */
 .theme-default-content ul {
-  @apply border-b-2 border-gray-200 m-0 p-0 text-base;
+  @apply border-b-2 border-gray-200 m-0 p-0 text-sm;
 }
 .theme-default-content ul li {
   border-bottom-width: 1px;
@@ -106,7 +106,7 @@ td {
 /* ol section */
 .theme-default-content ol,
 theme-default-content ul {
-  @apply p-4 list-decimal list-inside text-base;
+  @apply p-4 list-decimal list-inside text-sm;
 }
 .theme-default-content ol li p {
   @apply inline-block;
@@ -117,5 +117,5 @@ theme-default-content ul {
 }
 .theme-default-content code {
   font-family: 'Fira Code', monospace;
-  @apply bg-transparent text-indigo-600 p-0 text-base m-0;
+  @apply bg-transparent text-indigo-600 p-0 text-sm m-0;
 }

@@ -98,7 +98,10 @@ export const SideBar = (props: { className?: string }) => {
                 onChange={e => dispatch.setKeyword(e.target.value)}
                 className="shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
               />
-              <Search className="absolute text-gray-500" style={{ right: '2rem' }} />
+              <Search
+                className="text-gray-500"
+                style={{ right: '1rem', top: 0, bottom: 0, position: 'absolute', margin: 'auto' }}
+              />
             </animated.div>
           )
         })}
@@ -126,7 +129,7 @@ export const SideBar = (props: { className?: string }) => {
                     <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
                       <li
                         title={v.description}
-                        className="text-gray-300 rounded cursor-pointer font-bold p-4 hover:bg-indigo-900"
+                        className="text-gray-300 text-opacity-75 rounded text-base cursor-pointer font-semibold p-4 hover:bg-indigo-900"
                       >
                         {v.name}
                       </li>

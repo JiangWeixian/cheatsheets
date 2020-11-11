@@ -31,7 +31,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   const idcard = getId(_label, v)
   return (
     <div className={props.className} style={props.style} key={v.title} id={idcard}>
-      <p className="mb-4 flex items-center font-bold text-lg">
+      <p className="mb-4 flex items-center font-semibold text-base">
         <a className="text-indigo-600 " href={v.html_url} target="_blank">
           <span
             dangerouslySetInnerHTML={{
@@ -39,16 +39,19 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
             }}
           />
           {v.state === 'open' ? (
-            <span className="rounded-lg inline-block bg-green-300 w-2 h-2 ml-2" />
+            <span className="rounded-full inline-block bg-green-300 w-2 h-2 ml-2" />
           ) : (
-            <span className="rounded-lg inline-block bg-red-300 w-2 h-2 ml-2" />
+            <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
           )}
         </a>
       </p>
       <div
-        className={cx('shadow w-full bg-white rounded overflow-hidden theme-default-content', {
-          'shadow-outline': idcard === queryId,
-        })}
+        className={cx(
+          'shadow w-full bg-white rounded-md overflow-hidden theme-default-content text-sm',
+          {
+            'shadow-outline': idcard === queryId,
+          },
+        )}
         key={v.title}
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
