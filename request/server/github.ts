@@ -37,16 +37,17 @@ export const github = {
    * - https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
    * - https://developer.github.com/v3/search/#search-issues-and-pull-requests
    */
-  async search(q: string): Promise<{ items: Github.Issue[] }> {
+  async search(q: string): Promise<Github.Issue[]> {
     if (!q) {
       return server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, {
         params: { sort: 'updated' },
       })
     }
-    return server.get(
+    const data: any = await server.get(
       `/search/issues?q=${encodeURI(`${q}+repo:${pkg.author.name}/${pkg.name}`)}`,
       {},
     )
+    return data?.items
   },
   /**
    * list repo issues

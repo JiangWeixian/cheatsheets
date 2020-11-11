@@ -18,7 +18,7 @@ export const github = {
       return client.get(`/api/sheet`, { params: { sort: 'updated' } })
     }
     const result: any = await client.get(`/api/search`, { params: { keyword } })
-    return result.items
+    return result
   },
   async labels(page?: number): Promise<Github.Label[]> {
     return client.get(`/api/labels?page=${page}`, { method: 'get' })
