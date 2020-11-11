@@ -1,5 +1,7 @@
 ![cheatsheets](https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png)
 
+![image](https://user-images.githubusercontent.com/6839576/98773017-fe5e1a00-2422-11eb-8ef2-f9af836b398c.png)
+
 ## usage
 
 1. use this repo as template
