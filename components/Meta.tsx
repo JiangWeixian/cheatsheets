@@ -19,11 +19,11 @@ export const Meta = ({
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@jiangweixian" />
       <meta name="twitter:creator" content="@jiangweixian" />
-      <meta name="twitter:url" content="https://jiangweixian-cheatsheets.now.sh" />
+      <meta name="twitter:url" content="https://jiangweixian-cheatsheets.vercel.app" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content="https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png" />
-      <meta property="og:url" content="https://jiangweixian-cheatsheets.now.sh" />
+      <meta property="og:url" content="https://jiangweixian-cheatsheets.vercel.app" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:image" content="https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png" />
