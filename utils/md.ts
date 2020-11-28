@@ -20,11 +20,14 @@ export const createMarkdownRenderer = () => {
     return MarkdownIt
   }
   MarkdownIt = new markdownit({
+    /**
+     * @see diff-hightlight {@link https://prismjs.com/plugins/diff-highlight/}
+     */
     highlight: function(str, lang) {
       const language = maps[lang] || lang
       if (prism.languages[language]) {
         const code = prism.highlight(str, prism.languages[language], language)
-        return `<pre class="language-${lang}"><code>${code}</code></pre>`
+        return `<pre class="language-diff-${lang} diff-highlight"><code>${code}</code></pre>`
       }
 
       return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
