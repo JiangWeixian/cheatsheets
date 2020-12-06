@@ -13,7 +13,7 @@
     [
       "prismjs",
       {
-        "languages": ["javascript", "css", "markup", "typescript", "tsx"]
+        "languages": ["javascript", "css", "markup", "typescript", "tsx", "diff"]
       }
     ]
   ]

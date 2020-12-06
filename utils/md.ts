@@ -26,11 +26,13 @@ export const createMarkdownRenderer = () => {
     highlight: function(str, lang) {
       const language = maps[lang] || lang
       if (prism.languages[language]) {
-        const code = prism.highlight(str, prism.languages[language], language)
-        return `<pre class="language-diff-${lang} diff-highlight"><code>${code}</code></pre>`
+        const code = prism.highlight(str, prism.languages[language], 'diff-' + language)
+        return `<pre class="language-${lang} diff-highlight"><code class="language-${lang} diff-highlight">${code}</code></pre>`
       }
 
-      return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
+      return `<pre class="language-${lang} diff-highlight"><code class="language-${lang} diff-highlight">${md.utils.escapeHtml(
+        str,
+      )}</code></pre>`
     },
   })
   // enable native lazy loading image
