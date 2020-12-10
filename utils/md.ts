@@ -1,6 +1,7 @@
 import markdownit from 'markdown-it'
 import prism from 'prismjs'
 import lazyimage from 'markdown-it-image-lazy-loading'
+import todo from 'markdown-it-todo'
 
 export const quoteInlineCode = (md: markdownit) => {
   const defaultInlineCode = md.renderer.rules['code_inline']
@@ -20,18 +21,24 @@ export const createMarkdownRenderer = () => {
     return MarkdownIt
   }
   MarkdownIt = new markdownit({
+    /**
+     * @see diff-hightlight {@link https://prismjs.com/plugins/diff-highlight/}
+     */
     highlight: function(str, lang) {
       const language = maps[lang] || lang
       if (prism.languages[language]) {
-        const code = prism.highlight(str, prism.languages[language], language)
-        return `<pre class="language-${lang}"><code>${code}</code></pre>`
+        const code = prism.highlight(str, prism.languages[language], 'diff-' + language)
+        return `<pre class="language-${lang} diff-highlight"><code class="language-${lang} diff-highlight">${code}</code></pre>`
       }
 
-      return `<pre class="language-${lang}"><code>${md.utils.escapeHtml(str)}</code></pre>`
+      return `<pre class="language-${lang} diff-highlight"><code class="language-${lang} diff-highlight">${md.utils.escapeHtml(
+        str,
+      )}</code></pre>`
     },
   })
   // enable native lazy loading image
   MarkdownIt.use(lazyimage)
   MarkdownIt.use(quoteInlineCode)
+  MarkdownIt.use(todo)
   return MarkdownIt
 }
