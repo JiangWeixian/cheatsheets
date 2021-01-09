@@ -7,7 +7,8 @@ pre[class*='language-'] {
   word-wrap: normal;
   color: #90a4ae;
   background: #fafafa;
-  font-family: Roboto Mono, monospace;
+  font-family: 'Fira Code', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 1em;
   line-height: 1.5em;
 
