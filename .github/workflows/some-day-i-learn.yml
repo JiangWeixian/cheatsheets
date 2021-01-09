@@ -5,6 +5,6 @@ jobs:
     name: Someday
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/javascript-action@v1
+    - uses: JiangWeixian/cheatsheets-sdil-actions@v1
       with:
-        milliseconds: 1000
+          milliseconds: 1000
