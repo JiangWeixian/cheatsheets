@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
 import { api as server } from '~/request/server'
 
-const Content = ({
+const Recent = ({
   issues = [],
   status,
   highlight,
@@ -46,20 +46,56 @@ const Content = ({
   )
 }
 
-const IndexPage: NextPage<{ data: Github.Issue[] }> = props => {
+const Someday = ({
+  issues = [],
+  status,
+  highlight,
+}: {
+  issues?: Github.Issue[]
+  status?: QueryStatus
+  highlight?: string
+}) => {
+  const transitions = useTrail<{ opacity: number }>(issues.length, {
+    opacity: status === 'loading' ? 0 : 1,
+    from: { opacity: 0 },
+  })
+  if (status === 'loading') {
+    return <Spinner className="m-auto pt-10" />
+  }
+  return (
+    <div className="p-12 xl:max-w-screen-lg m-auto">
+      {issues?.length !== 0 ? (
+        <>
+          <h3 className="text-2xl text-gray-500 mb-4">Someday, I learn</h3>
+          {transitions.map((props, index) => {
+            return (
+              <animated.div key={index} className="mb-4 w-full float-left" style={props}>
+                <Sheet highlight={highlight} v={issues?.[index]} />
+              </animated.div>
+            )
+          })}
+        </>
+      ) : null}
+    </div>
+  )
+}
+
+const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> = props => {
   const keyword = useRouter().query.q as string
-  const { data: issues, status } = useSearchIssue({ initialIssues: props.data })
+  const { data: issues, status } = useSearchIssue({ initialIssues: props.recent })
   return (
     <Layout>
       <Meta />
-      <Content highlight={keyword} issues={issues} status={status} />
+      <Someday issues={props.someday} status={status} />
+      <Recent highlight={keyword} issues={issues} status={status} />
     </Layout>
   )
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await server.github.search(_ctx.query.q as string)
-  return { props: { data } }
+  const recent = await server.github.search(_ctx.query.q as string)
+  const someday = await server.github.someday()
+  return { props: { recent, someday } }
 }
 
 export default IndexPage

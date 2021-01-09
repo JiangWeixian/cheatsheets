@@ -1,4 +1,5 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 import { Github } from '~/interface/github'
 import { HOST } from '~/interface/host'
@@ -61,5 +62,31 @@ export const github = {
     sort?: 'updated' | string
   }): Promise<Github.Issue[]> {
     return server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, { params: { labels, sort } })
+  },
+  /**
+   * some day i learn
+   * @see {@link https://developer.github.com/v3/issues/#list-repository-issues}
+   */
+  async someday(): Promise<Github.Issue[]> {
+    const week = dayjs()
+      .subtract(1, 'week')
+      .format('YYYY-MM-DDTHH:MM:SSZ')
+    const month = dayjs()
+      .subtract(1, 'month')
+      .format('YYYY-MM-DDTHH:MM:SSZ')
+    const year = dayjs()
+      .subtract(1, 'year')
+      .format('YYYY-MM-DDTHH:MM:SSZ')
+    const sinces = [week, month, year]
+    const index = Math.floor(Math.random() * sinces.length)
+    return server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, {
+      params: {
+        per_page: 1,
+        sort: 'created',
+        state: 'open',
+        since: sinces[index],
+        direction: 'asc',
+      },
+    })
   },
 }
