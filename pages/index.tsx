@@ -32,6 +32,7 @@ const Content = ({
     <div className="p-12 xl:max-w-screen-lg m-auto">
       {issues?.length !== 0 ? (
         <>
+          <h3 className="text-2xl text-gray-500 mb-4">Recently</h3>
           {transitions.map((props, index) => {
             return (
               <animated.div key={index} className="mb-4 w-full float-left" style={props}>
