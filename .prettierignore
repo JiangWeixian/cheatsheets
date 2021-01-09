@@ -30,3 +30,4 @@ LICENSE
 .next
 yarn-error.log
 assets
+*.yml

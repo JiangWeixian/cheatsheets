@@ -1,3 +1,10 @@
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
+on: push
+name: some-day-i-learn
+jobs:
+  someday:
+    name: Someday
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/javascript-action@v1
+    - with:
+      milliseconds: 1000
