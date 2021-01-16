@@ -8,3 +8,5 @@ jobs:
     - uses: JiangWeixian/cheatsheets-sdil-actions@v1
       with:
           milliseconds: 1000
+      env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
