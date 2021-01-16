@@ -17,6 +17,3 @@
     ```
 
 4. new `issue` on github'issue
-
-@fixme:
-triger actions1
