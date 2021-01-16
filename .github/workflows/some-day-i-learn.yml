@@ -1,0 +1,10 @@
+on: push
+name: some-day-i-learn
+jobs:
+  someday:
+    name: Someday
+    runs-on: ubuntu-latest
+    steps:
+    - uses: JiangWeixian/cheatsheets-sdil-actions@v1
+      with:
+          milliseconds: 1000
