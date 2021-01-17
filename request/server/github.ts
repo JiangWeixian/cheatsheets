@@ -1,5 +1,6 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
+import sample from 'lodash.sample'
 
 import { Github } from '~/interface/github'
 import { HOST } from '~/interface/host'
@@ -78,15 +79,16 @@ export const github = {
       .subtract(1, 'year')
       .format('YYYY-MM-DDTHH:MM:SSZ')
     const sinces = [week, month, year]
-    const index = Math.floor(Math.random() * sinces.length)
-    return server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, {
+    const directions = ['asc', 'desc']
+    const issues = await server.get(`/repos/${pkg.author.name}/${pkg.name}/issues`, {
       params: {
-        per_page: 1,
+        per_page: 10,
         sort: 'created',
         state: 'open',
-        since: sinces[index],
-        direction: 'asc',
+        since: sample(sinces),
+        direction: sample(directions),
       },
     })
+    return [sample(issues)]
   },
 }
