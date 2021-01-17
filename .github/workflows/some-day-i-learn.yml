@@ -7,6 +7,7 @@ jobs:
     steps:
     - uses: JiangWeixian/cheatsheets-sdil-actions@v1
       with:
-          milliseconds: 1000
+          CHEATSHEET_HOST: jiangweixian-cheatsheets.vercel.app
+          debug: true
       env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
