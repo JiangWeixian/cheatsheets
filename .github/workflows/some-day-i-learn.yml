@@ -2,7 +2,6 @@ name: Send someday, i learn cheatsheet at 11:am
 on:
   schedule:
     - cron: "0 11 * * *"
-name: some-day-i-learn
 jobs:
   someday:
     name: Someday
