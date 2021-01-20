@@ -29,7 +29,7 @@ const Recent = ({
     return <Spinner className="m-auto pt-10" />
   }
   return (
-    <div className="p-12 xl:max-w-screen-lg m-auto">
+    <div>
       {issues?.length !== 0 ? (
         <>
           <h3 className="text-2xl text-gray-500 mb-4">Recently</h3>
@@ -63,7 +63,7 @@ const Someday = ({
     return <Spinner className="m-auto pt-10" />
   }
   return (
-    <div className="p-12 xl:max-w-screen-lg m-auto">
+    <div>
       {issues?.length !== 0 ? (
         <>
           <h3 className="text-2xl text-gray-500 mb-4">Someday, I learn</h3>
@@ -86,8 +86,10 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
   return (
     <Layout>
       <Meta />
-      <Someday issues={props.someday} status={status} />
-      <Recent highlight={keyword} issues={issues} status={status} />
+      <div className="p-8 grid grid-cols-2 gap-4">
+        <Someday issues={props.someday} status={status} />
+        <Recent highlight={keyword} issues={issues} status={status} />
+      </div>
     </Layout>
   )
 }
