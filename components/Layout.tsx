@@ -29,28 +29,28 @@ const Layout = ({ children }: Props) => {
       <SideBar className="flex-grow-0" />
       <div className="flex-grow h-full bg-gray-100 flex flex-col" style={{ flexBasis: 0 }}>
         <header
-          className="flex-grow-0 w-full relative flex justify-between items-center px-12 box-border bg-gray-100 z-10"
+          className="flex-grow-0 border-b-2 shadow-sm bg-white w-full relative flex justify-between items-center px-8 box-border z-10"
           style={{ flexBasis: '5rem' }}
         >
-          <h3 className="font-semibold label text-2xl text-gray-700 absolute top-0 left-0 right-0 bottom-0 m-auto flex items-center justify-center pointer-events-none">
-            {router.query.id} <span className="text-gray-500 ml-4 font-normal">{'cheatsheet'}</span>
+          <h3 className="font-semibold label text-2xl text-gray-700 flex items-center justify-center pointer-events-none">
+            {router.query.id} <span className="text-gray-500 font-normal">{'cheatsheet'}</span>
           </h3>
-          <Home
-            onClick={() => {
-              router.push({
-                pathname: '/',
-              })
-            }}
-            style={{ '--ggs': 0.95 } as any}
-            className="w-10 h-10 text-gray-500 hover:text-gray-700 cursor-pointer"
-          />
           <div className="flex items-center">
+            <Home
+              onClick={() => {
+                router.push({
+                  pathname: '/',
+                })
+              }}
+              style={{ '--ggs': 1 } as any}
+              className="mr-4 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+            />
             <G
               width={20}
               onClick={() => {
                 window.open(`https://github.com/${pkg.author.name}/${pkg.name}`)
               }}
-              className="mr-8 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="mr-4 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
             />
             <T
               width={20}

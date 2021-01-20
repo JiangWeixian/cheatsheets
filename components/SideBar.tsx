@@ -72,9 +72,12 @@ export const SideBar = (props: { className?: string }) => {
     <animated.div
       data-role="side-bar"
       style={{ width: collapsedSpring.width }}
-      className={cx('bg-gray-800 h-full p-4 box-border flex flex-col relative', props.className)}
+      className={cx(
+        'bg-white h-full p-4 box-border border-gray-300 border-r-2 flex flex-col relative',
+        props.className,
+      )}
     >
-      <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
+      {/* <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
         {collapsedTransitions.map(({ item, props }) => {
           return item ? (
             <animated.div style={props} className="h-12 p-2 flex items-center justify-center">
@@ -105,7 +108,7 @@ export const SideBar = (props: { className?: string }) => {
             </animated.div>
           )
         })}
-      </div>
+      </div> */}
       <animated.ul
         className="flex-1 flex-grow overflow-scroll pt-4"
         style={{ opacity: collapsedSpring.opacity, flexBasis: 0 }}
@@ -129,7 +132,7 @@ export const SideBar = (props: { className?: string }) => {
                     <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
                       <li
                         title={v.description}
-                        className="text-gray-300 text-opacity-75 rounded text-base cursor-pointer font-semibold p-4 hover:bg-indigo-900"
+                        className="text-gray-700 rounded text-lg cursor-pointer py-2 px-4 my-2 hover:bg-gray-200 hover:text-black"
                       >
                         {v.name}
                       </li>

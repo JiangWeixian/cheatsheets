@@ -32,7 +32,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   return (
     <div
       className={cx(
-        'shadow w-full bg-white rounded-md overflow-hidden theme-default-content text-sm',
+        'shadow w-full bg-white rounded-lg overflow-hidden theme-default-content text-sm',
         {
           'shadow-outline': idcard === queryId,
         },
