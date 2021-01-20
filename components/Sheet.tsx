@@ -30,8 +30,19 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   const queryId = router.query._id
   const idcard = getId(_label, v)
   return (
-    <div className={props.className} style={props.style} key={v.title} id={idcard}>
-      <p className="mb-4 flex items-center font-semibold text-base">
+    <div
+      className={cx(
+        'shadow w-full bg-white rounded-md overflow-hidden theme-default-content text-sm',
+        {
+          'shadow-outline': idcard === queryId,
+        },
+        props.className,
+      )}
+      style={props.style}
+      key={v.title}
+      id={idcard}
+    >
+      <h1 className="flex items-center font-medium text-xl p-4">
         <a className="text-indigo-600 " href={v.html_url} target="_blank">
           <span
             dangerouslySetInnerHTML={{
@@ -44,20 +55,14 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
             <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
           )}
         </a>
-      </p>
+      </h1>
       <div
-        className={cx(
-          'shadow w-full bg-white rounded-md overflow-hidden theme-default-content text-sm',
-          {
-            'shadow-outline': idcard === queryId,
-          },
-        )}
         key={v.title}
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}
       />
-      <div className="flex italic justify-between items-center text-sm text-gray-600 mt-2">
+      <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100">
         <Link
           style={{ '--ggs': 0.7 } as any}
           className="cursor-pointer"
