@@ -42,7 +42,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
       key={v.title}
       id={idcard}
     >
-      <h1 className="flex items-center font-medium text-xl p-4">
+      <h1 className="flex items-center font-medium text-xl p-4 border-b">
         <a className="text-indigo-600 " href={v.html_url} target="_blank">
           <span
             dangerouslySetInnerHTML={{

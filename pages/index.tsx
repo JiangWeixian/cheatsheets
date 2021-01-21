@@ -32,7 +32,7 @@ const Recent = ({
     <div>
       {issues?.length !== 0 ? (
         <>
-          <h3 className="text-2xl text-gray-500 mb-4">Recently</h3>
+          <h3 className="text-2xl text-gray-800 mb-4">Recently</h3>
           {transitions.map((props, index) => {
             return (
               <animated.div key={index} className="mb-4 w-full float-left" style={props}>
@@ -66,7 +66,7 @@ const Someday = ({
     <div>
       {issues?.length !== 0 ? (
         <>
-          <h3 className="text-2xl text-gray-500 mb-4">Someday, I learn</h3>
+          <h3 className="text-2xl text-gray-800 mb-4">Someday, I learn</h3>
           {transitions.map((props, index) => {
             return (
               <animated.div key={index} className="mb-4 w-full float-left" style={props}>

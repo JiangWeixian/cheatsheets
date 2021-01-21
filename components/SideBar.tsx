@@ -110,7 +110,7 @@ export const SideBar = (props: { className?: string }) => {
         })}
       </div> */}
       <animated.ul
-        className="flex-1 flex-grow overflow-scroll pt-4"
+        className="flex-1 flex-grow overflow-scroll"
         style={{ opacity: collapsedSpring.opacity, flexBasis: 0 }}
       >
         <InfiniteScroll
