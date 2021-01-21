@@ -50,6 +50,7 @@
     "react-dom": "16.10.1",
     "react-infinite-scroller": "^1.2.4",
     "react-query": "^2.0.3",
+    "react-responsive-masonry": "^2.1.1",
     "react-spring": "^8.0.27",
     "redux": "4.0.5",
     "styled-components": "5.1.0",

@@ -86,7 +86,7 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
   return (
     <Layout>
       <Meta />
-      <div className="p-8 grid grid-cols-2 gap-4">
+      <div className="p-12 grid grid-cols-2 gap-4">
         <Someday issues={props.someday} status={status} />
         <Recent highlight={keyword} issues={issues} status={status} />
       </div>
