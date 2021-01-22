@@ -42,20 +42,36 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
       key={v.title}
       id={idcard}
     >
-      <h1 className="flex items-center font-medium text-xl p-4 border-b">
-        <a className="text-indigo-600 " href={v.html_url} target="_blank">
-          <span
-            dangerouslySetInnerHTML={{
-              __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
-            }}
-          />
-          {v.state === 'open' ? (
-            <span className="rounded-full inline-block bg-green-300 w-2 h-2 ml-2" />
-          ) : (
-            <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
-          )}
-        </a>
-      </h1>
+      <div className="border-b p-4">
+        <h1 className="flex items-center font-medium text-xl">
+          <a className="text-indigo-600 " href={v.html_url} target="_blank">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
+              }}
+            />
+            {v.state === 'open' ? (
+              <span className="rounded-full inline-block bg-green-300 w-2 h-2 ml-2" />
+            ) : (
+              <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
+            )}
+          </a>
+        </h1>
+        {v.labels.map(label => {
+          return (
+            <div
+              key={label.id}
+              className="pr-2 w-min cursor-pointer inline-flex items-center text-sm text-gray-700"
+              onClick={() => router.push(`/sheet/${label.name}`)}
+            >
+              <span style={{ color: `#${label.color}` }} className="mr-1">
+                #
+              </span>
+              <span>{label.name}</span>
+            </div>
+          )
+        })}
+      </div>
       <div
         key={v.title}
         dangerouslySetInnerHTML={{
