@@ -33,7 +33,7 @@ const Recent = ({
       {issues?.length !== 0 ? (
         <>
           <h3 className="text-2xl text-gray-800 mb-4">Recently</h3>
-          {transitions.map((props, index) => {
+          {transitions.slice(0, 2).map((props, index) => {
             return (
               <animated.div key={index} className="mb-4 w-full float-left" style={props}>
                 <Sheet highlight={highlight} v={issues?.[index]} />
@@ -86,7 +86,7 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
   return (
     <Layout>
       <Meta />
-      <div className="p-12 grid grid-cols-2 gap-4">
+      <div className="p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12">
         <Someday issues={props.someday} status={status} />
         <Recent highlight={keyword} issues={issues} status={status} />
       </div>

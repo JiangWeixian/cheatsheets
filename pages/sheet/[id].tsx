@@ -33,8 +33,8 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   return (
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
-      <div className="p-12">
-        <Masonry columnsCount={2} gutter="16px">
+      <div className="p-6 sm:p-12">
+        <Masonry columnsCount={window.innerWidth > 640 ? 2 : 1} gutter="16px">
           {data?.map(v => {
             return <Sheet key={v.id} label={router.query.id as string} className="w-1/2" v={v} />
           })}
