@@ -7,6 +7,7 @@ import { animated, useSpring, useTransition } from 'react-spring'
 import InfiniteScroll from 'react-infinite-scroller'
 
 import { api } from '~/request/client'
+import { useCreateIssue } from '~/hooks/use-create-issue'
 
 const AnimatedPushChevronLeft = animated(PushChevronLeft)
 const AnimatedPushChevronRight = animated(PushChevronRight)
@@ -23,6 +24,7 @@ export const SideBar = (props: { className?: string }) => {
     },
   )
   const [collapsed, setCollapsed] = useState(false)
+  const { handleCreateIssue } = useCreateIssue()
   useEffect(() => {
     fetchMore()
   }, [])
@@ -58,6 +60,14 @@ export const SideBar = (props: { className?: string }) => {
             </div>
           }
         >
+          <li className="w-full flex justify-center">
+            <button
+              onClick={handleCreateIssue}
+              className="rounded p-2 my-2 w-11/12 m-auto text-gray-300 bg-indigo-600"
+            >
+              Create New Cheatsheet
+            </button>
+          </li>
           {data?.map(page => {
             return (
               <>
