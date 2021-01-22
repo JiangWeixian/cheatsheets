@@ -59,10 +59,10 @@ const Layout = ({ children }: Props) => {
       <Head>
         <title>jiangweixian's cheatsheet</title>
       </Head>
-      <SideBar className="flex-grow-0 hidden sm:block" />
+      <SideBar className="flex-grow-0 hidden lg:flex" />
       <div className="flex-grow h-full bg-gray-100 flex flex-col" style={{ flexBasis: 0 }}>
         <header
-          className="flex-grow-0 border-b-2 shadow-sm bg-white w-full relative flex justify-between items-center px-8 box-border z-10 hidden sm:block"
+          className="flex-grow-0 border-b-2 shadow-sm bg-white w-full relative justify-between items-center px-8 box-border z-10 hidden lg:flex"
           style={{ flexBasis: '5rem' }}
         >
           <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
@@ -115,7 +115,7 @@ const Layout = ({ children }: Props) => {
             />
           </div>
         </header>
-        <div className="sm:overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
+        <div className="lg:overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
           {children}
         </div>
       </div>

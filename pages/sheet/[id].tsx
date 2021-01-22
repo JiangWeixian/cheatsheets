@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
-import Masonry from 'react-responsive-masonry'
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 import { Github } from '~/interface/github'
 import { api as server } from '~/request/server'
@@ -34,11 +34,13 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
     <Layout>
       <Meta title={issue?.title} description={issue?.body} />
       <div className="p-6 sm:p-12">
-        <Masonry columnsCount={window.innerWidth > 640 ? 2 : 1} gutter="16px">
-          {data?.map(v => {
-            return <Sheet key={v.id} label={router.query.id as string} className="w-1/2" v={v} />
-          })}
-        </Masonry>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
+          <Masonry gutter="16px">
+            {data?.map(v => {
+              return <Sheet key={v.id} label={router.query.id as string} className="w-1/2" v={v} />
+            })}
+          </Masonry>
+        </ResponsiveMasonry>
       </div>
     </Layout>
   )
