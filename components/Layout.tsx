@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Home } from 'styled-cssgg'
+import { Home, Search } from 'styled-cssgg'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import zoom from 'medium-zoom'
@@ -8,6 +8,9 @@ import pkg from 'package.json'
 import Github from '../assets/github.svg'
 import Twitter from '../assets/twitter.svg'
 import { SideBar } from './SideBar'
+import { useRematch } from '@use-rematch/core'
+import { useSearchIssue } from '~/hooks/use-search-issue'
+import { animated } from 'react-spring'
 
 const G = Github as any
 const T = Twitter as any
@@ -16,11 +19,41 @@ type Props = {
   children?: React.ReactNode
 }
 
+const unShipProps: any = {
+  enterkeyhint: 'search',
+}
+
 const Layout = ({ children }: Props) => {
   const router = useRouter()
   useEffect(() => {
     zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
   }, [router.asPath])
+  const { handleSearch } = useSearchIssue()
+  const searchTerms = useRouter().query.q as string
+  const { state, dispatch } = useRematch({
+    name: 'homepage',
+    state: {
+      keyword: searchTerms ?? '',
+      status: 'init',
+    } as {
+      keyword: string
+      status: 'loading' | 'loaded' | 'init'
+    },
+    reducers: {
+      setKeyword(state, keyword: string) {
+        return {
+          ...state,
+          keyword,
+        }
+      },
+      setStatus(state, status: 'loading' | 'loaded' | 'init') {
+        return {
+          ...state,
+          status,
+        }
+      },
+    },
+  })
   return (
     <div className="flex w-full bg-gray-100 h-full">
       <Head>
@@ -32,9 +65,30 @@ const Layout = ({ children }: Props) => {
           className="flex-grow-0 border-b-2 shadow-sm bg-white w-full relative flex justify-between items-center px-8 box-border z-10"
           style={{ flexBasis: '5rem' }}
         >
-          <h3 className="font-semibold label text-2xl text-gray-700 flex items-center justify-center pointer-events-none">
+          <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
+            <animated.div className="w-full flex items-center justify-center">
+              <Search
+                className="text-gray-500"
+                style={{ left: '1rem', top: 0, bottom: 0, position: 'absolute', margin: 'auto' }}
+              />
+              <input
+                value={state.keyword}
+                placeholder="label or keywords"
+                {...unShipProps}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    // search issues
+                    handleSearch((e.target as any).value)
+                  }
+                }}
+                onChange={e => dispatch.setKeyword(e.target.value)}
+                className="placeholder-gray-400 appearance-none focus:outline-none ml-10 w-64 flex-0 h-12 p-2 text-gray-500 rounded"
+              />
+            </animated.div>
+          </div>
+          {/* <h3 className="label text-base text-gray-100 flex items-center justify-center pointer-events-none">
             {router.query.id} <span className="text-gray-500 font-normal">{'cheatsheet'}</span>
-          </h3>
+          </h3> */}
           <div className="flex items-center">
             <Home
               onClick={() => {

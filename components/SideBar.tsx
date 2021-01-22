@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
-import { useRematch } from '@use-rematch/core'
-import { useRouter } from 'next/router'
 import cx from 'classnames'
 import Link from 'next/link'
-import { Search, Spinner, PushChevronLeft, PushChevronRight } from 'styled-cssgg'
+import { Spinner, PushChevronLeft, PushChevronRight } from 'styled-cssgg'
 import { animated, useSpring, useTransition } from 'react-spring'
 import InfiniteScroll from 'react-infinite-scroller'
 
 import { api } from '~/request/client'
-import { useSearchIssue } from '~/hooks/use-search-issue'
-
-const unShipProps: any = {
-  enterkeyhint: 'search',
-}
 
 const AnimatedPushChevronLeft = animated(PushChevronLeft)
 const AnimatedPushChevronRight = animated(PushChevronRight)
@@ -42,73 +35,15 @@ export const SideBar = (props: { className?: string }) => {
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   })
-  const searchTerms = useRouter().query.q as string
-  const { handleSearch } = useSearchIssue()
-  const { state, dispatch } = useRematch({
-    name: 'homepage',
-    state: {
-      keyword: searchTerms ?? '',
-      status: 'init',
-    } as {
-      keyword: string
-      status: 'loading' | 'loaded' | 'init'
-    },
-    reducers: {
-      setKeyword(state, keyword: string) {
-        return {
-          ...state,
-          keyword,
-        }
-      },
-      setStatus(state, status: 'loading' | 'loaded' | 'init') {
-        return {
-          ...state,
-          status,
-        }
-      },
-    },
-  })
   return (
     <animated.div
       data-role="side-bar"
       style={{ width: collapsedSpring.width }}
       className={cx(
-        'bg-white h-full p-4 box-border border-gray-300 border-r-2 flex flex-col relative',
+        'bg-gray-900 h-full p-2 box-border border-gray-300 border-r-2 flex flex-col relative',
         props.className,
       )}
     >
-      {/* <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
-        {collapsedTransitions.map(({ item, props }) => {
-          return item ? (
-            <animated.div style={props} className="h-12 p-2 flex items-center justify-center">
-              <Search
-                onClick={() => setCollapsed(false)}
-                className="text-gray-500 cursor-pointer"
-              />
-            </animated.div>
-          ) : (
-            <animated.div className="w-full flex items-center justify-center" style={props}>
-              <input
-                value={state.keyword}
-                placeholder="label or keywords"
-                {...unShipProps}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    // search issues
-                    handleSearch((e.target as any).value)
-                  }
-                }}
-                onChange={e => dispatch.setKeyword(e.target.value)}
-                className="placeholder-gray-400 shadow-xl appearance-none border focus:outline-none focus:shadow-outline w-full flex-0 h-12 p-2 text-gray-500 rounded"
-              />
-              <Search
-                className="text-gray-500"
-                style={{ right: '1rem', top: 0, bottom: 0, position: 'absolute', margin: 'auto' }}
-              />
-            </animated.div>
-          )
-        })}
-      </div> */}
       <animated.ul
         className="flex-1 flex-grow overflow-scroll"
         style={{ opacity: collapsedSpring.opacity, flexBasis: 0 }}
@@ -126,18 +61,16 @@ export const SideBar = (props: { className?: string }) => {
           {data?.map(page => {
             return (
               <>
-                {page.data
-                  ?.filter(v => v.name.toLowerCase().includes(state.keyword))
-                  ?.map(v => (
-                    <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
-                      <li
-                        title={v.description}
-                        className="text-gray-700 rounded text-lg cursor-pointer py-2 px-4 my-2 hover:bg-gray-200 hover:text-black"
-                      >
-                        {v.name}
-                      </li>
-                    </Link>
-                  ))}
+                {page.data?.map(v => (
+                  <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
+                    <li
+                      title={v.description}
+                      className="text-gray-300 rounded-lg text-base cursor-pointer py-2 px-4 my-4 hover:bg-black hover:text-white"
+                    >
+                      {v.name}
+                    </li>
+                  </Link>
+                ))}
               </>
             )
           })}
@@ -145,7 +78,7 @@ export const SideBar = (props: { className?: string }) => {
       </animated.ul>
       <div
         onClick={() => setCollapsed(prev => !prev)}
-        className="relative right-0 bottom-0 w-full flex flex-grow-0 justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer"
+        className="relative right-0 bottom-0 w-full h-10 flex flex-grow-0 justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer"
       >
         {collapsedTransitions.map(({ item, props }) => {
           return item ? (
