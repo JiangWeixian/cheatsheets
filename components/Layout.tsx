@@ -86,9 +86,6 @@ const Layout = ({ children }: Props) => {
               />
             </animated.div>
           </div>
-          {/* <h3 className="label text-base text-gray-100 flex items-center justify-center pointer-events-none">
-            {router.query.id} <span className="text-gray-500 font-normal">{'cheatsheet'}</span>
-          </h3> */}
           <div className="flex items-center">
             <Home
               onClick={() => {
@@ -96,7 +93,7 @@ const Layout = ({ children }: Props) => {
                   pathname: '/',
                 })
               }}
-              style={{ '--ggs': 1 } as any}
+              style={{ '--ggs': 1, marginTop: 4 } as any}
               className="mr-4 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
             />
             <G
@@ -118,6 +115,11 @@ const Layout = ({ children }: Props) => {
         <div className="lg:overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
           {children}
         </div>
+        <div
+          id="SHEET-CONTAINER"
+          className="flex justify-center items-center p-12 bg-gray-300 fixed"
+          style={{ zIndex: -1 }}
+        />
       </div>
     </div>
   )

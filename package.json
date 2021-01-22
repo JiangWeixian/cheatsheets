@@ -33,6 +33,7 @@
     "classnames": "2.2.6",
     "copy-to-clipboard": "3.3.1",
     "dayjs": "1.8.24",
+    "html2canvas": "^1.0.0-rc.7",
     "isomorphic-unfetch": "3.0.0",
     "lodash.omit": "4.5.0",
     "lodash.sample": "^4.2.1",

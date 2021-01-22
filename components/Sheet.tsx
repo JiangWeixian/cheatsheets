@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
-import { Link } from 'styled-cssgg'
+import { Image, Link, Spinner } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
@@ -10,6 +10,9 @@ import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
 import { share } from '~/utils/share'
 import { createMarkdownRenderer } from '~/utils/md'
+
+let Html2Canvas: typeof import('html2canvas')['default']
+import('html2canvas').then(module => (Html2Canvas = module.default as any))
 
 dayjs.extend(relativeTime)
 const MarkdownIt = createMarkdownRenderer()
@@ -29,6 +32,28 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   const _label = label || v.labels?.[0]?.name
   const queryId = router.query._id
   const idcard = getId(_label, v)
+  const [copyLoading, setCopyLoading] = useState(false)
+  const handleCopyImage = useCallback(() => {
+    const sheet = document.querySelector(`#${idcard}`)?.cloneNode(true)
+    const container = document.querySelector('#SHEET-CONTAINER')
+    console.log(sheet, container)
+    if (!sheet || !container) {
+      return
+    }
+    setCopyLoading(true)
+    container.appendChild(sheet)
+    Html2Canvas(container as HTMLElement).then((canvas: HTMLCanvasElement) => {
+      canvas.toBlob(blob => {
+        if (!blob) {
+          return
+        }
+        const item = new ClipboardItem({ 'image/png': blob })
+        ;(navigator.clipboard as any).write([item])
+        container.removeChild(sheet)
+        setCopyLoading(false)
+      })
+    })
+  }, [idcard])
   return (
     <div
       className={cx(
@@ -79,13 +104,26 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
         }}
       />
       <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100">
-        <Link
-          style={{ '--ggs': 0.7 } as any}
-          className="cursor-pointer"
-          onClick={() => {
-            share(idcard, _label, v.title, v.body)
-          }}
-        />
+        <div className="flex justify-between items-center text-sm">
+          <Link
+            style={{ '--ggs': 0.7 } as any}
+            className="cursor-pointer mr-4"
+            onClick={() => {
+              share(idcard, _label, v.title, v.body)
+            }}
+          />
+          {copyLoading ? (
+            <Spinner style={{ '--ggs': 0.7 } as any} className="cursor-not-allowed" />
+          ) : (
+            <Image
+              style={{ '--ggs': 0.7 } as any}
+              className="cursor-pointer"
+              onClick={() => {
+                handleCopyImage()
+              }}
+            />
+          )}
+        </div>
         <div>
           <time>{dayjs(v.updated_at).from(dayjs())}</time>
           <span className="mx-2">/</span>
