@@ -1,12 +1,13 @@
 ![cheatsheets](https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png)
 
-![image](https://user-images.githubusercontent.com/6839576/98773017-fe5e1a00-2422-11eb-8ef2-f9af836b398c.png)
+![image](https://user-images.githubusercontent.com/6839576/105569235-f6075100-5d7a-11eb-9444-eaa6ee7905a6.png)
 
 
 ## features
 
 - 🚀 easy and fast develop
 - 📩 support review your learned cheatsheets
+- ✨ support code-share with url or image
 ## usage
 
 1. use this repo as template
