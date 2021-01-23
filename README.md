@@ -7,6 +7,7 @@
 
 - 🚀 easy and fast develop
 - 📩 support review your learned cheatsheets
+- ✨ support code-share with url or image
 ## usage
 
 1. use this repo as template
