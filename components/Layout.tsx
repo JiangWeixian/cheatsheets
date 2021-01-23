@@ -68,7 +68,7 @@ const Layout = ({ children }: Props) => {
     },
   })
   return (
-    <div className="flex w-full bg-gray-100 h-full">
+    <div className="flex bg-gray-100 lg:h-full lg:w-full">
       <Head>
         <title>jiangweixian's cheatsheet</title>
       </Head>
