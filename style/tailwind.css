@@ -113,6 +113,7 @@ theme-default-content ul {
 /* code */
 .theme-default-content pre {
   @apply m-0 bg-white;
+  cursor: copy;
 }
 .theme-default-content code {
   font-family: 'Fira Code', monospace;

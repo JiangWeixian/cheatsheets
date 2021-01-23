@@ -3,6 +3,7 @@ import { Home, Search } from 'styled-cssgg'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import zoom from 'medium-zoom'
+import copy from 'copy-to-clipboard'
 
 import pkg from 'package.json'
 import Github from '../assets/github.svg'
@@ -30,6 +31,18 @@ const Layout = ({ children }: Props) => {
   }, [router.asPath])
   const { handleSearch } = useSearchIssue()
   const searchTerms = useRouter().query.q as string
+  useEffect(() => {
+    const handleCopyCode = (e: MouseEvent) => {
+      const target = e.target as any
+      const type = (target.nodeName as string).toLowerCase()
+      if (type === 'pre' || type === 'code') {
+        const code = target.textContent
+        copy(code)
+      }
+    }
+    document.body.addEventListener('click', handleCopyCode)
+    return () => document.body.removeEventListener('click', handleCopyCode)
+  }, [])
   const { state, dispatch } = useRematch({
     name: 'homepage',
     state: {

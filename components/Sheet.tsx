@@ -36,7 +36,6 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
   const handleCopyImage = useCallback(() => {
     const sheet = document.querySelector(`#${idcard}`)?.cloneNode(true)
     const container = document.querySelector('#SHEET-CONTAINER')
-    console.log(sheet, container)
     if (!sheet || !container) {
       return
     }
@@ -103,7 +102,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}
       />
-      <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100">
+      <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100 w-full">
         <div className="flex justify-between items-center text-sm">
           <Link
             style={{ '--ggs': 0.7 } as any}
