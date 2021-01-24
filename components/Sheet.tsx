@@ -104,24 +104,34 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       />
       <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100 w-full">
         <div className="flex justify-between items-center text-sm">
-          <Link
-            style={{ '--ggs': 0.7 } as any}
-            className="cursor-pointer mr-4"
+          <div
+            className="cursor-pointer p-4 -m-4"
             onClick={() => {
               share(idcard, label, v.title, v.body)
             }}
-          />
-          {copyLoading ? (
-            <Spinner style={{ '--ggs': 0.7 } as any} className="cursor-not-allowed" />
-          ) : (
-            <Image
-              style={{ '--ggs': 0.7 } as any}
-              className="cursor-pointer"
-              onClick={() => {
-                handleCopyImage()
-              }}
-            />
-          )}
+          >
+            <Link style={{ '--ggs': 0.7 } as any} />
+          </div>
+          <div
+            className={cx(
+              {
+                'cursor-pointer': !copyLoading,
+                'cursor-not-allowed': copyLoading,
+              },
+              'p-4',
+              '-m-4',
+              'ml-4',
+            )}
+            onClick={() => {
+              handleCopyImage()
+            }}
+          >
+            {copyLoading ? (
+              <Spinner style={{ '--ggs': 0.7 } as any} />
+            ) : (
+              <Image style={{ '--ggs': 0.7 } as any} />
+            )}
+          </div>
         </div>
         <div>
           <time>{dayjs(v.updated_at).from(dayjs())}</time>
