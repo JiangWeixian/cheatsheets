@@ -19,7 +19,6 @@ const MarkdownIt = createMarkdownRenderer()
 
 type SheetProps = {
   v?: Github.Issue
-  label?: string
   highlight?: string
   className?: string
   style?: React.CSSProperties
@@ -27,14 +26,15 @@ type SheetProps = {
 
 const EMPTY = {} as Github.Issue
 
-export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: SheetProps) => {
+export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
-  const _label = label || v.labels?.[0]?.name
+  const label = v.labels?.[0]?.name
   const queryId = router.query._id
-  const idcard = getId(_label, v)
+  const idcard = getId(v)
+  console.log(idcard, queryId)
   const [copyLoading, setCopyLoading] = useState(false)
   const handleCopyImage = useCallback(() => {
-    const sheet = document.querySelector(`#${idcard}`)?.cloneNode(true)
+    const sheet = document.querySelector(`[id="${idcard}"]`)?.cloneNode(true)
     const container = document.querySelector('#SHEET-CONTAINER')
     if (!sheet || !container) {
       return
@@ -108,7 +108,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', label = '', ...props }: Sheet
             style={{ '--ggs': 0.7 } as any}
             className="cursor-pointer mr-4"
             onClick={() => {
-              share(idcard, _label, v.title, v.body)
+              share(idcard, label, v.title, v.body)
             }}
           />
           {copyLoading ? (

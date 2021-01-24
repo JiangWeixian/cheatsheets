@@ -23,9 +23,9 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
     { initialData: props.data },
   )
   const id = router.query._id
-  const issue = data?.find(v => getId(router.query.id as string, v) === id)
+  const issue = data?.find(v => getId(v) === id)
   useEffect(() => {
-    const selected = document.querySelector(`#${id}`)
+    const selected = document.querySelector(`[id="${id}"]`)
     if (selected) {
       selected.scrollIntoView({ behavior: 'smooth' })
     }
