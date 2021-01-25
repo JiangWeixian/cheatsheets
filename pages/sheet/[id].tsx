@@ -37,7 +37,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
           <Masonry gutter="16px">
             {data?.map(v => {
-              return <Sheet key={v.id} label={router.query.id as string} className="w-1/2" v={v} />
+              return <Sheet key={v.id} className="w-1/2" v={v} />
             })}
           </Masonry>
         </ResponsiveMasonry>
