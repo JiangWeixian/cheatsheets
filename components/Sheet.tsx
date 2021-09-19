@@ -68,7 +68,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     >
       <div className="border-b p-4">
         <h1 className="flex items-center font-medium text-xl">
-          <a className="text-indigo-600 " href={v.html_url} target="_blank">
+          <a className="text-indigo-600 " href={v.html_url} target="_blank" rel="noreferrer">
             <span
               dangerouslySetInnerHTML={{
                 __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
