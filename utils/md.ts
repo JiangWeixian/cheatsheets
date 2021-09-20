@@ -1,6 +1,5 @@
 import Markdownit from 'markdown-it'
 import prism from 'prismjs'
-import lazyimage from 'markdown-it-image-lazy-loading'
 import todo from 'markdown-it-todo'
 
 export const quoteInlineCode = (md: markdownit) => {
@@ -37,7 +36,6 @@ export const createMarkdownRenderer = () => {
     },
   })
   // enable native lazy loading image
-  MarkdownIt.use(lazyimage)
   MarkdownIt.use(quoteInlineCode)
   MarkdownIt.use(todo)
   return MarkdownIt

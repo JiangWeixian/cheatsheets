@@ -3,9 +3,9 @@ import { NextPage, GetServerSideProps } from 'next'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import { algolia } from '@omcs/request'
 
 import { Github } from '~/interface/github'
-import { api as server } from '~/request/server'
 import { api as client } from '~/request/client'
 import { getId } from '~/utils/sheet'
 import Layout from '~/components/Layout'
@@ -47,8 +47,8 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const data = await server.github.issues({ labels: ctx?.params?.id as string, sort: 'updated' })
-  return { props: { data } }
+  const res = await algolia.listIssues({ label: ctx?.params?.id as string })
+  return { props: { data: res.hits } }
 }
 
 export default Cheetsheet

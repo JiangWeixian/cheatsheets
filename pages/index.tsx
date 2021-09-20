@@ -3,6 +3,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Spinner } from 'styled-cssgg'
 import { animated, useTrail } from 'react-spring'
 import { QueryStatus } from 'react-query'
+import { algolia } from '@omcs/request'
 
 import { Github } from '~/interface/github'
 import Layout from '~/components/Layout'
@@ -10,7 +11,6 @@ import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
-import { api as server } from '~/request/server'
 
 const Recent = ({
   issues = [],
@@ -95,9 +95,9 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const recent = await server.github.search(_ctx.query.q as string)
-  const someday = await server.github.someday()
-  return { props: { recent, someday } }
+  const recent = await algolia.search({ content: _ctx.query.q as string })
+  const someday = await algolia.someday()
+  return { props: { recent: recent.hits, someday: someday.hits } }
 }
 
 export default IndexPage

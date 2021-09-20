@@ -20,14 +20,14 @@ export const SideBar = (props: { className?: string }) => {
       return { data, page }
     },
     {
-      getFetchMore: last => (last?.data?.length === 30 ? last.page + 1 : undefined),
+      getFetchMore: last => (last?.data?.length === 10 ? last.page + 1 : undefined),
     },
   )
   const [collapsed, setCollapsed] = useState(false)
   const { handleCreateIssue } = useCreateIssue()
   useEffect(() => {
     fetchMore()
-  }, [])
+  }, [fetchMore])
   const collapsedSpring = useSpring({
     width: collapsed ? 64 : 300,
     opacity: collapsed ? 0 : 1,
@@ -72,7 +72,7 @@ export const SideBar = (props: { className?: string }) => {
             return (
               <>
                 {page.data?.map(v => (
-                  <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
+                  <Link href="/sheet/[id]" key={v.name} as={`/sheet/${v.name}`}>
                     <li
                       title={v.description}
                       className="text-gray-300 rounded-lg text-base cursor-pointer py-2 px-4 my-4 hover:bg-black hover:text-white"
