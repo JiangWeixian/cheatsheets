@@ -5,6 +5,8 @@ import { Image, Link, Spinner } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
+import { Box, Divider, Typography, Dot } from 'granen'
+import styled from 'styled-components'
 
 import { Github } from '~/interface/github'
 import { getId } from '~/utils/sheet'
@@ -23,6 +25,26 @@ type SheetProps = {
   className?: string
   style?: React.CSSProperties
 }
+
+const SubTitle = styled(Typography.SubTitle)`
+  @apply m-0 mb-2;
+
+  [data-role='dot'] {
+    @apply ml-2 w-2 h-2;
+  }
+`
+
+const Info = styled.div`
+  @apply box-border flex italic justify-between items-center text-sm text-gray-600 p-4 w-full;
+
+  [data-role='info-operations'] {
+    @apply flex justify-between items-center text-sm;
+  }
+
+  time {
+    @apply mx-2;
+  }
+`
 
 const EMPTY = {} as Github.Issue
 
@@ -54,9 +76,9 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     })
   }, [idcard])
   return (
-    <div
+    <Box
       className={cx(
-        'shadow w-full bg-white rounded-lg overflow-hidden theme-default-content text-sm',
+        'shadow w-full rounded-lg overflow-hidden text-sm',
         {
           'shadow-outline': idcard === queryId,
         },
@@ -66,21 +88,17 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       key={v.title}
       id={idcard}
     >
-      <div className="border-b p-4">
-        <h1 className="flex items-center font-medium text-xl">
+      <div className="p-4">
+        <SubTitle h2={true}>
           <a className="text-indigo-600 " href={v.html_url} target="_blank" rel="noreferrer">
             <span
               dangerouslySetInnerHTML={{
                 __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
               }}
             />
-            {v.state === 'open' ? (
-              <span className="rounded-full inline-block bg-green-300 w-2 h-2 ml-2" />
-            ) : (
-              <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
-            )}
+            {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
           </a>
-        </h1>
+        </SubTitle>
         {v.labels.map(label => {
           return (
             <div
@@ -95,15 +113,17 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             </div>
           )
         })}
+        <Divider type="horizontal" />
       </div>
       <div
         key={v.title}
+        className="theme-default-content"
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}
       />
-      <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100 w-full">
-        <div className="flex justify-between items-center text-sm">
+      <Info>
+        <div data-role="info-operations">
           <div
             className="cursor-pointer p-4 -m-4"
             onClick={() => {
@@ -135,10 +155,9 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         </div>
         <div>
           <time>{dayjs(v.updated_at).from(dayjs())}</time>
-          <span className="mx-2">/</span>
           <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
         </div>
-      </div>
-    </div>
+      </Info>
+    </Box>
   )
 }

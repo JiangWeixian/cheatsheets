@@ -1,17 +1,47 @@
-import React, { useEffect } from 'react'
-import { Home, Search } from 'styled-cssgg'
+import React, { useEffect, useState } from 'react'
+import { Home, Search, PushChevronLeft, PushChevronRight, MathPlus } from 'styled-cssgg'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import zoom from 'medium-zoom'
 import copy from 'copy-to-clipboard'
+import { Layout as Container, Avatar, Divider } from 'granen'
+import { GranenThemeProvider } from 'granen/lib/theme/theme-context'
+import { useTransition, animated } from '@react-spring/web'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import pkg from 'package.json'
 import Github from '../assets/github.svg'
 import Twitter from '../assets/twitter.svg'
 import { SideBar } from './SideBar'
-import { useRematch } from '@use-rematch/core'
-import { useSearchIssue } from '~/hooks/use-search-issue'
-import { animated } from 'react-spring'
+import { useCreateIssue } from '~/hooks/use-create-issue'
+
+const AnimatedPushChevronLeft = animated(PushChevronLeft)
+const AnimatedPushChevronRight = animated(PushChevronRight)
+
+export const GlobalStyle = createGlobalStyle`
+  body {
+    @apply m-0 p-0;
+  }
+
+  a {
+    color: inherit;
+    @apply underline-transparent;
+  }
+`
+
+const NavBottom = styled.div`
+  @apply flex flex-col items-center gap-4 opacity-75;
+`
+
+const Copyright = styled.footer`
+  @apply flex items-center justify-end gap-4 p-4 pt-0 pr-8 pb-2;
+`
+
+const Main = styled(Container.Main)`
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%),
+    radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
+  background-blend-mode: multiply, multiply;
+`
 
 const G = Github as any
 const T = Twitter as any
@@ -20,17 +50,12 @@ type Props = {
   children?: React.ReactNode
 }
 
-const unShipProps: any = {
-  enterkeyhint: 'search',
-}
-
 const Layout = ({ children }: Props) => {
   const router = useRouter()
   useEffect(() => {
     zoom(Array.prototype.slice.call(document.images), { background: 'rgba(255, 255, 255, 0.6)' })
   }, [router.asPath])
-  const { handleSearch } = useSearchIssue()
-  const searchTerms = useRouter().query.q as string
+  const { handleCreateIssue } = useCreateIssue()
   useEffect(() => {
     const handleCopyCode = (e: MouseEvent) => {
       const target = e.target as any
@@ -43,98 +68,82 @@ const Layout = ({ children }: Props) => {
     document.body.addEventListener('click', handleCopyCode)
     return () => document.body.removeEventListener('click', handleCopyCode)
   }, [])
-  const { state, dispatch } = useRematch({
-    name: 'homepage',
-    state: {
-      keyword: searchTerms ?? '',
-      status: 'init',
-    } as {
-      keyword: string
-      status: 'loading' | 'loaded' | 'init'
-    },
-    reducers: {
-      setKeyword(state, keyword: string) {
-        return {
-          ...state,
-          keyword,
-        }
-      },
-      setStatus(state, status: 'loading' | 'loaded' | 'init') {
-        return {
-          ...state,
-          status,
-        }
-      },
-    },
+  const [open, setOpen] = useState(true)
+  const collapsedTransitions = useTransition(open, {
+    from: { position: 'absolute', opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
   })
   return (
-    <div className="flex bg-gray-100 lg:h-full lg:w-full">
-      <Head>
-        <title>jiangweixian's cheatsheet</title>
-      </Head>
-      <SideBar className="flex-grow-0 hidden lg:flex" />
-      <div className="flex-grow h-full bg-gray-100 flex flex-col" style={{ flexBasis: 0 }}>
-        <header
-          className="flex-grow-0 border-b-2 shadow-sm bg-white w-full relative justify-between items-center px-8 box-border z-10 hidden lg:flex"
-          style={{ flexBasis: '5rem' }}
+    <GranenThemeProvider defaultThemeType="dark">
+      <Container className="flex bg-gray-100 lg:h-full lg:w-full">
+        <Head>
+          <title>jiangweixian's cheatsheet</title>
+        </Head>
+        <GlobalStyle />
+        <Container.Nav
+          logo={<Avatar src={`https://github.com/${pkg.author.name}.png?size=40`} />}
+          bottom={
+            <NavBottom>
+              <MathPlus onClick={handleCreateIssue} />
+              <div
+                onClick={() => setOpen(prev => !prev)}
+                className="relative right-0 bottom-0 w-full h-6 flex justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer"
+              >
+                {collapsedTransitions((props, item) => {
+                  return item ? (
+                    <AnimatedPushChevronRight style={props as any} />
+                  ) : (
+                    <AnimatedPushChevronLeft style={props as any} />
+                  )
+                })}
+              </div>
+            </NavBottom>
+          }
         >
-          <div className="relative flex-grow-0" style={{ flexBasis: '3rem' }}>
-            <animated.div className="w-full flex items-center justify-center">
-              <Search
-                className="text-gray-500"
-                style={{ left: '1rem', top: 0, bottom: 0, position: 'absolute', margin: 'auto' }}
-              />
-              <input
-                value={state.keyword}
-                placeholder="label or keywords"
-                {...unShipProps}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    // search issues
-                    handleSearch((e.target as any).value)
-                  }
-                }}
-                onChange={e => dispatch.setKeyword(e.target.value)}
-                className="placeholder-gray-400 appearance-none focus:outline-none ml-10 w-64 flex-0 h-12 p-2 text-gray-500 rounded"
-              />
-            </animated.div>
-          </div>
-          <div className="flex items-center">
+          <Container.NavItem itemKey="home">
             <Home
               onClick={() => {
                 router.push({
                   pathname: '/',
                 })
               }}
-              style={{ '--ggs': 1, marginTop: 4 } as any}
-              className="mr-4 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
             />
+          </Container.NavItem>
+          <Container.NavItem itemKey="search">
+            <Search />
+          </Container.NavItem>
+        </Container.Nav>
+        <SideBar open={open} className="flex-grow-0 hidden lg:flex" />
+        <Main>
+          <div className="lg:overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
+            {children}
+          </div>
+          <div
+            id="SHEET-CONTAINER"
+            className="flex justify-center items-center p-12 bg-gray-300 fixed"
+            style={{ zIndex: -1 }}
+          />
+          <Divider type="horizontal" />
+          <Copyright>
             <G
-              width={20}
+              width={14}
               onClick={() => {
                 window.open(`https://github.com/${pkg.author.name}/${pkg.name}`)
               }}
-              className="mr-4 fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
+              className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
             />
             <T
-              width={20}
+              width={14}
               onClick={() => {
                 window.open(`https://twitter.com/${pkg.author.name}`)
               }}
               className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
             />
-          </div>
-        </header>
-        <div className="lg:overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
-          {children}
-        </div>
-        <div
-          id="SHEET-CONTAINER"
-          className="flex justify-center items-center p-12 bg-gray-300 fixed"
-          style={{ zIndex: -1 }}
-        />
-      </div>
-    </div>
+          </Copyright>
+        </Main>
+      </Container>
+    </GranenThemeProvider>
   )
 }
 

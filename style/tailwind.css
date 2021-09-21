@@ -1,12 +1,14 @@
 @import './markdown.css';
-@import 'tailwindcss/base';
+/* @import 'tailwindcss/base'; */
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
 body {
   height: 100vh;
   width: 100vw;
-  font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+  /* font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -32,9 +34,7 @@ body {
 .theme-default-content {
   @apply text-gray-700 text-base;
 }
-.theme-default-content p {
-  @apply bg-white;
-}
+
 .theme-default-content p,
 .theme-default-content td {
   @apply text-base;
