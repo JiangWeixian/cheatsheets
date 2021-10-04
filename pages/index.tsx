@@ -3,7 +3,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Spinner, Search } from 'styled-cssgg'
 import { animated, useTrail } from '@react-spring/web'
 import { QueryStatus } from 'react-query'
-import { algolia } from '@omcs/request'
+import { api } from '@omcs/request/node'
 import { Typography, Input, Dropdown } from 'granen'
 import { InstantSearch, createConnector, connectHits, Configure } from 'react-instantsearch-dom'
 import styled from 'styled-components'
@@ -70,7 +70,7 @@ const Someday = ({
     <div>
       {issues?.length !== 0 ? (
         <>
-          <Typography.Title>Someday, I learn</Typography.Title>
+          <Typography.Title>Someday</Typography.Title>
           {transitions.map((props, index) => {
             return (
               <animated.div key={index} className="mb-4 w-full float-left" style={props}>
@@ -164,6 +164,7 @@ const connectWithQuery = createConnector({
   },
 })
 
+// TODO: rename it
 const MySearchBox = ({ currentRefinement, refine }) => (
   <Input
     prefix={<Search />}
@@ -190,7 +191,6 @@ const Item = styled(Dropdown.Item)`
 `
 
 const Hits = connectHits(props => {
-  console.log(props.hits)
   return (
     <Dropdown.Menu>
       {props.hits.map(item => {
@@ -217,7 +217,7 @@ const Hits = connectHits(props => {
   )
 })
 
-const searchClient = algolia.getSearchClient(
+const searchClient = api.getSearchClient(
   process.env.NEXT_PUBLIC_ALGOLIA_APPID!,
   process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY!,
 )
@@ -236,6 +236,10 @@ const SearchContainer = styled.div`
   [data-role='tooltip-content'] {
     @apply w-full;
   }
+`
+
+const EventContainer = styled.div`
+  @apply w-3/5 m-auto p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12 sm:w-4/5;
 `
 
 const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> = props => {
@@ -266,18 +270,18 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
           </Dropdown>
         </InstantSearch>
       </SearchContainer>
-      <div className="p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12">
+      <EventContainer>
         <Someday issues={props.someday} status={status} />
         <Recent highlight={keyword} issues={issues} status={status} />
-      </div>
+      </EventContainer>
     </Layout>
   )
 }
 
 export async function getServerSideProps(_ctx: Parameters<GetServerSideProps>[0]) {
-  const recent = await algolia.search({ content: _ctx.query.q as string })
-  const someday = await algolia.someday()
-  return { props: { recent: recent.hits, someday: someday.hits } }
+  const recent = await api.search({ content: _ctx.query.q as string })
+  const someday = await api.someday()
+  return { props: { recent: recent.hits, someday: someday.hits || [] } }
 }
 
 export default IndexPage

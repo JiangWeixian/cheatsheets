@@ -10,7 +10,7 @@
 ## features
 
 - 🚀 easy and fast develop
-- 📩 support review your learned cheatsheets
+- 📩 support review your recently/some-day-your-learned cheatsheets
 - ✨ support code-share with url or image
 ## usage
 

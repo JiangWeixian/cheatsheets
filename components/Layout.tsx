@@ -15,8 +15,12 @@ import Twitter from '../assets/twitter.svg'
 import { SideBar } from './SideBar'
 import { useCreateIssue } from '~/hooks/use-create-issue'
 
-const AnimatedPushChevronLeft = animated(PushChevronLeft)
-const AnimatedPushChevronRight = animated(PushChevronRight)
+const AnimatedPushChevronLeft = styled(animated(PushChevronLeft))`
+  @apply left-0;
+`
+const AnimatedPushChevronRight = styled(animated(PushChevronRight))`
+  @apply right-0;
+`
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -30,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
 `
 
 const NavBottom = styled.div`
-  @apply flex flex-col items-center gap-4 opacity-75;
+  @apply flex flex-col items-center gap-8 opacity-75;
 `
 
 const Copyright = styled.footer`
@@ -92,9 +96,9 @@ const Layout = ({ children }: Props) => {
               >
                 {collapsedTransitions((props, item) => {
                   return item ? (
-                    <AnimatedPushChevronRight style={props as any} />
-                  ) : (
                     <AnimatedPushChevronLeft style={props as any} />
+                  ) : (
+                    <AnimatedPushChevronRight style={props as any} />
                   )
                 })}
               </div>

@@ -26,6 +26,14 @@ type SheetProps = {
   style?: React.CSSProperties
 }
 
+const Container = styled(Box)`
+  @apply shadow w-full rounded-lg overflow-hidden text-sm;
+
+  && {
+    background-color: var(--bg-color-1);
+  }
+`
+
 const SubTitle = styled(Typography.SubTitle)`
   @apply m-0 mb-2;
 
@@ -76,9 +84,9 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     })
   }, [idcard])
   return (
-    <Box
+    <Container
+      borderless={true}
       className={cx(
-        'shadow w-full rounded-lg overflow-hidden text-sm',
         {
           'shadow-outline': idcard === queryId,
         },
@@ -158,6 +166,6 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
         </div>
       </Info>
-    </Box>
+    </Container>
   )
 }

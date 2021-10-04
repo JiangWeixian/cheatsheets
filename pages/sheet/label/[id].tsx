@@ -3,7 +3,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
-import { algolia } from '@omcs/request'
+import { api } from '@omcs/request/node'
 
 import { Github } from '~/interface/github'
 import { api as client } from '~/request/client'
@@ -13,6 +13,7 @@ import pkg from 'package.json'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 
+// TODO: rm sheet search part into island search page
 const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   const router = useRouter()
   const { data } = useQuery(
@@ -47,7 +48,7 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const res = await algolia.listIssues({ label: ctx?.params?.id as string })
+  const res = await api.listIssues({ label: ctx?.params?.id as string })
   return { props: { data: res.hits } }
 }
 

@@ -1,11 +1,18 @@
 import React, { useEffect } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import Link from 'next/link'
-import { Spinner } from 'styled-cssgg'
+import { Spinner, Hashtag } from 'styled-cssgg'
 import InfiniteScroll from 'react-infinite-scroller'
 import { Layout, Menu } from 'granen'
+import styled from 'styled-components'
 
 import { api } from '~/request/client'
+
+const Item = styled.span`
+  @apply flex items-center gap-4;
+
+  --ggs: 0.75;
+`
 
 export const SideBar = ({ open = true, ...props }: { open?: boolean; className?: string }) => {
   const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
@@ -40,8 +47,11 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
               <>
                 {page.data?.map(v => (
                   <Menu.Item key={v.name}>
-                    <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
-                      {v.name}
+                    <Link href="/sheet/label/[id]" as={`/sheet/label/${v.name}`}>
+                      <Item>
+                        <Hashtag />
+                        {v.name}
+                      </Item>
                     </Link>
                   </Menu.Item>
                 ))}
