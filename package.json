@@ -53,9 +53,6 @@
     "tailwindcss": "1.2.0"
   },
   "devDependencies": {
-    "postcss-extend-rule": "3.0.0",
-    "postcss-import": "12.0.1",
-    "autoprefixer": "9.7.6",
     "@aiou/eslint-config": "^0.2.2",
     "@types/classnames": "2.2.10",
     "@types/lodash.sample": "^4.2.6",
@@ -71,10 +68,13 @@
     "@types/react-redux": "7.1.1",
     "@types/showdown": "1.9.3",
     "@types/styled-components": "5.0.1",
+    "autoprefixer": "9.7.6",
     "babel-plugin-import": "^1.13.3",
     "babel-plugin-inline-react-svg": "1.1.1",
     "babel-plugin-prismjs": "2.0.1",
     "babel-plugin-styled-components": "^1.13.2",
+    "postcss-extend-rule": "3.0.0",
+    "postcss-import": "12.0.1",
     "babel-plugin-styled-windicss": "^1.0.1",
     "cross-env": "6.0.3",
     "cz-emoji": "^1.3.1",

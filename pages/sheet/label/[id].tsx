@@ -1,9 +1,13 @@
+/**
+ * @fileoverview display issues list by label
+ */
 import React, { useEffect } from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import { api } from '@omcs/request/node'
+import { Typography } from 'granen'
 
 import { Github } from '~/interface/github'
 import { api as client } from '~/request/client'
@@ -13,8 +17,11 @@ import pkg from 'package.json'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 
-// TODO: rm sheet search part into island search page
-const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
+/**
+ * @todo rm sheet search part into island search page
+ * @todo better ts typo
+ */
+const CheetsheetByLabel: NextPage<{ data: Github.Issue[]; label: Github.Label }> = props => {
   const router = useRouter()
   const { data } = useQuery(
     [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id as string],
@@ -33,7 +40,9 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
   }, [id])
   return (
     <Layout>
-      <Meta title={issue?.title} description={issue?.body} />
+      <Meta title={props.label?.name} description={props.label?.description} />
+      <Typography.Title>{props.label.name}</Typography.Title>
+      <Typography.Paragraph>{props.label.description}</Typography.Paragraph>
       <div className="p-6 sm:p-12">
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
           <Masonry gutter="16px">
@@ -48,8 +57,9 @@ const Cheetsheet: NextPage<{ data: Github.Issue[] }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const res = await api.listIssues({ label: ctx?.params?.id as string })
-  return { props: { data: res.hits } }
+  const issuesByLabel = await api.listIssues({ label: ctx?.params?.id as string })
+  const label = await api.getLabel(ctx?.params?.id)
+  return { props: { data: issuesByLabel.hits, label } }
 }
 
-export default Cheetsheet
+export default CheetsheetByLabel

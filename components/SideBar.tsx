@@ -46,8 +46,8 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
             return (
               <>
                 {page.data?.map(v => (
-                  <Menu.Item key={v.name}>
-                    <Link href="/sheet/label/[id]" as={`/sheet/label/${v.name}`}>
+                  <Menu.Item key={v.id}>
+                    <Link href="/sheet/label/[id]" as={`/sheet/label/${v.id}`}>
                       <Item>
                         <Hashtag />
                         {v.name}
