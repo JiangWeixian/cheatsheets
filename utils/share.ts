@@ -1,7 +1,7 @@
 import copy from 'copy-to-clipboard'
 
-export const share = (
-  _id: string,
+export const share = async (
+  id: string,
   _label: string,
   title: string = document.title,
   text: string = document.title,
@@ -10,10 +10,10 @@ export const share = (
     ;(navigator as any).share({
       title,
       text,
-      url: `${window.location.origin}/sheet/${_label}?_id=${_id}`,
+      url: `${window.location.origin}/sheet/id/${id}`,
     })
-    return
+    return false
   }
-  copy(`${window.location.origin}/sheet/${_label}?_id=${_id}`)
-  window.alert('复制成功')
+  copy(`${window.location.origin}/sheet/id/${id}`)
+  return true
 }

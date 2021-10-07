@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import zoom from 'medium-zoom'
 import copy from 'copy-to-clipboard'
-import { Layout as Container, Avatar, Divider } from 'granen'
+import { Layout as Container, Avatar, Divider, Notification } from 'granen'
 import { GranenThemeProvider } from 'granen/lib/theme/theme-context'
 import { useTransition, animated } from '@react-spring/web'
 import styled, { createGlobalStyle } from 'styled-components'
@@ -146,6 +146,7 @@ const Layout = ({ children }: Props) => {
             />
           </Copyright>
         </Main>
+        <Notification />
       </Container>
     </GranenThemeProvider>
   )

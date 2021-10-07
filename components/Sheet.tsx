@@ -5,11 +5,10 @@ import { Image, Link, Spinner } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
-import { Box, Divider, Typography, Dot } from 'granen'
+import { Box, Divider, Typography, Dot, Notification } from 'granen'
 import styled from 'styled-components'
 
 import { Github } from '~/interface/github'
-import { getId } from '~/utils/sheet'
 import { share } from '~/utils/share'
 import { createMarkdownRenderer } from '~/utils/md'
 
@@ -24,18 +23,22 @@ type SheetProps = {
   highlight?: string
   className?: string
   style?: React.CSSProperties
+  onClickTitle?: (v: Github.Issue) => void
+  onShare?: (notify?: boolean) => void
 }
 
 const Container = styled(Box)`
   @apply shadow w-full rounded-lg overflow-hidden text-sm;
 
   && {
-    background-color: var(--bg-color-1);
+    background-color: var(--active-bg-color);
   }
 `
 
 const SubTitle = styled(Typography.SubTitle)`
-  @apply m-0 mb-2;
+  && {
+    @apply m-0 mb-1;
+  }
 
   [data-role='dot'] {
     @apply ml-2 w-2 h-2;
@@ -56,11 +59,12 @@ const Info = styled.div`
 
 const EMPTY = {} as Github.Issue
 
+// TODO: hover style
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const label = v.labels?.[0]?.name
   const queryId = router.query._id
-  const idcard = getId(v)
+  const idcard = v.id
   console.log(idcard, queryId)
   const [copyLoading, setCopyLoading] = useState(false)
   const handleCopyImage = useCallback(() => {
@@ -80,6 +84,11 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         ;(navigator.clipboard as any).write([item])
         container.removeChild(sheet)
         setCopyLoading(false)
+        // TODO: should we include image in description?
+        Notification.info({
+          title: 'Copied success!',
+          description: 'Share your cheatsheet with image',
+        })
       })
     })
   }, [idcard])
@@ -96,13 +105,14 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       key={v.title}
       id={idcard}
     >
-      <div className="p-4">
+      <div className="p-4 pb-0">
         <SubTitle h2={true}>
-          <a className="text-indigo-600 " href={v.html_url} target="_blank" rel="noreferrer">
+          <a className="text-indigo-600 cursor-pointer" href={v.html_url} target="_blank" rel="noreferrer">
             <span
               dangerouslySetInnerHTML={{
                 __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
               }}
+              onClick={() => props.onClickTitle?.(v)}
             />
             {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
           </a>
@@ -112,7 +122,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             <div
               key={label.id}
               className="pr-2 w-min cursor-pointer inline-flex items-center text-sm text-gray-700"
-              onClick={() => router.push(`/sheet/${label.name}`)}
+              onClick={() => router.push(`/sheet/label/${label.id}`)}
             >
               <span style={{ color: `#${label.color}` }} className="mr-1">
                 #
@@ -136,6 +146,14 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             className="cursor-pointer p-4 -m-4"
             onClick={() => {
               share(idcard, label, v.title, v.body)
+                .then((needNotify) => {
+                  if (needNotify) {
+                    Notification.info({
+                      title: 'Copied success!',
+                      description: 'Share your cheatsheet with link',
+                    })
+                  }
+                })
             }}
           >
             <Link style={{ '--ggs': 0.7 } as any} />
@@ -162,8 +180,8 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           </div>
         </div>
         <div>
-          <time>{dayjs(v.updated_at).from(dayjs())}</time>
-          <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
+          <time>{dayjs(v.updatedAt).from(dayjs())}</time>
+          <time>{dayjs(v.createdAt).format('YYYY-MM-DD')}</time>
         </div>
       </Info>
     </Container>

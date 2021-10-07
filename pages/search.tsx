@@ -8,11 +8,19 @@ import { api } from '@omcs/request/node'
 import { useRouter } from 'next/router'
 import { animated, useTrail } from '@react-spring/web'
 import { Typography } from 'granen'
-import { QueryStatus } from 'react-query'
+import styled from 'styled-components'
 
 import { Github } from '~/interface/github'
 import Layout from '~/components/Layout'
 import { Sheet } from '~/components/Sheet'
+
+const Container = styled.div`
+  @apply px-12 py-6;
+
+  [data-role='title'] {
+    @apply mt-0;
+  }
+`
 
 /**
  * @fixme copy from index.recent
@@ -25,24 +33,22 @@ const SearchResults = ({
   highlight?: string
 }) => {
   const transitions = useTrail<{ opacity: number }>(issues.length, {
-    opacity: status === 'loading' ? 0 : 1,
     from: { opacity: 0 },
+    to: { opacity: 1 }
   })
   return (
-    <div>
+    <Container>
+      <Typography.Title h1={true}>Search Results</Typography.Title>
       {issues?.length !== 0 ? (
-        <>
-          <Typography.Title h1={true}>Recently</Typography.Title>
-          {transitions.slice(0, 2).map((props, index) => {
-            return (
-              <animated.div key={index} className="mb-4 w-full float-left" style={props}>
-                <Sheet highlight={highlight} v={issues?.[index]} />
-              </animated.div>
-            )
-          })}
-        </>
+        transitions.map((props, index) => {
+          return (
+            <animated.div key={index} className="mb-4 w-full float-left" style={props}>
+              <Sheet highlight={highlight} v={issues?.[index]} />
+            </animated.div>
+          )
+        })
       ) : null}
-    </div>
+    </Container>
   )
 }
 
