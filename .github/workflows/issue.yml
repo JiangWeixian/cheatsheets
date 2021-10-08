@@ -1,0 +1,15 @@
+name: "issue x algolia"
+on:
+  issues
+
+jobs:
+  # test action works running from the issue created/deleted etc...
+  event:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ohmycheatsheet/actions-algolia
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ALGOLIA_APPID: ${{ secrets.ALGOLIA_APPID }}
+        ALGOLIA_APP_KEY: ${{ secrets.ALGOLIA_APP_KEY }}
