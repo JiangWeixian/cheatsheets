@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ohmycheatsheet/actions-algolia
+    - uses: ohmycheatsheet/actions-algolia@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ALGOLIA_APPID: ${{ secrets.ALGOLIA_APPID }}
