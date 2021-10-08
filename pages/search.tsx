@@ -20,6 +20,10 @@ const Container = styled.div`
   [data-role='title'] {
     @apply mt-0;
   }
+
+  .searchItem {
+    @apply mb-4 w-full float-left;
+  }
 `
 
 /**
@@ -34,20 +38,20 @@ const SearchResults = ({
 }) => {
   const transitions = useTrail<{ opacity: number }>(issues.length, {
     from: { opacity: 0 },
-    to: { opacity: 1 }
+    to: { opacity: 1 },
   })
   return (
     <Container>
       <Typography.Title h1={true}>Search Results</Typography.Title>
-      {issues?.length !== 0 ? (
-        transitions.map((props, index) => {
-          return (
-            <animated.div key={index} className="mb-4 w-full float-left" style={props}>
-              <Sheet highlight={highlight} v={issues?.[index]} />
-            </animated.div>
-          )
-        })
-      ) : null}
+      {issues?.length !== 0
+        ? transitions.map((props, index) => {
+            return (
+              <animated.div key={index} className="searchItem" style={props}>
+                <Sheet highlight={highlight} v={issues?.[index]} />
+              </animated.div>
+            )
+          })
+        : null}
     </Container>
   )
 }

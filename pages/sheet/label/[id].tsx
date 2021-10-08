@@ -25,7 +25,7 @@ const Container = styled.div`
     @apply m-0;
   }
 
-  [data-role="paragraph"] {
+  [data-role='paragraph'] {
     @apply mt-3;
   }
 `
@@ -48,9 +48,7 @@ const CheetsheetByLabel: NextPage<{ data: Github.Issue[]; label: Github.Label }>
     <Layout>
       <Meta title={props.label?.name} description={props.label?.description} />
       <Container>
-        <Typography.Title h1={true}>
-          {props.label.name}
-        </Typography.Title>
+        <Typography.Title h1={true}>{props.label.name}</Typography.Title>
         <Typography.Paragraph type="secondary">{props.label.description}</Typography.Paragraph>
       </Container>
       <Divider type="horizontal" />
@@ -58,7 +56,14 @@ const CheetsheetByLabel: NextPage<{ data: Github.Issue[]; label: Github.Label }>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
           <Masonry gutter="16px">
             {data?.map(v => {
-              return <Sheet onClickTitle={() => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)} key={v.id} className="w-1/2" v={v} />
+              return (
+                <Sheet
+                  onClickTitle={() => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
+                  key={v.id}
+                  className="w-1/2"
+                  v={v}
+                />
+              )
             })}
           </Masonry>
         </ResponsiveMasonry>

@@ -73,8 +73,6 @@
     "babel-plugin-inline-react-svg": "1.1.1",
     "babel-plugin-prismjs": "2.0.1",
     "babel-plugin-styled-components": "^1.13.2",
-    "postcss-extend-rule": "3.0.0",
-    "postcss-import": "12.0.1",
     "babel-plugin-styled-windicss": "^1.0.1",
     "cross-env": "6.0.3",
     "cz-emoji": "^1.3.1",
@@ -85,6 +83,8 @@
     "next-images": "1.8.1",
     "np": "5.2.1",
     "postcss-extend": "1.0.5",
+    "postcss-extend-rule": "3.0.0",
+    "postcss-import": "12.0.1",
     "prettier": "1.19.1",
     "typescript": "4.4.3"
   },

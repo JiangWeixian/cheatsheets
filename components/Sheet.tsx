@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import { Github } from '~/interface/github'
 import { share } from '~/utils/share'
 import { createMarkdownRenderer } from '~/utils/md'
+import { Icon } from '~/components/Icon'
 
 let Html2Canvas: typeof import('html2canvas')['default']
 import('html2canvas').then(module => (Html2Canvas = module.default as any))
@@ -35,9 +36,17 @@ const Container = styled(Box)`
   }
 `
 
+const Title = styled.div`
+  @apply p-4 pb-0;
+
+  .label {
+    @apply pr-2 cursor-pointer inline-flex items-center text-sm text-gray-700 gap-2;
+  }
+`
+
 const SubTitle = styled(Typography.SubTitle)`
   && {
-    @apply m-0 mb-1;
+    @apply m-0 mb-1 cursor-pointer;
   }
 
   [data-role='dot'] {
@@ -55,6 +64,18 @@ const Info = styled.div`
   time {
     @apply mx-2;
   }
+
+  .operations {
+    @apply flex gap-4 items-center;
+  }
+`
+
+const Operation = styled(Icon)`
+  @apply cursor-pointer p-4 -m-4 cursor-pointer;
+
+  &.loading {
+    @apply cursor-not-allowed;
+  }
 `
 
 const EMPTY = {} as Github.Issue
@@ -63,9 +84,7 @@ const EMPTY = {} as Github.Issue
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const label = v.labels?.[0]?.name
-  const queryId = router.query._id
   const idcard = v.id
-  console.log(idcard, queryId)
   const [copyLoading, setCopyLoading] = useState(false)
   const handleCopyImage = useCallback(() => {
     const sheet = document.querySelector(`[id="${idcard}"]`)?.cloneNode(true)
@@ -95,19 +114,14 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   return (
     <Container
       borderless={true}
-      className={cx(
-        {
-          'shadow-outline': idcard === queryId,
-        },
-        props.className,
-      )}
+      className={props.className}
       style={props.style}
       key={v.title}
       id={idcard}
     >
-      <div className="p-4 pb-0">
+      <Title>
         <SubTitle h2={true}>
-          <a className="text-indigo-600 cursor-pointer" href={v.html_url} target="_blank" rel="noreferrer">
+          <a href={v.html_url} target="_blank" rel="noreferrer">
             <span
               dangerouslySetInnerHTML={{
                 __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
@@ -121,18 +135,16 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           return (
             <div
               key={label.id}
-              className="pr-2 w-min cursor-pointer inline-flex items-center text-sm text-gray-700"
+              className="label"
+              style={{ color: `#${label.color}` }}
               onClick={() => router.push(`/sheet/label/${label.id}`)}
             >
-              <span style={{ color: `#${label.color}` }} className="mr-1">
-                #
-              </span>
-              <span>{label.name}</span>
+              # {label.name}
             </div>
           )
         })}
         <Divider type="horizontal" />
-      </div>
+      </Title>
       <div
         key={v.title}
         className="theme-default-content"
@@ -141,33 +153,26 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         }}
       />
       <Info>
-        <div data-role="info-operations">
-          <div
-            className="cursor-pointer p-4 -m-4"
+        <div className="operations">
+          <Operation
             onClick={() => {
-              share(idcard, label, v.title, v.body)
-                .then((needNotify) => {
-                  if (needNotify) {
-                    Notification.info({
-                      title: 'Copied success!',
-                      description: 'Share your cheatsheet with link',
-                    })
-                  }
-                })
+              share(idcard, label, v.title, v.body).then(needNotify => {
+                if (needNotify) {
+                  Notification.info({
+                    title: 'Copied success!',
+                    description: 'Share your cheatsheet with link',
+                  })
+                }
+              })
             }}
           >
             <Link style={{ '--ggs': 0.7 } as any} />
-          </div>
-          <div
-            className={cx(
-              {
-                'cursor-pointer': !copyLoading,
-                'cursor-not-allowed': copyLoading,
-              },
-              'p-4',
-              '-m-4',
-              'ml-4',
-            )}
+          </Operation>
+          <Operation
+            className={cx({
+              loading: copyLoading,
+              last: true,
+            })}
             onClick={() => {
               handleCopyImage()
             }}
@@ -177,7 +182,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             ) : (
               <Image style={{ '--ggs': 0.7 } as any} />
             )}
-          </div>
+          </Operation>
         </div>
         <div>
           <time>{dayjs(v.updatedAt).from(dayjs())}</time>

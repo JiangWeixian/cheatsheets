@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import zoom from 'medium-zoom'
 import copy from 'copy-to-clipboard'
-import { Layout as Container, Avatar, Divider, Notification } from 'granen'
+import { Layout as GranenLayout, Avatar, Divider, Notification } from 'granen'
 import { GranenThemeProvider } from 'granen/lib/theme/theme-context'
 import { useTransition, animated } from '@react-spring/web'
 import styled, { createGlobalStyle } from 'styled-components'
@@ -13,7 +13,12 @@ import pkg from 'package.json'
 import Github from '../assets/github.svg'
 import Twitter from '../assets/twitter.svg'
 import { SideBar } from './SideBar'
+import { Icon } from '~/components/Icon'
 import { useCreateIssue } from '~/hooks/use-create-issue'
+
+const Chevron = styled.div`
+  @apply relative right-0 bottom-0 w-full h-6 flex justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer;
+`
 
 const AnimatedPushChevronLeft = styled(animated(PushChevronLeft))`
   @apply left-0;
@@ -39,9 +44,29 @@ const NavBottom = styled.div`
 
 const Copyright = styled.footer`
   @apply flex items-center justify-end gap-4 p-4 pt-0 pr-8 pb-2;
+
+  .copyright-item {
+    @apply fill-current text-gray-500 cursor-pointer;
+  }
 `
 
-const Main = styled(Container.Main)`
+const Container = styled(GranenLayout)`
+  @apply flex bg-gray-100 lg:h-full lg:w-full;
+
+  [id='SHEET-CONTAINER'] {
+    z-index: -1;
+
+    @apply flex justify-center items-center p-12 bg-gray-300 fixed;
+  }
+
+  .inner {
+    flex-basis: 0;
+
+    @apply lg:overflow-scroll flex-grow;
+  }
+`
+
+const Main = styled(GranenLayout.Main)`
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%),
     radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
   background-blend-mode: multiply, multiply;
@@ -80,20 +105,17 @@ const Layout = ({ children }: Props) => {
   })
   return (
     <GranenThemeProvider defaultThemeType="dark">
-      <Container className="flex bg-gray-100 lg:h-full lg:w-full">
+      <Container>
         <Head>
           <title>jiangweixian's cheatsheet</title>
         </Head>
         <GlobalStyle />
-        <Container.Nav
+        <GranenLayout.Nav
           logo={<Avatar src={`https://github.com/${pkg.author.name}.png?size=40`} />}
           bottom={
             <NavBottom>
               <MathPlus onClick={handleCreateIssue} />
-              <div
-                onClick={() => setOpen(prev => !prev)}
-                className="relative right-0 bottom-0 w-full h-6 flex justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer"
-              >
+              <Chevron onClick={() => setOpen(prev => !prev)}>
                 {collapsedTransitions((props, item) => {
                   return item ? (
                     <AnimatedPushChevronLeft style={props as any} />
@@ -101,11 +123,11 @@ const Layout = ({ children }: Props) => {
                     <AnimatedPushChevronRight style={props as any} />
                   )
                 })}
-              </div>
+              </Chevron>
             </NavBottom>
           }
         >
-          <Container.NavItem itemKey="home">
+          <GranenLayout.NavItem itemKey="home">
             <Home
               onClick={() => {
                 router.push({
@@ -113,37 +135,36 @@ const Layout = ({ children }: Props) => {
                 })
               }}
             />
-          </Container.NavItem>
-          <Container.NavItem itemKey="search">
+          </GranenLayout.NavItem>
+          <GranenLayout.NavItem itemKey="search">
             <Search />
-          </Container.NavItem>
-        </Container.Nav>
-        <SideBar open={open} className="flex-grow-0 hidden lg:flex" />
+          </GranenLayout.NavItem>
+        </GranenLayout.Nav>
+        <SideBar open={open} />
         <Main>
-          <div className="lg:overflow-scroll flex-grow" style={{ flexBasis: 0 }}>
-            {children}
-          </div>
-          <div
-            id="SHEET-CONTAINER"
-            className="flex justify-center items-center p-12 bg-gray-300 fixed"
-            style={{ zIndex: -1 }}
-          />
+          <div className="inner">{children}</div>
+          {/* for share cheatsheet image */}
+          <div id="SHEET-CONTAINER" />
           <Divider type="horizontal" />
           <Copyright>
-            <G
-              width={14}
-              onClick={() => {
-                window.open(`https://github.com/${pkg.author.name}/${pkg.name}`)
-              }}
-              className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
-            />
-            <T
-              width={14}
-              onClick={() => {
-                window.open(`https://twitter.com/${pkg.author.name}`)
-              }}
-              className="fill-current text-gray-500 hover:text-gray-700 cursor-pointer"
-            />
+            <Icon>
+              <G
+                width={14}
+                onClick={() => {
+                  window.open(`https://github.com/${pkg.author.name}/${pkg.name}`)
+                }}
+                className="copyright-item"
+              />
+            </Icon>
+            <Icon>
+              <T
+                width={14}
+                onClick={() => {
+                  window.open(`https://twitter.com/${pkg.author.name}`)
+                }}
+                className="copyright-item"
+              />
+            </Icon>
           </Copyright>
         </Main>
         <Notification />

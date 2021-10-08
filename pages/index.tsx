@@ -14,7 +14,6 @@ import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
-import { useRematch } from '@use-rematch/core'
 
 const Recent = ({
   issues = [],
@@ -88,48 +87,6 @@ const unShipProps: any = {
   enterkeyhint: 'search',
 }
 
-// const MySearchBox = () => {
-//   const { handleSearch } = useSearchIssue({ initialIssues: [] })
-//   const { state, dispatch } = useRematch({
-//     name: 'homepage',
-//     state: {
-//       keyword: '',
-//       status: 'init',
-//     } as {
-//       keyword: string
-//       status: 'loading' | 'loaded' | 'init'
-//     },
-//     reducers: {
-//       setKeyword(state, keyword: string) {
-//         return {
-//           ...state,
-//           keyword,
-//         }
-//       },
-//       setStatus(state, status: 'loading' | 'loaded' | 'init') {
-//         return {
-//           ...state,
-//           status,
-//         }
-//       },
-//     },
-//   })
-//   return (
-//     <Input
-//       prefix={<Search />}
-//       borderless={true}
-//       {...unShipProps}
-//       onKeyDown={e => {
-//         if (e.key === 'Enter') {
-//           // search issues
-//           handleSearch((e.target as any).value)
-//         }
-//       }}
-//       onChange={e => dispatch.setKeyword(e.target.value)}
-//     />
-//   )
-// }
-
 const connectWithQuery = createConnector({
   displayName: 'WidgetWithQuery',
   getProvidedProps(props, searchState) {
@@ -165,7 +122,7 @@ const connectWithQuery = createConnector({
 })
 
 // TODO: rename it
-const MySearchBox = ({ currentRefinement, refine }) => (
+const SearchBox = ({ currentRefinement, refine }) => (
   <Input
     prefix={<Search />}
     borderless={true}
@@ -177,7 +134,7 @@ const MySearchBox = ({ currentRefinement, refine }) => (
   />
 )
 
-const ConnectedSearchBox = connectWithQuery(MySearchBox)
+const ConnectedSearchBox = connectWithQuery(SearchBox)
 
 const Item = styled(Dropdown.Item)`
   && {
@@ -242,13 +199,13 @@ const EventContainer = styled.div`
   @apply w-3/5 m-auto p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12 sm:w-4/5;
 `
 
+// FIXME: someday results maybe not exited
 const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> = props => {
   const keyword = useRouter().query.q as string
   const { data: issues, status } = useSearchIssue({ initialIssues: props.recent })
   return (
     <Layout>
       <Meta />
-      {/* <SearchBox /> */}
       <SearchContainer>
         <InstantSearch
           indexName="actions_cheatsheet_issues"

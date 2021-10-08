@@ -14,6 +14,10 @@ const Item = styled.span`
   --ggs: 0.75;
 `
 
+const SpinnerContainer = styled.div`
+  @apply w-full flex items-center justify-center;
+`
+
 export const SideBar = ({ open = true, ...props }: { open?: boolean; className?: string }) => {
   const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
     'labels',
@@ -36,9 +40,9 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
         useWindow={false}
         loadMore={() => fetchMore()}
         loader={
-          <div className="w-full flex items-center justify-center">
+          <SpinnerContainer>
             <Spinner />
-          </div>
+          </SpinnerContainer>
         }
       >
         <Menu menuTheme="dark" size="lg">
