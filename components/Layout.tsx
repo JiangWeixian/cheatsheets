@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard'
 import { Layout as GranenLayout, Avatar, Divider, Notification } from 'granen'
 import { GranenThemeProvider } from 'granen/lib/theme/theme-context'
 import { useTransition, animated } from '@react-spring/web'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 import pkg from 'package.json'
 import Github from '../assets/github.svg'
@@ -25,17 +25,6 @@ const AnimatedPushChevronLeft = styled(animated(PushChevronLeft))`
 `
 const AnimatedPushChevronRight = styled(animated(PushChevronRight))`
   @apply right-0;
-`
-
-export const GlobalStyle = createGlobalStyle`
-  body {
-    @apply m-0 p-0;
-  }
-
-  a {
-    color: inherit;
-    @apply underline-transparent;
-  }
 `
 
 const NavBottom = styled.div`
@@ -109,7 +98,6 @@ const Layout = ({ children }: Props) => {
         <Head>
           <title>jiangweixian's cheatsheet</title>
         </Head>
-        <GlobalStyle />
         <GranenLayout.Nav
           logo={<Avatar src={`https://github.com/${pkg.author.name}.png?size=40`} />}
           bottom={

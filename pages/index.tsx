@@ -15,6 +15,10 @@ import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
 
+const AnimatedWrapper = styled(animated.div)`
+  @apply mb-4 w-full float-left;
+`
+
 const Recent = ({
   issues = [],
   status,
@@ -38,9 +42,9 @@ const Recent = ({
           <Typography.Title h1={true}>Recently</Typography.Title>
           {transitions.slice(0, 2).map((props, index) => {
             return (
-              <animated.div key={index} className="mb-4 w-full float-left" style={props}>
+              <AnimatedWrapper style={props}>
                 <Sheet highlight={highlight} v={issues?.[index]} />
-              </animated.div>
+              </AnimatedWrapper>
             )
           })}
         </>
@@ -72,9 +76,9 @@ const Someday = ({
           <Typography.Title>Someday</Typography.Title>
           {transitions.map((props, index) => {
             return (
-              <animated.div key={index} className="mb-4 w-full float-left" style={props}>
+              <AnimatedWrapper style={props}>
                 <Sheet highlight={highlight} v={issues?.[index]} />
-              </animated.div>
+              </AnimatedWrapper>
             )
           })}
         </>
