@@ -12,7 +12,6 @@ import styled from 'styled-components'
 
 import { Github } from '~/interface/github'
 import { api as client } from '~/request/client'
-import { getId } from '~/utils/sheet'
 import Layout from '~/components/Layout'
 import pkg from 'package.json'
 import { Meta } from '~/components/Meta'

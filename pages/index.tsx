@@ -9,6 +9,7 @@ import { InstantSearch, createConnector, connectHits, Configure } from 'react-in
 import styled from 'styled-components'
 
 import { Github } from '~/interface/github'
+import { SEARCH_INDEX_NAME } from '~/utils/constants'
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
@@ -151,6 +152,15 @@ const Item = styled(Dropdown.Item)`
 `
 
 const Hits = connectHits(props => {
+  if (props.hits.length === 0) {
+    return (
+      <Dropdown.Menu>
+        <Item>
+          No Results
+        </Item>
+      </Dropdown.Menu>
+    )
+  }
   return (
     <Dropdown.Menu>
       {props.hits.map(item => {
@@ -202,7 +212,6 @@ const EventContainer = styled.div`
   @apply w-3/5 m-auto p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12 sm:w-4/5;
 `
 
-// FIXME: someday results maybe not exited
 const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> = props => {
   const keyword = useRouter().query.q as string
   const { data: issues, status } = useSearchIssue({ initialIssues: props.recent })
@@ -211,7 +220,7 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
       <Meta />
       <SearchContainer>
         <InstantSearch
-          indexName="actions_cheatsheet_issues"
+          indexName={SEARCH_INDEX_NAME}
           stalledSearchDelay={500}
           searchClient={searchClient}
         >
