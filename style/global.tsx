@@ -33,51 +33,50 @@ export const GlobalStyle = createGlobalStyle`
 
   /* markdown & sheet */
   /* content */
-  .theme-default-content {
-    @apply text-gray-700 text-base;
+  .theme-default {
+    @apply text-gray-500 text-base;
   }
 
-  .theme-default-content p,
-  .theme-default-content td {
+  .theme-default p,
+  .theme-default td {
     @apply text-base;
   }
   /* link */
-  .theme-default-content a {
+  .theme-default a {
     @apply text-indigo-600;
   }
 
   /* description */
-  .theme-default-content p,
-  .theme-default-content h3 {
-    margin: 0;
+  .theme-default p,
+  .theme-default h3 {
     padding: 0.25rem 0 0.25rem 1rem;
-    @apply p-4 text-base text-base;
+    @apply m-0 p-4 text-base text-base;
   }
-  .theme-default-content h3,
-  .theme-default-content blockquote {
+  .theme-default h3,
+  .theme-default blockquote {
     @apply bg-gray-100 border-t-2 border-gray-200;
   }
-  .theme-default-content blockquote > p {
+  .theme-default blockquote > p {
     @apply m-0 bg-transparent;
   }
   /* ul child section */
-  .theme-default-content ul {
+  .theme-default ul {
     @apply border-b-2 border-gray-200 m-0 p-0 text-base;
   }
-  .theme-default-content ul li {
+  .theme-default ul li {
     border-bottom-width: 1px;
     @apply border-gray-100 p-4;
   }
-  .theme-default-content ul li > p {
+  .theme-default ul li > p {
     @apply p-0;
   }
   /* ul table like section */
   @media screen and (min-width: 1024px) {
-    .theme-default-content ul li code:last-child {
+    .theme-default ul li code:last-child {
       @apply float-right;
     }
   }
-  .theme-default-content ul li code:last-child {
+  .theme-default ul li code:last-child {
     @apply block;
   }
   /* table child section */
@@ -92,33 +91,33 @@ export const GlobalStyle = createGlobalStyle`
   td {
     @apply p-4;
   }
-  .theme-default-content table td:last-child {
+  .theme-default table td:last-child {
     text-align: right;
   }
-  .theme-default-content table {
+  .theme-default table {
     @apply border-0 w-full m-0 border-b-2 border-gray-200;
   }
-  .theme-default-content table thead {
+  .theme-default table thead {
     display: none;
   }
-  .theme-default-content table tbody {
+  .theme-default table tbody {
     @apply w-full;
   }
   /* ol section */
-  .theme-default-content ol,
-  theme-default-content ul {
+  .theme-default ol,
+  theme-default ul {
     @apply p-4 list-decimal list-inside text-base;
   }
-  .theme-default-content ol li p {
+  .theme-default ol li p {
     @apply inline-block;
   }
   /* code */
-  .theme-default-content pre {
+  .theme-default pre {
     @apply m-0 bg-white;
     cursor: copy;
   }
-  .theme-default-content code {
+  .theme-default code {
     font-family: 'Fira Code', monospace;
-    @apply bg-transparent text-indigo-600 p-0 text-base m-0;
+    @apply bg-transparent text-green-600 p-0 text-base m-0;
   }
 `

@@ -55,7 +55,7 @@ const SubTitle = styled(Typography.SubTitle)`
 `
 
 const Info = styled.div`
-  @apply box-border flex italic justify-between items-center text-sm text-gray-600 p-4 w-full;
+  @apply box-border flex italic justify-between items-center text-sm text-gray-500 p-4 w-full;
 
   [data-role='info-operations'] {
     @apply flex justify-between items-center text-sm;
@@ -80,7 +80,6 @@ const Operation = styled(Icon)`
 
 const EMPTY = {} as Github.Issue
 
-// TODO: hover style
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const label = v.labels?.[0]?.name
@@ -147,7 +146,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       </Title>
       <div
         key={v.title}
-        className="theme-default-content"
+        className="theme-default"
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}

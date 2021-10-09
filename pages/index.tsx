@@ -125,7 +125,6 @@ const connectWithQuery = createConnector({
   },
 })
 
-// TODO: rename it
 const SearchBox = ({ currentRefinement, refine }) => (
   <Input
     prefix={<Search />}
