@@ -37,6 +37,18 @@ type HitsProps = {
   }[]
 }
 
+const Menu = styled(Dropdown.Menu)`
+  && {
+    [data-role="menu-subtitle"] {
+      @apply p-0;
+    }
+
+    [data-role="dropdown-menu-item"] {
+      @apply mt-0;
+    }
+  }
+`
+
 const Hits = (props: HitsProps) => {
   if (props.value.length === 0) {
     return (
@@ -48,9 +60,9 @@ const Hits = (props: HitsProps) => {
     )
   }
   return (
-    <Dropdown.Menu>
+    <Menu>
       {
-        props.value.map(item => {
+        props.value.filter(item => item.hits.length !== 0).map(item => {
           return <Dropdown.SubMenu key={item.index} title={dictionary[item.index]}>
             {item.hits.map(item => {
               return (
@@ -85,9 +97,7 @@ const Hits = (props: HitsProps) => {
           </Dropdown.SubMenu>
         })
       }
-      
-      
-    </Dropdown.Menu>
+    </Menu>
   )
 }
 
@@ -99,17 +109,20 @@ export const CheatSheetSearchBox = () => {
       indexName: SEARCH_CHEATSHEET_INDEX_NAME,
       query,
       params: {
-        hitsPerPage: 3
+        hitsPerPage: 3,
+        highlightPreTag:'<mark class="search-highlight">',
+        highlightPostTag: "</mark>"
       }
     }, {
       indexName: SEARCH_LABELS_INDEX_NAME,
       query,
       params: {
         hitsPerPage: 3,
+        highlightPreTag:'<mark class="search-highlight">',
+        highlightPostTag: "</mark>"
       }
     }];
-    searchClient.multipleQueries(queries, { strategy: 'stopIfEnoughMatches', highlightPreTag:'<mark class="search-highlight">',
-    highlightPostTag: "</mark>" }).then(({ results }: { results: any }) => {
+    searchClient.multipleQueries(queries, { strategy: 'stopIfEnoughMatches' }).then(({ results }: { results: any }) => {
       setValue(results as HitsProps['value'])
     });
   }, 500))
