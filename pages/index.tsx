@@ -9,12 +9,13 @@ import { InstantSearch, createConnector, connectHits, Configure } from 'react-in
 import styled from 'styled-components'
 
 import { Github } from '~/interface/github'
-import { SEARCH_INDEX_NAME } from '~/utils/constants'
+import { SEARCH_CHEATSHEET_INDEX_NAME, SEARCH_LABELS_INDEX_NAME } from '~/utils/constants'
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
 import { useSearchIssue } from '~/hooks/use-search-issue'
+import { CheatSheetSearchBox } from '~/components/CheatSheetSearchBox'
 
 const AnimatedWrapper = styled(animated.div)`
   @apply mb-4 w-full float-left;
@@ -152,6 +153,7 @@ const Item = styled(Dropdown.Item)`
 `
 
 const Hits = connectHits(props => {
+  console.log(props.hits)
   if (props.hits.length === 0) {
     return (
       <Dropdown.Menu>
@@ -219,8 +221,8 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
     <Layout>
       <Meta />
       <SearchContainer>
-        <InstantSearch
-          indexName={SEARCH_INDEX_NAME}
+        {/* <InstantSearch
+          indexName={SEARCH_CHEATSHEET_INDEX_NAME}
           stalledSearchDelay={500}
           searchClient={searchClient}
         >
@@ -237,7 +239,8 @@ const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> =
               highlightPostTag="</mark>"
             />
           </Dropdown>
-        </InstantSearch>
+        </InstantSearch> */}
+        <CheatSheetSearchBox />
       </SearchContainer>
       <EventContainer>
         <Someday issues={props.someday} status={status} />
