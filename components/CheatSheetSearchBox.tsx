@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import type { Hit } from 'react-instantsearch-core'
 import type { SearchClient } from 'algoliasearch'
 
-import { SEARCH_CHEATSHEET_INDEX_NAME, SEARCH_LABELS_INDEX_NAME } from '~/utils/constants'
+import { SEARCH_CHEATSHEET_INDEX_NAME, SEARCH_LABELS_INDEX_NAME, dictionary } from '~/utils/constants'
 
 const searchClient: SearchClient = api.getSearchClient(
   process.env.NEXT_PUBLIC_ALGOLIA_APPID!,
@@ -51,7 +51,7 @@ const Hits = (props: HitsProps) => {
     <Dropdown.Menu>
       {
         props.value.map(item => {
-          return <Dropdown.SubMenu key={item.index} title={item.index}>
+          return <Dropdown.SubMenu key={item.index} title={dictionary[item.index]}>
             {item.hits.map(item => {
               return (
                 <Item key={item.objectID}>
