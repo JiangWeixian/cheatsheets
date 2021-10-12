@@ -4,10 +4,10 @@ import { Spinner } from 'styled-cssgg'
 import { animated, useTrail } from '@react-spring/web'
 import { QueryStatus } from 'react-query'
 import { api } from '@omcs/request/node'
+import { Issue } from '@omcs/request/types'
 import { Typography } from 'granen'
 import styled from 'styled-components'
 
-import { Github } from '~/interface/github'
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
@@ -24,7 +24,7 @@ const Recent = ({
   status,
   highlight,
 }: {
-  issues?: Github.Issue[]
+  issues?: Issue[]
   status?: QueryStatus
   highlight?: string
 }) => {
@@ -42,7 +42,7 @@ const Recent = ({
           <Typography.Title h1={true}>Recently</Typography.Title>
           {transitions.slice(0, 2).map((props, index) => {
             return (
-              <AnimatedWrapper style={props}>
+              <AnimatedWrapper key={index} style={props}>
                 <Sheet highlight={highlight} v={issues?.[index]} />
               </AnimatedWrapper>
             )
@@ -58,7 +58,7 @@ const Someday = ({
   status,
   highlight,
 }: {
-  issues?: Github.Issue[]
+  issues?: Issue[]
   status?: QueryStatus
   highlight?: string
 }) => {
@@ -76,7 +76,7 @@ const Someday = ({
           <Typography.Title>Someday</Typography.Title>
           {transitions.map((props, index) => {
             return (
-              <AnimatedWrapper style={props}>
+              <AnimatedWrapper key={index} style={props}>
                 <Sheet highlight={highlight} v={issues?.[index]} />
               </AnimatedWrapper>
             )
@@ -107,7 +107,7 @@ const EventContainer = styled.div`
   @apply w-3/5 m-auto p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12 sm:w-4/5;
 `
 
-const IndexPage: NextPage<{ recent: Github.Issue[]; someday: Github.Issue[] }> = props => {
+const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = props => {
   const keyword = useRouter().query.q as string
   const { data: issues, status } = useSearchIssue({ initialIssues: props.recent })
   return (

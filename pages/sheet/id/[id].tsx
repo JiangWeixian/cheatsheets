@@ -4,9 +4,9 @@
 import React from 'react'
 import { NextPage, GetServerSideProps } from 'next'
 import { api } from '@omcs/request/node'
+import { Issue } from '@omcs/request/types'
 import styled from 'styled-components'
 
-import { Github } from '~/interface/github'
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
@@ -16,7 +16,7 @@ const Container = styled.div`
 `
 
 // TODO: just like raycast
-const CheatSheetById: NextPage<{ issue: Github.Issue }> = props => {
+const CheatSheetById: NextPage<{ issue: Issue }> = props => {
   return (
     <Layout>
       <Meta title={props.issue?.title} description={props.issue?.body} />
@@ -28,7 +28,7 @@ const CheatSheetById: NextPage<{ issue: Github.Issue }> = props => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const issue = await api.getIssue(ctx?.params?.id)
+  const issue = await api.getIssue(ctx?.params?.id as string)
   return { props: { issue } }
 }
 

@@ -8,6 +8,7 @@ import type { Hit } from 'react-instantsearch-core'
 import type { SearchClient } from 'algoliasearch'
 
 import { SEARCH_CHEATSHEET_INDEX_NAME, SEARCH_LABELS_INDEX_NAME, dictionary } from '~/utils/constants'
+import { useRouter } from 'next/router'
 
 const searchClient: SearchClient = api.getSearchClient(
   process.env.NEXT_PUBLIC_ALGOLIA_APPID!,
@@ -50,6 +51,7 @@ const Menu = styled(Dropdown.Menu)`
 `
 
 const Hits = (props: HitsProps) => {
+  const router = useRouter()
   if (props.value.length === 0) {
     return (
       <Dropdown.Menu>
@@ -59,14 +61,22 @@ const Hits = (props: HitsProps) => {
       </Dropdown.Menu>
     )
   }
+  const handleClick = (index: typeof SEARCH_CHEATSHEET_INDEX_NAME | typeof SEARCH_LABELS_INDEX_NAME, id: string) => {
+    if (index === 'cheatsheets_issues') {
+      router.push('/sheet/id/[id]', `/sheet/id/${id}`)
+    }
+    if (index === 'cheatsheets_labels') {
+      router.push('/sheet/label/[id]', `/sheet/label/${id}`)
+    }
+  }
   return (
     <Menu>
       {
-        props.value.filter(item => item.hits.length !== 0).map(item => {
-          return <Dropdown.SubMenu key={item.index} title={dictionary[item.index]}>
-            {item.hits.map(item => {
+        props.value.filter(item => item.hits.length !== 0).map(result => {
+          return <Dropdown.SubMenu key={result.index} title={dictionary[result.index]}>
+            {result.hits.map(item => {
               return (
-                <Item key={item.objectID}>
+                <Item onClick={() => handleClick(result.index, item.objectID)} key={item.objectID}>
                   <Typography.Title h3={true}>
                     {item.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
                       dangerouslySetInnerHTML={{
@@ -104,7 +114,7 @@ const Hits = (props: HitsProps) => {
 export const CheatSheetSearchBox = () => {
   const [input, setInput] = useState("")
   const [value, setValue] = useState<HitsProps['value']>([])
-  const searchApi = useRef(debounce((query: string = '') => {
+  const searchApi = useRef(debounce((query = '') => {
     const queries = [{
       indexName: SEARCH_CHEATSHEET_INDEX_NAME,
       query,

@@ -7,8 +7,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
 import { Box, Divider, Typography, Dot, Notification } from 'granen'
 import styled from 'styled-components'
+import { Issue } from '@omcs/request/types'
 
-import { Github } from '~/interface/github'
 import { share } from '~/utils/share'
 import { createMarkdownRenderer } from '~/utils/md'
 import { Icon } from '~/components/Icon'
@@ -20,11 +20,11 @@ dayjs.extend(relativeTime)
 const MarkdownIt = createMarkdownRenderer()
 
 type SheetProps = {
-  v?: Github.Issue
+  v?: Issue
   highlight?: string
   className?: string
   style?: React.CSSProperties
-  onClickTitle?: (v: Github.Issue) => void
+  onClickTitle?: (v: Issue) => void
   onShare?: (notify?: boolean) => void
 }
 
@@ -78,7 +78,7 @@ const Operation = styled(Icon)`
   }
 `
 
-const EMPTY = {} as Github.Issue
+const EMPTY = {} as Issue
 
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()

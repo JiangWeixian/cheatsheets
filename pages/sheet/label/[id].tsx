@@ -7,10 +7,10 @@ import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import { api } from '@omcs/request/node'
+import { Issue, Label } from '@omcs/request/types'
 import { Typography, Divider } from 'granen'
 import styled from 'styled-components'
 
-import { Github } from '~/interface/github'
 import { api as client } from '~/request/client'
 import Layout from '~/components/Layout'
 import pkg from 'package.json'
@@ -33,7 +33,7 @@ const Container = styled.div`
  * @todo rm sheet search part into island search page
  * @todo better ts typo
  */
-const CheetsheetByLabel: NextPage<{ data: Github.Issue[]; label: Github.Label }> = props => {
+const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = props => {
   const router = useRouter()
   // const { data } = useQuery(
   //   [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id as string],
@@ -73,7 +73,7 @@ const CheetsheetByLabel: NextPage<{ data: Github.Issue[]; label: Github.Label }>
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
   const issuesByLabel = await api.listIssues({ labelID: ctx?.params?.id as string })
-  const label = await api.getLabel(ctx?.params?.id)
+  const label = await api.getLabel(ctx?.params?.id as string)
   return { props: { data: issuesByLabel.hits, label } }
 }
 

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@lotips/core": "^0.8.3-alpha.2",
+    "@omcs/request": "0.0.0-beta-2021911153514",
     "@react-spring/web": "^9.2.4",
     "@use-rematch/core": "0.0.6-alpha.1",
     "algoliasearch": "^4.10.5",

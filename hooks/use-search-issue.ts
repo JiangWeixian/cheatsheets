@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
+import { Issue } from '@omcs/request/types'
 
 import { api as client } from '~/request/client'
 import { useCallback } from 'react'
-import { Github } from '~/interface/github'
 
 export const useSearchIssue = (
-  { initialIssues = [] }: { initialIssues: Github.Issue[] } = {
+  { initialIssues = [] }: { initialIssues: Issue[] } = {
     initialIssues: [],
   },
 ) => {
