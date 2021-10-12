@@ -1,4 +1,4 @@
-import { Issue, Label } from '@omcs/request/types'
+import { Issue, Label, WhoamiResponse } from '@omcs/request/types'
 
 import axios from 'axios'
 
@@ -13,13 +13,6 @@ client.interceptors.response.use(
 )
 
 export const github = {
-  async search(keyword: string): Promise<Issue[]> {
-    if (!keyword) {
-      return client.get(`/api/sheet`, { params: { sort: 'updated' } })
-    }
-    const result: any = await client.get(`/api/search`, { params: { keyword } })
-    return result
-  },
   async labels(page?: number): Promise<Label[]> {
     return client.get(`/api/labels?page=${page}`, { method: 'get' })
   },
@@ -31,5 +24,8 @@ export const github = {
     sort?: 'updated'
   }): Promise<Issue[]> {
     return client.get(`/api/sheet`, { params: { labels, sort } })
+  },
+  whoami(): Promise<WhoamiResponse> {
+    return client.get(`/api/whoami`)
   },
 }

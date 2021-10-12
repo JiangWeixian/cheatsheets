@@ -39,7 +39,7 @@ type LabelProps = {
   v: Label
 }
 
-const Label = (props: LabelProps) => {
+const LabelItem = (props: LabelProps) => {
   const router = useRouter()
   return (
     <Box
@@ -63,7 +63,7 @@ const LabelSearchResults = ({ issues = {} }: { issues?: any }) => {
         ? transitions.map((props, index) => {
             return (
               <animated.div key={index} className="searchItem" style={props}>
-                <Label v={hits?.[index]} />
+                <LabelItem v={hits?.[index]} />
               </animated.div>
             )
           })
@@ -74,7 +74,6 @@ const LabelSearchResults = ({ issues = {} }: { issues?: any }) => {
 
 /**
  * @fixme copy from index.recent
- * @todo typo
  */
 const CheatSheetSearchResults = ({
   issues = {},
@@ -109,7 +108,6 @@ const CheatSheetSearchResults = ({
   )
 }
 
-// TODO: typo
 const SearchPage: NextPage<{ hits: any }> = props => {
   const keyword = useRouter().query.q as string
   return (

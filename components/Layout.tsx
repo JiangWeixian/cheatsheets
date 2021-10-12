@@ -9,7 +9,7 @@ import { GranenThemeProvider } from 'granen/lib/theme/theme-context'
 import { useTransition, animated } from '@react-spring/web'
 import styled from 'styled-components'
 
-import pkg from 'package.json'
+import config from '~/.omcsrc'
 import Github from '../assets/github.svg'
 import Twitter from '../assets/twitter.svg'
 import { SideBar } from './SideBar'
@@ -99,7 +99,7 @@ const Layout = ({ children }: Props) => {
           <title>jiangweixian's cheatsheet</title>
         </Head>
         <GranenLayout.Nav
-          logo={<Avatar src={`https://github.com/${pkg.author.name}.png?size=40`} />}
+          logo={<Avatar src={`https://github.com/${config.owner}.png?size=40`} />}
           bottom={
             <NavBottom>
               <MathPlus onClick={handleCreateIssue} />
@@ -139,7 +139,7 @@ const Layout = ({ children }: Props) => {
               <G
                 width={14}
                 onClick={() => {
-                  window.open(`https://github.com/${pkg.author.name}/${pkg.name}`)
+                  window.open(`https://github.com/${config.owner}/cheatsheets`)
                 }}
                 className="copyright-item"
               />
@@ -148,7 +148,7 @@ const Layout = ({ children }: Props) => {
               <T
                 width={14}
                 onClick={() => {
-                  window.open(`https://twitter.com/${pkg.author.name}`)
+                  window.open(`https://twitter.com/${config.owner}`)
                 }}
                 className="copyright-item"
               />
