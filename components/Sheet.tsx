@@ -120,7 +120,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     >
       <Title>
         <SubTitle h2={true}>
-          <a href={v.html_url} target="_blank" rel="noreferrer">
+          <a target="_blank" rel="noreferrer">
             <span
               dangerouslySetInnerHTML={{
                 __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
@@ -130,7 +130,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
           </a>
         </SubTitle>
-        {v.labels.map(label => {
+        {v.labels?.map(label => {
           return (
             <div
               key={label.id}
@@ -146,7 +146,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       </Title>
       <div
         key={v.title}
-        className="theme-default"
+        className="markdown-body"
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}

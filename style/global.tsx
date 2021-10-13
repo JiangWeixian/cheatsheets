@@ -79,6 +79,7 @@ export const GlobalStyle = createGlobalStyle`
   .theme-default ul li code:last-child {
     @apply block;
   }
+  
   /* table child section */
   table,
   tr,
