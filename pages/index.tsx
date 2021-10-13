@@ -115,8 +115,8 @@ const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = props => {
         <CheatSheetSearchBox />
       </SearchContainer>
       <EventContainer>
-        <Someday issues={props.someday} status={status} />
-        <Recent highlight={keyword} issues={issues} status={status} />
+        <Someday issues={props.someday} />
+        <Recent highlight={keyword} issues={props.recent} />
       </EventContainer>
     </Layout>
   )
