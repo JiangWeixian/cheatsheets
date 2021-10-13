@@ -6,3 +6,5 @@ export const dictionary = {
   [SEARCH_CHEATSHEET_INDEX_NAME]: 'Cheatsheets',
   [SEARCH_LABELS_INDEX_NAME]: 'Labels',
 }
+
+export const PAGE_SIZE = 10

@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import React from 'react'
+import useSWRInfinite from 'swr/infinite'
 import Link from 'next/link'
 import { Spinner, Hashtag } from 'styled-cssgg'
+import { Label } from '@omcs/request/types'
 import InfiniteScroll from 'react-infinite-scroller'
 import { Layout, Menu } from 'granen'
 import styled from 'styled-components'
 
 import { api } from '~/request/client'
+import { PAGE_SIZE } from '~/utils/constants'
 
 const Item = styled.span`
   @apply flex items-center gap-4;
@@ -18,38 +20,42 @@ const SpinnerContainer = styled.div`
   @apply w-full flex items-center justify-center;
 `
 
+const getKey = (pageIndex: number, previousPageData: Label[] | null) => {
+  if (previousPageData && !previousPageData.length) return null // reached the end
+  return ['labels', pageIndex]
+}
+
 export const SideBar = ({ open = true, ...props }: { open?: boolean; className?: string }) => {
-  const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
-    'labels',
-    async (_key, page = 1) => {
-      const data = await api.github.labels(page)
-      return { data, page }
-    },
-    {
-      getFetchMore: last => (last?.data?.length === 10 ? last.page + 1 : undefined),
-    },
+  const { data, size, setSize, isValidating } = useSWRInfinite(
+    getKey,
+    async (_: string, index: number) => api.github.labels(index),
+    {},
   )
-  useEffect(() => {
-    fetchMore()
-  }, [fetchMore])
+  const isRefreshing = isValidating && data && data.length === size
+  const isEmpty = data?.[0]?.length === 0
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
   return (
     <Layout.Aside open={open} className={props.className}>
       <InfiniteScroll
-        hasMore={!isFetching && canFetchMore}
+        hasMore={!!data && !isReachingEnd}
         style={{ width: '100%' }}
         useWindow={false}
-        loadMore={() => fetchMore()}
+        loadMore={() => setSize(size + 1)}
         loader={
-          <SpinnerContainer>
-            <Spinner />
-          </SpinnerContainer>
+          isRefreshing && !isReachingEnd ? (
+            <SpinnerContainer>
+              <Spinner />
+            </SpinnerContainer>
+          ) : (
+            <>~</>
+          )
         }
       >
         <Menu menuTheme="dark" size="lg">
           {data?.map(page => {
             return (
               <>
-                {page.data?.map(v => (
+                {page?.map(v => (
                   <Menu.Item key={v.id}>
                     <Link href="/sheet/label/[id]" as={`/sheet/label/${v.id}`}>
                       <Item>

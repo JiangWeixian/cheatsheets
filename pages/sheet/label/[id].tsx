@@ -3,7 +3,6 @@
  */
 import React from 'react'
 import { NextPage, GetServerSideProps } from 'next'
-import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import { api } from '@omcs/request/node'
@@ -11,9 +10,7 @@ import { Issue, Label } from '@omcs/request/types'
 import { Typography, Divider } from 'granen'
 import styled from 'styled-components'
 
-import { api as client } from '~/request/client'
 import Layout from '~/components/Layout'
-import pkg from 'package.json'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 
@@ -29,19 +26,8 @@ const Container = styled.div`
   }
 `
 
-/**
- * @todo rm sheet search part into island search page
- * @todo better ts typo
- */
 const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = props => {
   const router = useRouter()
-  // const { data } = useQuery(
-  //   [`${pkg.author.name}-${pkg.name}-${router.query.id}-sheet`, router.query.id as string],
-  //   (_key, id: string) => {
-  //     return client.github.issues({ labels: id })
-  //   },
-  //   { initialData: props.data },
-  // )
   const data = props.data
   return (
     <Layout>

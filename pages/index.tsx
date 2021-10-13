@@ -12,7 +12,6 @@ import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { useRouter } from 'next/router'
-import { useSearchIssue } from '~/hooks/use-search-issue'
 import { CheatSheetSearchBox } from '~/components/CheatSheetSearchBox'
 
 const AnimatedWrapper = styled(animated.div)`
@@ -109,7 +108,6 @@ const EventContainer = styled.div`
 
 const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = props => {
   const keyword = useRouter().query.q as string
-  const { data: issues, status } = useSearchIssue({ initialIssues: props.recent })
   return (
     <Layout>
       <Meta />
