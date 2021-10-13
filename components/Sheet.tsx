@@ -5,11 +5,13 @@ import { Image, Link, Spinner } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
+import { Box, Divider, Typography, Dot, Notification } from 'granen'
+import styled from 'styled-components'
+import { Issue } from '@omcs/request/types'
 
-import { Github } from '~/interface/github'
-import { getId } from '~/utils/sheet'
 import { share } from '~/utils/share'
 import { createMarkdownRenderer } from '~/utils/md'
+import { Icon } from '~/components/Icon'
 
 let Html2Canvas: typeof import('html2canvas')['default']
 import('html2canvas').then(module => (Html2Canvas = module.default as any))
@@ -18,20 +20,70 @@ dayjs.extend(relativeTime)
 const MarkdownIt = createMarkdownRenderer()
 
 type SheetProps = {
-  v?: Github.Issue
+  v?: Issue
   highlight?: string
   className?: string
   style?: React.CSSProperties
+  onClickTitle?: (v: Issue) => void
+  onShare?: (notify?: boolean) => void
 }
 
-const EMPTY = {} as Github.Issue
+const Container = styled(Box)`
+  @apply shadow w-full rounded-lg overflow-hidden text-sm;
+
+  && {
+    background-color: var(--active-bg-color);
+  }
+`
+
+const Title = styled.div`
+  @apply p-4 pb-0;
+
+  .label {
+    @apply pr-2 cursor-pointer inline-flex items-center text-sm text-gray-700 gap-2;
+  }
+`
+
+const SubTitle = styled(Typography.SubTitle)`
+  && {
+    @apply m-0 mb-1 cursor-pointer;
+  }
+
+  [data-role='dot'] {
+    @apply ml-2 w-2 h-2;
+  }
+`
+
+const Info = styled.div`
+  @apply box-border flex italic justify-between items-center text-sm text-gray-500 p-4 w-full;
+
+  [data-role='info-operations'] {
+    @apply flex justify-between items-center text-sm;
+  }
+
+  time {
+    @apply mx-2;
+  }
+
+  .operations {
+    @apply flex gap-4 items-center;
+  }
+`
+
+const Operation = styled(Icon)`
+  @apply cursor-pointer p-4 -m-4 cursor-pointer;
+
+  &.loading {
+    @apply cursor-not-allowed;
+  }
+`
+
+const EMPTY = {} as Issue
 
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const label = v.labels?.[0]?.name
-  const queryId = router.query._id
-  const idcard = getId(v)
-  console.log(idcard, queryId)
+  const idcard = v.id
   const [copyLoading, setCopyLoading] = useState(false)
   const handleCopyImage = useCallback(() => {
     const sheet = document.querySelector(`[id="${idcard}"]`)?.cloneNode(true)
@@ -50,78 +102,76 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         ;(navigator.clipboard as any).write([item])
         container.removeChild(sheet)
         setCopyLoading(false)
+        // TODO: should we include image in description?
+        Notification.info({
+          title: 'Copied success!',
+          description: 'Share your cheatsheet with image',
+        })
       })
     })
   }, [idcard])
   return (
-    <div
-      className={cx(
-        'shadow w-full bg-white rounded-lg overflow-hidden theme-default-content text-sm',
-        {
-          'shadow-outline': idcard === queryId,
-        },
-        props.className,
-      )}
+    <Container
+      borderless={true}
+      className={props.className}
       style={props.style}
       key={v.title}
       id={idcard}
     >
-      <div className="border-b p-4">
-        <h1 className="flex items-center font-medium text-xl">
-          <a className="text-indigo-600 " href={v.html_url} target="_blank">
+      <Title>
+        <SubTitle h2={true}>
+          <a href={v.html_url} target="_blank" rel="noreferrer">
             <span
               dangerouslySetInnerHTML={{
                 __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
               }}
+              onClick={() => props.onClickTitle?.(v)}
             />
-            {v.state === 'open' ? (
-              <span className="rounded-full inline-block bg-green-300 w-2 h-2 ml-2" />
-            ) : (
-              <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
-            )}
+            {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
           </a>
-        </h1>
+        </SubTitle>
         {v.labels.map(label => {
           return (
             <div
               key={label.id}
-              className="pr-2 w-min cursor-pointer inline-flex items-center text-sm text-gray-700"
-              onClick={() => router.push(`/sheet/${label.name}`)}
+              className="label"
+              style={{ color: `#${label.color}` }}
+              onClick={() => router.push(`/sheet/label/${label.id}`)}
             >
-              <span style={{ color: `#${label.color}` }} className="mr-1">
-                #
-              </span>
-              <span>{label.name}</span>
+              # {label.name}
             </div>
           )
         })}
-      </div>
+        <Divider type="horizontal" />
+      </Title>
       <div
         key={v.title}
+        className="theme-default"
         dangerouslySetInnerHTML={{
           __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
         }}
       />
-      <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100 w-full">
-        <div className="flex justify-between items-center text-sm">
-          <div
-            className="cursor-pointer p-4 -m-4"
+      <Info>
+        <div className="operations">
+          <Operation
             onClick={() => {
-              share(idcard, label, v.title, v.body)
+              share(idcard, label, v.title, v.body).then(needNotify => {
+                if (needNotify) {
+                  Notification.info({
+                    title: 'Copied success!',
+                    description: 'Share your cheatsheet with link',
+                  })
+                }
+              })
             }}
           >
             <Link style={{ '--ggs': 0.7 } as any} />
-          </div>
-          <div
-            className={cx(
-              {
-                'cursor-pointer': !copyLoading,
-                'cursor-not-allowed': copyLoading,
-              },
-              'p-4',
-              '-m-4',
-              'ml-4',
-            )}
+          </Operation>
+          <Operation
+            className={cx({
+              loading: copyLoading,
+              last: true,
+            })}
             onClick={() => {
               handleCopyImage()
             }}
@@ -131,14 +181,13 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             ) : (
               <Image style={{ '--ggs': 0.7 } as any} />
             )}
-          </div>
+          </Operation>
         </div>
         <div>
-          <time>{dayjs(v.updated_at).from(dayjs())}</time>
-          <span className="mx-2">/</span>
-          <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
+          <time>{dayjs(v.updatedAt).from(dayjs())}</time>
+          <time>{dayjs(v.createdAt).format('YYYY-MM-DD')}</time>
         </div>
-      </div>
-    </div>
+      </Info>
+    </Container>
   )
 }
