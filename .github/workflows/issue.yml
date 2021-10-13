@@ -1,6 +1,9 @@
 name: "issue x algolia"
 on:
-  issues
+  push:
+    branches:
+      - master
+  issues:
 
 jobs:
   # test action works running from the issue created/deleted etc...
@@ -9,6 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ohmycheatsheet/actions-algolia@v1
+      with:
+        debug: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ALGOLIA_APPID: ${{ secrets.ALGOLIA_APPID }}
