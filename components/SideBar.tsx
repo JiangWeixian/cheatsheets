@@ -72,6 +72,7 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
               <>
                 {page?.hits?.map(v => (
                   <Menu.Item key={v.id}>
+                    {/* TODO: click outside of text also trigger */}
                     <Link href="/sheet/label/[id]" as={`/sheet/label/${v.id}`}>
                       <Item>
                         <Hashtag />

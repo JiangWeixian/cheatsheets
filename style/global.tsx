@@ -31,94 +31,117 @@ export const GlobalStyle = createGlobalStyle`
     @apply underline-transparent;
   }
 
-  /* markdown & sheet */
-  /* content */
-  .theme-default {
-    @apply text-gray-500 text-base;
-  }
-
-  .theme-default p,
-  .theme-default td {
+  /** overwrite github.css */
+  .markdown-body {
+    background-color: var(--bg-color-1);
+    color: var(--text-color-0);
     @apply text-base;
   }
-  /* link */
-  .theme-default a {
-    @apply text-indigo-600;
+
+  .markdown-body p {
+    @apply px-4;
   }
 
-  /* description */
-  .theme-default p,
-  .theme-default h3 {
-    padding: 0.25rem 0 0.25rem 1rem;
-    @apply m-0 p-4 text-base text-base;
+  .markdown-body code {
+    font-family: 'Fira Code', monospace;
+    @apply bg-transparent text-green-600 p-0 text-base m-0;
   }
-  .theme-default h3,
-  .theme-default blockquote {
-    @apply bg-gray-100 border-t-2 border-gray-200;
+
+  .markdown-body pre {
+    font-family: 'Fira Code', monospace;
+    cursor: copy;
+    @apply my-0;
+    background-color: var(--bg-color);
   }
-  .theme-default blockquote > p {
-    @apply m-0 bg-transparent;
+
+  .markdown-body h1,
+  .markdown-body h2,
+  .markdown-body h3,
+  .markdown-body h4,
+  .markdown-body h5,
+  .markdown-body h6 {
+    background-color: var(--bg-color-2);
+    color: var(--text-color-2);
+
+    @apply m-0 px-4 py-2 font-normal text-sm text-base;
+
+    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
   }
-  /* ul child section */
-  .theme-default ul {
-    @apply border-b-2 border-gray-200 m-0 p-0 text-base;
+
+  .markdown-body ul,
+  .markdown-body ol {
+    @apply pl-8 mt-4 text-base;
   }
-  .theme-default ul li {
-    border-bottom-width: 1px;
-    @apply border-gray-100 p-4;
+
+  .markdown-body ul {
+    @apply list-none pl-0 my-0;
+    background-color: var(--bg-color);
+    border-top: 1px solid var(--border-color);
   }
-  .theme-default ul li > p {
-    @apply p-0;
+
+  .markdown-body blockquote {
+    @apply border-none p-0 mt-4;
+    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-color-2);
   }
-  /* ul table like section */
+
+  .markdown-body blockquote + blockquote {
+    @apply pt-0;
+  }
+
+  .markdown-body blockquote p {
+    @apply mt-4;
+  }
+
+  .markdown-body p {
+    @apply border-none my-4;
+  }
+  
+  .markdown-body>*:first-child {
+    border-top: none !important;
+  }
+
   @media screen and (min-width: 1024px) {
-    .theme-default ul li code:last-child {
+    .markdown-body ul li code:last-child {
       @apply float-right;
     }
   }
-  .theme-default ul li code:last-child {
-    @apply block;
+
+  .markdown-body ul li {
+    @apply py-2 px-4;
+    border-bottom: 1px solid var(--border-color);
   }
-  
+
+  .markdown-body ul li:last-child {
+  }
+
+  .markdown-body ul li:first-child {
+    border-top: none;
+  }
+
   /* table child section */
-  table,
-  tr,
-  td {
-    @apply border-0;
+  .markdown-body table {
+    border-top: 1px solid var(--border-color);
+    @apply w-full my-0 table;
   }
-  tr {
-    @apply border-b-2 border-gray-100;
+
+  .markdown-body table tr,
+  .markdown-body table td {
+    @apply border-none;
   }
-  td {
-    @apply p-4;
+  .markdown-body table tr {
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
   }
-  .theme-default table td:last-child {
+  .markdown-body table td {
+    @apply p-2;
+  }
+  .markdown-body table td:last-child {
     text-align: right;
   }
-  .theme-default table {
-    @apply border-0 w-full m-0 border-b-2 border-gray-200;
-  }
-  .theme-default table thead {
+  .markdown-body table thead {
     display: none;
-  }
-  .theme-default table tbody {
-    @apply w-full;
-  }
-  /* ol section */
-  .theme-default ol,
-  theme-default ul {
-    @apply p-4 list-decimal list-inside text-base;
-  }
-  .theme-default ol li p {
-    @apply inline-block;
-  }
-  /* code */
-  .theme-default pre {
-    @apply m-0 bg-white;
-    cursor: copy;
-  }
-  .theme-default code {
-    font-family: 'Fira Code', monospace;
-    @apply bg-transparent text-green-600 p-0 text-base m-0;
   }
 `

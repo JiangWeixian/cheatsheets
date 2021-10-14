@@ -34,6 +34,10 @@ const Container = styled(Box)`
   && {
     background-color: var(--active-bg-color);
   }
+
+  [data-role="divider"] {
+    @apply mb-0;
+  }
 `
 
 const Title = styled.div`
@@ -142,8 +146,8 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             </div>
           )
         })}
-        <Divider type="horizontal" />
       </Title>
+      <Divider type="horizontal" />
       <div
         key={v.title}
         className="markdown-body"

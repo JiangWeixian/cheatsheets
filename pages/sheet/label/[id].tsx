@@ -27,7 +27,7 @@ const Container = styled.div`
   }
 
   [data-role='paragraph'] {
-    @apply mt-3;
+    @apply mt-3 text-base mb-0;
   }
 
   &.issues-list {
@@ -35,17 +35,20 @@ const Container = styled.div`
   }
 `
 
-const getKey = (pageIndex: number, previousPageData: { hits: Issue[] } | null) => {
+const getKey = (
+  pageIndex: number,
+  previousPageData: { hits: Issue[] } | null,
+  namespace: string,
+) => {
   if (previousPageData && !previousPageData.hits.length) return null // reached the end
-  return ['issues', pageIndex]
+  return ['issues', namespace, pageIndex]
 }
 
-// TODO: code syntax
 const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = props => {
   const router = useRouter()
   const { data, setSize, isValidating } = useSWRInfinite(
-    getKey,
-    async (_: string, index: number) => {
+    (...args: [any, any]) => getKey(...args, props.label.id),
+    async (_: string, _namespace: string, index: number) => {
       return client.github.issues({ offset: (index || 0) * PAGE_SIZE, labelID: props.label.id })
     },
     { fallbackData: [{ hits: props.data }] },
