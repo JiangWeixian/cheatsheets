@@ -35,7 +35,7 @@ const Container = styled(Box)`
     background-color: var(--active-bg-color);
   }
 
-  [data-role="divider"] {
+  [data-role='divider'] {
     @apply mb-0;
   }
 `
