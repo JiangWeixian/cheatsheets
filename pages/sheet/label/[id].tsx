@@ -31,7 +31,13 @@ const Container = styled.div`
   }
 
   &.issues-list {
-    @apply h-100vh overflow-x-auto;
+    @apply flex-1 overflow-x-auto;
+  }
+`
+
+const DividerLine = styled(Divider)`
+  && {
+    @apply -mx-4;
   }
 `
 
@@ -64,7 +70,7 @@ const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = props => {
         <Typography.Title h1={true}>{props.label.name}</Typography.Title>
         <Typography.Paragraph type="secondary">{props.label.description}</Typography.Paragraph>
       </Container>
-      <Divider type="horizontal" />
+      <DividerLine type="horizontal" />
       <Container className="issues-list">
         <InfiniteScroll
           hasMore={hasMore}

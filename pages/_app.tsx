@@ -18,6 +18,7 @@ class CustomApp extends App {
     return (
       <>
         <GlobalStyle />
+        <div id="SHEET-CONTAINER" />
         <Component {...pageProps} />
       </>
     )

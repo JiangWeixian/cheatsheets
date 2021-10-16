@@ -1,3 +1,6 @@
+/**
+ * @todo ugly css style
+ */
 import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
@@ -26,6 +29,7 @@ type SheetProps = {
   style?: React.CSSProperties
   onClickTitle?: (v: Issue) => void
   onShare?: (notify?: boolean) => void
+  isShared?: boolean
 }
 
 const Container = styled(Box)`
@@ -37,6 +41,10 @@ const Container = styled(Box)`
 
   [data-role='divider'] {
     @apply mb-0;
+  }
+
+  .operations {
+    @apply flex gap-4 items-center;
   }
 `
 
@@ -68,9 +76,13 @@ const Info = styled.div`
   time {
     @apply mx-2;
   }
+`
+
+const Controls = styled(Box)`
+  @apply shadow-2xl w-1/2 text-gray-500 mt-4;
 
   .operations {
-    @apply flex gap-4 items-center;
+    @apply flex gap-4 items-center p-4;
   }
 `
 
@@ -114,84 +126,96 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
       })
     })
   }, [idcard])
-  return (
-    <Container
-      borderless={true}
-      className={props.className}
-      style={props.style}
-      key={v.title}
-      id={idcard}
-    >
-      <Title>
-        <SubTitle h2={true}>
-          <a target="_blank" rel="noreferrer">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
-              }}
-              onClick={() => props.onClickTitle?.(v)}
-            />
-            {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
-          </a>
-        </SubTitle>
-        {v.labels?.map(label => {
-          return (
-            <div
-              key={label.id}
-              className="label"
-              style={{ color: `#${label.color}` }}
-              onClick={() => router.push(`/sheet/label/${label.id}`)}
-            >
-              # {label.name}
-            </div>
-          )
-        })}
-      </Title>
-      <Divider type="horizontal" />
-      <div
-        key={v.title}
-        className="markdown-body"
-        dangerouslySetInnerHTML={{
-          __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
-        }}
-      />
-      <Info>
-        <div className="operations">
-          <Operation
-            onClick={() => {
-              share(idcard, label, v.title, v.body).then(needNotify => {
-                if (needNotify) {
-                  Notification.info({
-                    title: 'Copied success!',
-                    description: 'Share your cheatsheet with link',
-                  })
-                }
+  const Operations = (
+    <div className="operations">
+      <Operation
+        onClick={() => {
+          share(idcard, label, v.title, v.body).then(needNotify => {
+            if (needNotify) {
+              Notification.info({
+                title: 'Copied success!',
+                description: 'Share your cheatsheet with link',
               })
-            }}
-          >
-            <Link style={{ '--ggs': 0.7 } as any} />
-          </Operation>
-          <Operation
-            className={cx({
-              loading: copyLoading,
-              last: true,
-            })}
-            onClick={() => {
-              handleCopyImage()
-            }}
-          >
-            {copyLoading ? (
-              <Spinner style={{ '--ggs': 0.7 } as any} />
-            ) : (
-              <Image style={{ '--ggs': 0.7 } as any} />
-            )}
-          </Operation>
-        </div>
-        <div>
-          <time>{dayjs(v.updatedAt).from(dayjs())}</time>
-          <time>{dayjs(v.createdAt).format('YYYY-MM-DD')}</time>
-        </div>
-      </Info>
-    </Container>
+            }
+          })
+        }}
+      >
+        <Link style={{ '--ggs': 0.7 } as any} />
+      </Operation>
+      <Operation
+        className={cx({
+          loading: copyLoading,
+          last: true,
+        })}
+        onClick={() => {
+          handleCopyImage()
+        }}
+      >
+        {copyLoading ? (
+          <Spinner style={{ '--ggs': 0.7 } as any} />
+        ) : (
+          <Image style={{ '--ggs': 0.7 } as any} />
+        )}
+      </Operation>
+    </div>
+  )
+  return (
+    <>
+      <Container
+        borderless={true}
+        className={props.className}
+        style={props.style}
+        key={v.title}
+        id={idcard}
+      >
+        <Title>
+          <SubTitle h2={true}>
+            <a target="_blank" rel="noreferrer">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
+                }}
+                onClick={() => props.onClickTitle?.(v)}
+              />
+              {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
+            </a>
+          </SubTitle>
+          {v.labels?.map(label => {
+            return (
+              <div
+                key={label.id}
+                className="label"
+                style={{ color: `#${label.color}` }}
+                onClick={() => router.push(`/sheet/label/${label.id}`)}
+              >
+                # {label.name}
+              </div>
+            )
+          })}
+        </Title>
+        <Divider type="horizontal" />
+        <div
+          key={v.title}
+          className="markdown-body"
+          dangerouslySetInnerHTML={{
+            __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
+          }}
+        />
+        {!props.isShared ? (
+          <Info>
+            {Operations}
+            <div>
+              <time>{dayjs(v.updatedAt).from(dayjs())}</time>
+              <time>{dayjs(v.createdAt).format('YYYY-MM-DD')}</time>
+            </div>
+          </Info>
+        ) : null}
+      </Container>
+      {props.isShared ? (
+        <Controls>
+          {Operations}
+        </Controls>
+      ) : null}
+    </>
   )
 }

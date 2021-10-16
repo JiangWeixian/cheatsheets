@@ -24,11 +24,18 @@ export const GlobalStyle = createGlobalStyle`
   #__next {
     height: 100%;
     width: 100%;
+    @apply relative;
   }
 
   a {
     color: inherit;
     @apply underline-transparent;
+  }
+
+  #SHEET-CONTAINER {
+    z-index: -1;
+
+    @apply flex justify-center items-center p-12 bg-gray-300 fixed w-1/2;
   }
 
   /** overwrite github.css */
