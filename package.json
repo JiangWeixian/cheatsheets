@@ -31,7 +31,7 @@
     "classnames": "2.2.6",
     "copy-to-clipboard": "3.3.1",
     "dayjs": "1.8.24",
-    "granen": "0.0.0-beta-20219166430",
+    "granen": "0.0.0-beta-202191610565",
     "html2canvas": "^1.0.0-rc.7",
     "instantsearch.js": "^4.30.2",
     "lodash.compact": "^3.0.1",
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@aiou/eslint-config": "^0.2.2",
+    "@next/eslint-plugin-next": "^11.1.2",
     "@types/classnames": "2.2.10",
     "@types/lodash.compact": "^3.0.6",
     "@types/lodash.debounce": "^4.0.6",
