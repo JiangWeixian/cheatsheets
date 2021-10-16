@@ -1,0 +1,15 @@
+name: "cheatsheet updater"
+
+on:
+  schedule:
+    - cron: "0 23 * * *"
+
+jobs:
+  # test action works running from the schedule
+  cronjob:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ohmycheatsheet/actions-updater
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

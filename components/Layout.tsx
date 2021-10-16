@@ -42,12 +42,6 @@ const Copyright = styled.footer`
 const Container = styled(GranenLayout)`
   @apply flex bg-gray-100 lg:h-full lg:w-full;
 
-  [id='SHEET-CONTAINER'] {
-    z-index: -1;
-
-    @apply flex justify-center items-center p-12 bg-gray-300 fixed;
-  }
-
   .inner {
     flex-basis: 0;
 
@@ -59,6 +53,10 @@ const Main = styled(GranenLayout.Main)`
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%),
     radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
   background-blend-mode: multiply, multiply;
+
+  [data-role='layout-content'] {
+    background-color: transparent;
+  }
 `
 
 const G = Github as any
@@ -81,6 +79,10 @@ const Layout = ({ children }: Props) => {
       if (type === 'pre' || type === 'code') {
         const code = target.textContent
         copy(code)
+        Notification.info({
+          title: 'Copied success!',
+          description: 'Share your code',
+        })
       }
     }
     document.body.addEventListener('click', handleCopyCode)
@@ -96,7 +98,7 @@ const Layout = ({ children }: Props) => {
     <GranenThemeProvider defaultThemeType="dark">
       <Container>
         <Head>
-          <title>jiangweixian's cheatsheet</title>
+          <title>{`${config.owner}'s cheatsheet`}</title>
         </Head>
         <GranenLayout.Nav
           logo={<Avatar src={`https://github.com/${config.owner}.png?size=40`} />}
@@ -124,15 +126,14 @@ const Layout = ({ children }: Props) => {
               }}
             />
           </GranenLayout.NavItem>
-          <GranenLayout.NavItem itemKey="search">
+          {/* <GranenLayout.NavItem itemKey="search">
             <Search />
-          </GranenLayout.NavItem>
+          </GranenLayout.NavItem> */}
         </GranenLayout.Nav>
         <SideBar open={open} />
         <Main>
-          <div className="inner">{children}</div>
+          <GranenLayout.Content>{children}</GranenLayout.Content>
           {/* for share cheatsheet image */}
-          <div id="SHEET-CONTAINER" />
           <Divider type="horizontal" />
           <Copyright>
             <Icon>

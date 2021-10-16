@@ -103,7 +103,7 @@ const SearchContainer = styled.div`
 `
 
 const EventContainer = styled.div`
-  @apply w-3/5 m-auto p-6 grid grid-cols-none gap-4 sm:grid-cols-2 sm:p-12 sm:w-4/5;
+  @apply w-4/5 m-auto px-6 pt-6 grid grid-cols-none gap-4 grid-cols-2;
 `
 
 const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = props => {
@@ -115,8 +115,8 @@ const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = props => {
         <CheatSheetSearchBox />
       </SearchContainer>
       <EventContainer>
-        <Someday issues={props.someday} status={status} />
-        <Recent highlight={keyword} issues={issues} status={status} />
+        <Someday issues={props.someday} />
+        <Recent highlight={keyword} issues={props.recent} />
       </EventContainer>
     </Layout>
   )

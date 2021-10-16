@@ -11,7 +11,7 @@ import { api } from '~/request/client'
 import { PAGE_SIZE } from '~/utils/constants'
 
 const Item = styled.span`
-  @apply flex items-center gap-4;
+  @apply flex items-center w-full gap-4;
 
   --ggs: 0.75;
 `
@@ -20,42 +20,57 @@ const SpinnerContainer = styled.div`
   @apply w-full flex items-center justify-center;
 `
 
-const getKey = (pageIndex: number, previousPageData: Label[] | null) => {
-  if (previousPageData && !previousPageData.length) return null // reached the end
+const Aside = styled(Layout.Aside)`
+  [data-role='menu-inner'] {
+    @apply w-full overflow-auto;
+
+    height: calc(100vh - 64px);
+  }
+`
+
+const InfScroller = styled(InfiniteScroll)`
+  @apply h-full w-full;
+`
+
+const getKey = (pageIndex: number, previousPageData: { hits: Label[] } | null) => {
+  if (previousPageData && !previousPageData.hits.length) return null // reached the end
   return ['labels', pageIndex]
 }
 
 export const SideBar = ({ open = true, ...props }: { open?: boolean; className?: string }) => {
   const { data, size, setSize, isValidating } = useSWRInfinite(
     getKey,
-    async (_: string, index: number) => api.github.labels(index),
+    async (_: string, index: number) => {
+      return api.github.labels((index || 0) * PAGE_SIZE)
+    },
     {},
   )
   const isRefreshing = isValidating && data && data.length === size
-  const isEmpty = data?.[0]?.length === 0
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
+  const isEmpty = data?.[0]?.hits?.length === 0
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.hits?.length < PAGE_SIZE)
+  const hasMore = !!data && !isReachingEnd && !isValidating
   return (
-    <Layout.Aside open={open} className={props.className}>
-      <InfiniteScroll
-        hasMore={!!data && !isReachingEnd}
-        style={{ width: '100%' }}
-        useWindow={false}
-        loadMore={() => setSize(size + 1)}
-        loader={
-          isRefreshing && !isReachingEnd ? (
-            <SpinnerContainer>
-              <Spinner />
-            </SpinnerContainer>
-          ) : (
-            <>~</>
-          )
-        }
-      >
-        <Menu menuTheme="dark" size="lg">
+    <Aside open={open} className={props.className}>
+      <Menu menuTheme="dark" size="lg">
+        <InfScroller
+          hasMore={hasMore}
+          pageStart={0}
+          useWindow={false}
+          loadMore={page => setSize(page)}
+          loader={
+            isRefreshing && !isReachingEnd ? (
+              <SpinnerContainer>
+                <Spinner />
+              </SpinnerContainer>
+            ) : (
+              <>~</>
+            )
+          }
+        >
           {data?.map(page => {
             return (
               <>
-                {page?.map(v => (
+                {page?.hits?.map(v => (
                   <Menu.Item key={v.id}>
                     <Link href="/sheet/label/[id]" as={`/sheet/label/${v.id}`}>
                       <Item>
@@ -68,8 +83,8 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
               </>
             )
           })}
-        </Menu>
-      </InfiniteScroll>
-    </Layout.Aside>
+        </InfScroller>
+      </Menu>
+    </Aside>
   )
 }

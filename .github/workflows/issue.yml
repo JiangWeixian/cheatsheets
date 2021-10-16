@@ -1,4 +1,4 @@
-name: "issue x algolia"
+name: "cheatsheet x algolia"
 on:
   push:
     branches:

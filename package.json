@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@lotips/core": "^0.8.3-alpha.2",
-    "@omcs/request": "0.0.0-beta-2021911153514",
+    "@omcs/request": "0.0.0-beta-202191673534",
     "@react-spring/web": "^9.2.4",
     "@use-rematch/core": "0.0.6-alpha.1",
     "algoliasearch": "^4.10.5",
@@ -31,8 +31,10 @@
     "classnames": "2.2.6",
     "copy-to-clipboard": "3.3.1",
     "dayjs": "1.8.24",
+    "granen": "0.0.0-beta-20219166430",
     "html2canvas": "^1.0.0-rc.7",
     "instantsearch.js": "^4.30.2",
+    "lodash.compact": "^3.0.1",
     "lodash.debounce": "^4.0.8",
     "lodash.omit": "4.5.0",
     "lodash.sample": "^4.2.1",
@@ -51,7 +53,7 @@
     "react-responsive-masonry": "^2.1.1",
     "redux": "4.0.5",
     "styled-components": "5.1.0",
-    "styled-cssgg": "1.1.1-1",
+    "styled-cssgg": "1.1.1-alpha.2",
     "styled-webgradients": "1.0.0-1",
     "swr": "^1.0.1",
     "tailwindcss": "1.2.0"
@@ -59,6 +61,7 @@
   "devDependencies": {
     "@aiou/eslint-config": "^0.2.2",
     "@types/classnames": "2.2.10",
+    "@types/lodash.compact": "^3.0.6",
     "@types/lodash.debounce": "^4.0.6",
     "@types/lodash.sample": "^4.2.6",
     "@types/markdown-it": "0.0.9",
@@ -85,12 +88,12 @@
     "husky": "^7.0.0",
     "lint-staged": "^11.1.2",
     "next-images": "1.8.1",
-    "np": "5.2.1",
+    "next-transpile-modules": "^8.0.0",
     "postcss-extend": "1.0.5",
     "postcss-extend-rule": "3.0.0",
     "postcss-import": "12.0.1",
     "prettier": "1.19.1",
-    "typescript": "4.4.3"
+    "typescript": "4.4.4"
   },
   "config": {
     "commitizen": {
