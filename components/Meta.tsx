@@ -30,7 +30,7 @@ export const Meta = ({
       <meta property="og:title" content={title} />
       <meta property="og:image" content="https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png" />
       <meta property="og:description" content={description} />
-      <meta property="og:site_name" content="Jiangweixian's Cheatsheets" />
+      <meta property="og:site_name" content={`${config.owner}'s Cheatsheets`} />
     </Head>
   )
 }

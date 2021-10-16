@@ -211,11 +211,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           </Info>
         ) : null}
       </Container>
-      {props.isShared ? (
-        <Controls>
-          {Operations}
-        </Controls>
-      ) : null}
+      {props.isShared ? <Controls>{Operations}</Controls> : null}
     </>
   )
 }

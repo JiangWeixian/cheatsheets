@@ -54,7 +54,7 @@ const Main = styled(GranenLayout.Main)`
     radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
   background-blend-mode: multiply, multiply;
 
-  [data-role="layout-content"] {
+  [data-role='layout-content'] {
     background-color: transparent;
   }
 `
@@ -98,7 +98,7 @@ const Layout = ({ children }: Props) => {
     <GranenThemeProvider defaultThemeType="dark">
       <Container>
         <Head>
-          <title>jiangweixian's cheatsheet</title>
+          <title>{`${config.owner}'s cheatsheet`}</title>
         </Head>
         <GranenLayout.Nav
           logo={<Avatar src={`https://github.com/${config.owner}.png?size=40`} />}
@@ -126,16 +126,13 @@ const Layout = ({ children }: Props) => {
               }}
             />
           </GranenLayout.NavItem>
-          <GranenLayout.NavItem itemKey="search">
+          {/* <GranenLayout.NavItem itemKey="search">
             <Search />
-          </GranenLayout.NavItem>
+          </GranenLayout.NavItem> */}
         </GranenLayout.Nav>
         <SideBar open={open} />
         <Main>
-          <GranenLayout.Content>
-            {children}
-          </GranenLayout.Content>
-          {/* <div className="inner">{children}</div> */}
+          <GranenLayout.Content>{children}</GranenLayout.Content>
           {/* for share cheatsheet image */}
           <Divider type="horizontal" />
           <Copyright>
