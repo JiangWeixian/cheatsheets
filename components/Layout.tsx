@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Home, Search, PushChevronLeft, PushChevronRight, MathPlus } from 'styled-cssgg'
+import { Home, PushChevronLeft, PushChevronRight, MathPlus } from 'styled-cssgg'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import zoom from 'medium-zoom'
