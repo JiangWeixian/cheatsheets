@@ -78,7 +78,7 @@ const Hits = (props: HitsProps) => {
               return (
                 <Item onClick={() => handleClick(result.index, item.objectID)} key={item.objectID}>
                   <Typography.Title h3={true}>
-                    {item.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
+                    {result.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
                       dangerouslySetInnerHTML={{
                         __html: item._highlightResult.title?.value || '',
                       }}
@@ -89,7 +89,7 @@ const Hits = (props: HitsProps) => {
                   />}
                   </Typography.Title>
                   <Typography.Paragraph>
-                    {item.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
+                    {result.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
                       dangerouslySetInnerHTML={{
                         __html: item._highlightResult.body?.value || '',
                       }}
