@@ -110,7 +110,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     setCopyLoading(true)
     container.appendChild(sheet)
     Html2Canvas(container as HTMLElement).then((canvas: HTMLCanvasElement) => {
-      canvas.toBlob(blob => {
+      canvas.toBlob((blob: any) => {
         if (!blob) {
           return
         }
