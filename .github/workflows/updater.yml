@@ -1,0 +1,16 @@
+name: "Cheatsheet updater"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  # test action works running from the graph
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ohmycheatsheet/actions-updater
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
