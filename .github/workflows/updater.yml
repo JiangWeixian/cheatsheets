@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ohmycheatsheet/actions-updater
+    - uses: ohmycheatsheet/actions-updater@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
