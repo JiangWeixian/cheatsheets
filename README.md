@@ -1,14 +1,24 @@
-![cheatsheets](https://i.loli.net/2020/04/24/skJDnlE4rUPKhFg.png)
+[![cheatsheets](https://user-images.githubusercontent.com/6839576/139080815-b8e556a0-fcca-41d0-83a1-0faffaa42be1.png)](https://github.com/ohmycheatsheet/cheatsheets)
 
-![image](https://user-images.githubusercontent.com/6839576/105569235-f6075100-5d7a-11eb-9444-eaa6ee7905a6.png)
+*built with ❤️ by [ohmycheatsheet](https://github.com/ohmycheatsheet/cheatsheets)*
 
 > **WARNING**
 > 
-> *This app based on github issue api, but api looks like not stable. I will refactor recently to make it more stable. If you like this project, please take look at [ohmycheetsheet](https://github.com/ohmycheatsheet?type=source)*
+> *`@2021/10/26 22:22:56` This app still under beta version~*
 
+## tools
+
+- [ctrlc](https://github.com/ohmycheatsheet/ctrlc) - a chrome extension for pin `cheatsheet`
 
 ## features
 
 - 🚀 easy and fast develop
-- 📩 support review your learned cheatsheets
+- 📩 support review your recently/some-day-your-learned cheatsheets
 - ✨ support code-share with url or image
+
+# 
+<div align='right'>
+
+*built with ❤️ by [ohmycheatsheet](https://github.com/ohmycheatsheet/cheatsheets)*
+
+</div>

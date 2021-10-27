@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "@aiou",
+    "plugin:@next/next/recommended"
+  ]
+}
