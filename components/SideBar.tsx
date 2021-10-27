@@ -1,103 +1,90 @@
-import React, { useEffect, useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
-import cx from 'classnames'
+import React from 'react'
+import useSWRInfinite from 'swr/infinite'
 import Link from 'next/link'
-import { Spinner, PushChevronLeft, PushChevronRight } from 'styled-cssgg'
-import { animated, useSpring, useTransition } from 'react-spring'
+import { Spinner, Hashtag } from 'styled-cssgg'
+import { Label } from '@omcs/request/types'
 import InfiniteScroll from 'react-infinite-scroller'
+import { Layout, Menu } from 'granen'
+import styled from 'styled-components'
 
 import { api } from '~/request/client'
-import { useCreateIssue } from '~/hooks/use-create-issue'
+import { PAGE_SIZE } from '~/utils/constants'
 
-const AnimatedPushChevronLeft = animated(PushChevronLeft)
-const AnimatedPushChevronRight = animated(PushChevronRight)
+const Item = styled.span`
+  @apply flex items-center w-full gap-4;
 
-export const SideBar = (props: { className?: string }) => {
-  const { data, fetchMore, canFetchMore, isFetching } = useInfiniteQuery(
-    'labels',
-    async (_key, page: number = 1) => {
-      const data = await api.github.labels(page)
-      return { data, page }
+  --ggs: 0.75;
+`
+
+const SpinnerContainer = styled.div`
+  @apply w-full flex items-center justify-center;
+`
+
+const Aside = styled(Layout.Aside)`
+  [data-role='menu-inner'] {
+    @apply w-full overflow-auto;
+
+    height: calc(100vh - 64px);
+  }
+`
+
+const InfScroller = styled(InfiniteScroll)`
+  @apply h-full w-full;
+`
+
+const getKey = (pageIndex: number, previousPageData: { hits: Label[] } | null) => {
+  if (previousPageData && !previousPageData.hits.length) return null // reached the end
+  return ['labels', pageIndex]
+}
+
+export const SideBar = ({ open = true, ...props }: { open?: boolean; className?: string }) => {
+  const { data, size, setSize, isValidating } = useSWRInfinite(
+    getKey,
+    async (_: string, index: number) => {
+      return api.github.labels((index || 0) * PAGE_SIZE)
     },
-    {
-      getFetchMore: last => (last?.data?.length === 30 ? last.page + 1 : undefined),
-    },
+    {},
   )
-  const [collapsed, setCollapsed] = useState(false)
-  const { handleCreateIssue } = useCreateIssue()
-  useEffect(() => {
-    fetchMore()
-  }, [])
-  const collapsedSpring = useSpring({
-    width: collapsed ? 64 : 300,
-    opacity: collapsed ? 0 : 1,
-  })
-  const collapsedTransitions = useTransition(collapsed, null, {
-    from: { position: 'absolute', opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  })
+  const isRefreshing = isValidating && data && data.length === size
+  const isEmpty = data?.[0]?.hits?.length === 0
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.hits?.length < PAGE_SIZE)
+  const hasMore = !!data && !isReachingEnd && !isValidating
   return (
-    <animated.div
-      data-role="side-bar"
-      style={{ width: collapsedSpring.width }}
-      className={cx(
-        'bg-gray-900 h-full p-2 box-border border-gray-300 border-r-2 flex flex-col relative',
-        props.className,
-      )}
-    >
-      <animated.ul
-        className="flex-1 flex-grow overflow-scroll"
-        style={{ opacity: collapsedSpring.opacity, flexBasis: 0 }}
-      >
-        <InfiniteScroll
-          hasMore={!isFetching && canFetchMore}
+    <Aside open={open} className={props.className}>
+      <Menu menuTheme="dark" size="lg">
+        <InfScroller
+          hasMore={hasMore}
+          pageStart={0}
           useWindow={false}
-          loadMore={() => fetchMore()}
+          loadMore={page => setSize(page)}
           loader={
-            <div className="w-full flex items-center justify-center">
-              <Spinner />
-            </div>
+            isRefreshing && !isReachingEnd ? (
+              <SpinnerContainer>
+                <Spinner />
+              </SpinnerContainer>
+            ) : (
+              <>~</>
+            )
           }
         >
-          <li className="w-full flex justify-center">
-            <button
-              onClick={handleCreateIssue}
-              className="rounded p-2 my-2 w-11/12 m-auto text-gray-300 bg-indigo-600"
-            >
-              Create New Cheatsheet
-            </button>
-          </li>
           {data?.map(page => {
             return (
               <>
-                {page.data?.map(v => (
-                  <Link href="/sheet/[id]" as={`/sheet/${v.name}`}>
-                    <li
-                      title={v.description}
-                      className="text-gray-300 rounded-lg text-base cursor-pointer py-2 px-4 my-4 hover:bg-black hover:text-white"
-                    >
-                      {v.name}
-                    </li>
-                  </Link>
+                {page?.hits?.map(v => (
+                  <Menu.Item key={v.id}>
+                    <Link href="/sheet/label/[id]" as={`/sheet/label/${v.id}`}>
+                      <Item>
+                        <Hashtag />
+                        {v.name}
+                      </Item>
+                    </Link>
+                  </Menu.Item>
                 ))}
               </>
             )
           })}
-        </InfiniteScroll>
-      </animated.ul>
-      <div
-        onClick={() => setCollapsed(prev => !prev)}
-        className="relative right-0 bottom-0 w-full h-10 flex flex-grow-0 justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer"
-      >
-        {collapsedTransitions.map(({ item, props }) => {
-          return item ? (
-            <AnimatedPushChevronRight style={props} />
-          ) : (
-            <AnimatedPushChevronLeft style={props} />
-          )
-        })}
-      </div>
-    </animated.div>
+        </InfScroller>
+      </Menu>
+    </Aside>
   )
 }

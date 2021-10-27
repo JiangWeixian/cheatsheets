@@ -1,6 +1,7 @@
 {
   "presets": ["next/babel"],
   "plugins": [
+    "styled-windicss",
     "inline-react-svg",
     [
       "styled-components",
@@ -14,6 +15,14 @@
       "prismjs",
       {
         "languages": ["javascript", "css", "markup", "typescript", "tsx", "diff"]
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "granen",
+        "libraryDirectory": "es",
+        "style": false
       }
     ]
   ]

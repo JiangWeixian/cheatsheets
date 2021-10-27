@@ -1,13 +1,20 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { api } from '~/request/server'
+import { NextApiResponse } from 'next'
+import { NextApiRequest } from '~/interface'
+import { withOmcs } from '~/utils/middlewares'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+import { PAGE_SIZE } from '~/utils/constants'
+
+export default withOmcs(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const items = await api.github.labels(req.query.page as string)
+    const offset = Number(req.query.offset || 0)
+    const results = await req._omcs.listLabels({
+      offset,
+      length: PAGE_SIZE,
+    })
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(items))
+    res.end(JSON.stringify(results))
   } catch (err) {
-    res.status(500).json({ statusCode: 500, message: err.message })
+    res.status(500).json({ statusCode: 500, message: (err as any).message })
   }
-}
+})

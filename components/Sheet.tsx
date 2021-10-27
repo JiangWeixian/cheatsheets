@@ -1,3 +1,6 @@
+/**
+ * @todo ugly css style
+ */
 import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
 import { useRouter } from 'next/router'
@@ -5,11 +8,13 @@ import { Image, Link, Spinner } from 'styled-cssgg'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
+import { Box, Divider, Typography, Dot, Notification } from 'granen'
+import styled from 'styled-components'
+import { Issue } from '@omcs/request/types'
 
-import { Github } from '~/interface/github'
-import { getId } from '~/utils/sheet'
 import { share } from '~/utils/share'
 import { createMarkdownRenderer } from '~/utils/md'
+import { Icon } from '~/components/Icon'
 
 let Html2Canvas: typeof import('html2canvas')['default']
 import('html2canvas').then(module => (Html2Canvas = module.default as any))
@@ -18,20 +23,83 @@ dayjs.extend(relativeTime)
 const MarkdownIt = createMarkdownRenderer()
 
 type SheetProps = {
-  v?: Github.Issue
+  v?: Issue
   highlight?: string
   className?: string
   style?: React.CSSProperties
+  onClickTitle?: (v: Issue) => void
+  onShare?: (notify?: boolean) => void
+  isShared?: boolean
 }
 
-const EMPTY = {} as Github.Issue
+const Container = styled(Box)`
+  @apply shadow w-full rounded-lg overflow-hidden text-sm;
+
+  && {
+    background-color: var(--active-bg-color);
+  }
+
+  [data-role='divider'] {
+    @apply mb-0;
+  }
+
+  .operations {
+    @apply flex gap-4 items-center;
+  }
+`
+
+const Title = styled.div`
+  @apply p-4 pb-0;
+
+  .label {
+    @apply pr-2 cursor-pointer inline-flex items-center text-sm text-gray-700 gap-2;
+  }
+`
+
+const SubTitle = styled(Typography.SubTitle)`
+  && {
+    @apply m-0 mb-1 cursor-pointer;
+  }
+
+  [data-role='dot'] {
+    @apply ml-2 w-2 h-2;
+  }
+`
+
+const Info = styled.div`
+  @apply box-border flex italic justify-between items-center text-sm text-gray-500 p-4 w-full;
+
+  [data-role='info-operations'] {
+    @apply flex justify-between items-center text-sm;
+  }
+
+  time {
+    @apply mx-2;
+  }
+`
+
+const Controls = styled(Box)`
+  @apply shadow-2xl w-1/2 text-gray-500 mt-4;
+
+  .operations {
+    @apply flex gap-4 items-center p-4;
+  }
+`
+
+const Operation = styled(Icon)`
+  @apply cursor-pointer p-4 -m-4 cursor-pointer;
+
+  &.loading {
+    @apply cursor-not-allowed;
+  }
+`
+
+const EMPTY = {} as Issue
 
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   const router = useRouter()
   const label = v.labels?.[0]?.name
-  const queryId = router.query._id
-  const idcard = getId(v)
-  console.log(idcard, queryId)
+  const idcard = v.id
   const [copyLoading, setCopyLoading] = useState(false)
   const handleCopyImage = useCallback(() => {
     const sheet = document.querySelector(`[id="${idcard}"]`)?.cloneNode(true)
@@ -42,7 +110,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     setCopyLoading(true)
     container.appendChild(sheet)
     Html2Canvas(container as HTMLElement).then((canvas: HTMLCanvasElement) => {
-      canvas.toBlob(blob => {
+      canvas.toBlob((blob: any) => {
         if (!blob) {
           return
         }
@@ -50,95 +118,100 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         ;(navigator.clipboard as any).write([item])
         container.removeChild(sheet)
         setCopyLoading(false)
+        // TODO: should we include image in description?
+        Notification.info({
+          title: 'Copied success!',
+          description: 'Share your cheatsheet with image',
+        })
       })
     })
   }, [idcard])
-  return (
-    <div
-      className={cx(
-        'shadow w-full bg-white rounded-lg overflow-hidden theme-default-content text-sm',
-        {
-          'shadow-outline': idcard === queryId,
-        },
-        props.className,
-      )}
-      style={props.style}
-      key={v.title}
-      id={idcard}
-    >
-      <div className="border-b p-4">
-        <h1 className="flex items-center font-medium text-xl">
-          <a className="text-indigo-600 " href={v.html_url} target="_blank">
-            <span
-              dangerouslySetInnerHTML={{
-                __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
-              }}
-            />
-            {v.state === 'open' ? (
-              <span className="rounded-full inline-block bg-green-300 w-2 h-2 ml-2" />
-            ) : (
-              <span className="rounded-full inline-block bg-red-300 w-2 h-2 ml-2" />
-            )}
-          </a>
-        </h1>
-        {v.labels.map(label => {
-          return (
-            <div
-              key={label.id}
-              className="pr-2 w-min cursor-pointer inline-flex items-center text-sm text-gray-700"
-              onClick={() => router.push(`/sheet/${label.name}`)}
-            >
-              <span style={{ color: `#${label.color}` }} className="mr-1">
-                #
-              </span>
-              <span>{label.name}</span>
-            </div>
-          )
-        })}
-      </div>
-      <div
-        key={v.title}
-        dangerouslySetInnerHTML={{
-          __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
+  const Operations = (
+    <div className="operations">
+      <Operation
+        onClick={() => {
+          share(idcard, label, v.title, v.body).then(needNotify => {
+            if (needNotify) {
+              Notification.info({
+                title: 'Copied success!',
+                description: 'Share your cheatsheet with link',
+              })
+            }
+          })
         }}
-      />
-      <div className="flex italic justify-between items-center text-sm text-gray-600 p-4 bg-gray-100 w-full">
-        <div className="flex justify-between items-center text-sm">
-          <div
-            className="cursor-pointer p-4 -m-4"
-            onClick={() => {
-              share(idcard, label, v.title, v.body)
-            }}
-          >
-            <Link style={{ '--ggs': 0.7 } as any} />
-          </div>
-          <div
-            className={cx(
-              {
-                'cursor-pointer': !copyLoading,
-                'cursor-not-allowed': copyLoading,
-              },
-              'p-4',
-              '-m-4',
-              'ml-4',
-            )}
-            onClick={() => {
-              handleCopyImage()
-            }}
-          >
-            {copyLoading ? (
-              <Spinner style={{ '--ggs': 0.7 } as any} />
-            ) : (
-              <Image style={{ '--ggs': 0.7 } as any} />
-            )}
-          </div>
-        </div>
-        <div>
-          <time>{dayjs(v.updated_at).from(dayjs())}</time>
-          <span className="mx-2">/</span>
-          <time>{dayjs(v.created_at).format('YYYY-MM-DD')}</time>
-        </div>
-      </div>
+      >
+        <Link style={{ '--ggs': 0.7 } as any} />
+      </Operation>
+      <Operation
+        className={cx({
+          loading: copyLoading,
+          last: true,
+        })}
+        onClick={() => {
+          handleCopyImage()
+        }}
+      >
+        {copyLoading ? (
+          <Spinner style={{ '--ggs': 0.7 } as any} />
+        ) : (
+          <Image style={{ '--ggs': 0.7 } as any} />
+        )}
+      </Operation>
     </div>
+  )
+  return (
+    <>
+      <Container
+        borderless={true}
+        className={props.className}
+        style={props.style}
+        key={v.title}
+        id={idcard}
+      >
+        <Title>
+          <SubTitle h2={true}>
+            <a target="_blank" rel="noreferrer">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: doHighlight(`<span>${v.title || ''}</span>`, highlight),
+                }}
+                onClick={() => props.onClickTitle?.(v)}
+              />
+              {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
+            </a>
+          </SubTitle>
+          {v.labels?.map(label => {
+            return (
+              <div
+                key={label.id}
+                className="label"
+                style={{ color: `#${label.color}` }}
+                onClick={() => router.push(`/sheet/label/${label.id}`)}
+              >
+                # {label.name}
+              </div>
+            )
+          })}
+        </Title>
+        <Divider type="horizontal" />
+        <div
+          key={v.title}
+          className="markdown-body"
+          dangerouslySetInnerHTML={{
+            __html: doHighlight(MarkdownIt.render(v.body || ''), highlight),
+          }}
+        />
+        {!props.isShared ? (
+          <Info>
+            {Operations}
+            <div>
+              <time>{dayjs(v.updatedAt).from(dayjs())}</time>
+              <time>{dayjs(v.createdAt).format('YYYY-MM-DD')}</time>
+            </div>
+          </Info>
+        ) : null}
+      </Container>
+      {props.isShared ? <Controls>{Operations}</Controls> : null}
+    </>
   )
 }
