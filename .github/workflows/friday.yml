@@ -1,8 +1,6 @@
-name: "cheatsheet updater"
+name: "cheatsheet bot"
 
 on:
-  schedule:
-    - cron: "0 23 * * *"
   push:
     branches:
       - master
@@ -10,10 +8,10 @@ on:
 
 jobs:
   # test action works running from the schedule
-  updater:
+  bot:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: ohmycheatsheet/actions-updater@v1
+    - uses: ohmycheatsheet/actions-friday@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
