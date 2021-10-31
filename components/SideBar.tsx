@@ -56,7 +56,7 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
           hasMore={hasMore}
           pageStart={0}
           useWindow={false}
-          loadMore={page => setSize(page)}
+          loadMore={(page) => setSize(page)}
           loader={
             isRefreshing && !isReachingEnd ? (
               <SpinnerContainer>
@@ -67,10 +67,10 @@ export const SideBar = ({ open = true, ...props }: { open?: boolean; className?:
             )
           }
         >
-          {data?.map(page => {
+          {data?.map((page) => {
             return (
               <>
-                {page?.hits?.map(v => (
+                {page?.hits?.map((v) => (
                   <Menu.Item key={v.id}>
                     <Link href="/sheet/label/[id]" as={`/sheet/label/${v.id}`}>
                       <Item>

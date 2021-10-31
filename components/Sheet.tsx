@@ -17,7 +17,7 @@ import { createMarkdownRenderer } from '~/utils/md'
 import { Icon } from '~/components/Icon'
 
 let Html2Canvas: typeof import('html2canvas')['default']
-import('html2canvas').then(module => (Html2Canvas = module.default as any))
+import('html2canvas').then((module) => (Html2Canvas = module.default as any))
 
 dayjs.extend(relativeTime)
 const MarkdownIt = createMarkdownRenderer()
@@ -130,7 +130,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
     <div className="operations">
       <Operation
         onClick={() => {
-          share(idcard, label, v.title, v.body).then(needNotify => {
+          share(idcard, label, v.title, v.body).then((needNotify) => {
             if (needNotify) {
               Notification.info({
                 title: 'Copied success!',
@@ -180,7 +180,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
               {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
             </a>
           </SubTitle>
-          {v.labels?.map(label => {
+          {v.labels?.map((label) => {
             return (
               <div
                 key={label.id}

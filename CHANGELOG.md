@@ -1,5 +1,13 @@
 # cheatsheets
 
+## 1.0.2
+
+### Patch Changes
+
+- ec464a7: use friday ci
+- 7f77df3: search loading
+- 2bb511c: fix search page 500
+
 ## 1.0.1
 
 ### Patch Changes
