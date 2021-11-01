@@ -18,5 +18,20 @@ module.exports = withTM(
       // !! WARN !!
       ignoreBuildErrors: process.env.NODE_ENV !== 'development',
     },
+    async redirects() {
+      return [
+        {
+          source: '/',
+          destination: '/search',
+          permanent: true,
+          has: [
+            {
+              type: 'query',
+              key: 'q',
+            },
+          ],
+        },
+      ]
+    },
   }),
 )

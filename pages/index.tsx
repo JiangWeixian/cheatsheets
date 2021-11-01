@@ -106,7 +106,7 @@ const EventContainer = styled.div`
   @apply w-4/5 m-auto px-6 pt-6 grid grid-cols-none gap-4 grid-cols-2;
 `
 
-const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = props => {
+const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = (props) => {
   const keyword = useRouter().query.q as string
   return (
     <Layout>

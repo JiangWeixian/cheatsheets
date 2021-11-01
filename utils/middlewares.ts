@@ -4,6 +4,7 @@ import { NextApiResponse, NextApiRequest } from 'next'
 export const api = create(
   process.env.NEXT_PUBLIC_ALGOLIA_APPID!,
   process.env.ALGOLIA_APP_KEY!,
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY!,
   process.env.GITHUB_TOKEN!,
 )
 

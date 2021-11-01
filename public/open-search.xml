@@ -2,5 +2,5 @@
     <ShortName>CheatSheets</ShortName>
     <Description>搜索 CheatSheet</Description>
     <!-- TODO: is able remove host prefix -->
-    <Url type="text/html" template="https://jiangweixian-cheatsheets.vercel.app/search/?q={searchTerms}"/>
+    <Url type="text/html" template="https://jiangweixian-cheatsheets.vercel.app/?q={searchTerms}"/>
 </OpenSearchDescription>

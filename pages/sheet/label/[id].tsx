@@ -50,7 +50,7 @@ const getKey = (
   return ['issues', namespace, pageIndex]
 }
 
-const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = props => {
+const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = (props) => {
   const router = useRouter()
   const { data, setSize, isValidating } = useSWRInfinite(
     (...args: [any, any]) => getKey(...args, props.label.id),
@@ -76,12 +76,12 @@ const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = props => {
           hasMore={hasMore}
           pageStart={0}
           useWindow={false}
-          loadMore={page => setSize(page)}
+          loadMore={(page) => setSize(page)}
           className="index"
         >
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
             <Masonry gutter="16px">
-              {cheatsheets?.map(v => {
+              {cheatsheets?.map((v) => {
                 return (
                   <Sheet
                     onClickTitle={() => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
