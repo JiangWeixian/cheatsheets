@@ -105,7 +105,7 @@ const Layout = ({ children }: Props) => {
           bottom={
             <NavBottom>
               <MathPlus onClick={handleCreateIssue} />
-              <Chevron onClick={() => setOpen(prev => !prev)}>
+              <Chevron onClick={() => setOpen((prev) => !prev)}>
                 {collapsedTransitions((props, item) => {
                   return item ? (
                     <AnimatedPushChevronLeft style={props as any} />

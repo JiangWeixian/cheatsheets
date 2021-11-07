@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const client = axios.create()
 client.interceptors.response.use(
-  async res => {
+  async (res) => {
     return res.data
   },
   (err: any) => {

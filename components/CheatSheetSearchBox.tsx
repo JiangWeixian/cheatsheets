@@ -7,7 +7,11 @@ import styled from 'styled-components'
 import type { Hit } from 'react-instantsearch-core'
 import type { SearchClient } from 'algoliasearch'
 
-import { SEARCH_CHEATSHEET_INDEX_NAME, SEARCH_LABELS_INDEX_NAME, dictionary } from '~/utils/constants'
+import {
+  SEARCH_CHEATSHEET_INDEX_NAME,
+  SEARCH_LABELS_INDEX_NAME,
+  dictionary,
+} from '~/utils/constants'
 import { useRouter } from 'next/router'
 
 const searchClient: SearchClient = algolia.getSearchClient(
@@ -20,7 +24,6 @@ type Queries = Parameters<SearchClient['multipleQueries']>[0]
 const unShipProps: any = {
   enterkeyhint: 'search',
 }
-
 
 const Item = styled(Dropdown.Item)`
   && {
@@ -43,11 +46,11 @@ type HitsProps = {
 
 const Menu = styled(Dropdown.Menu)`
   && {
-    [data-role="menu-subtitle"] {
+    [data-role='menu-subtitle'] {
       @apply p-0;
     }
 
-    [data-role="dropdown-menu-item"] {
+    [data-role='dropdown-menu-item'] {
       @apply mt-0;
     }
   }
@@ -56,22 +59,25 @@ const Menu = styled(Dropdown.Menu)`
 const Hits = (props: HitsProps) => {
   const router = useRouter()
   if (props.loading) {
-    return <Dropdown.Menu>
-      <Item>
-        <Spinner />
-      </Item>
-    </Dropdown.Menu>
-  }
-  if (props.value.length === 0) {
     return (
       <Dropdown.Menu>
         <Item>
-          No Results
+          <Spinner />
         </Item>
       </Dropdown.Menu>
     )
   }
-  const handleClick = (index: typeof SEARCH_CHEATSHEET_INDEX_NAME | typeof SEARCH_LABELS_INDEX_NAME, id: string) => {
+  if (props.value.length === 0) {
+    return (
+      <Dropdown.Menu>
+        <Item>No Results</Item>
+      </Dropdown.Menu>
+    )
+  }
+  const handleClick = (
+    index: typeof SEARCH_CHEATSHEET_INDEX_NAME | typeof SEARCH_LABELS_INDEX_NAME,
+    id: string,
+  ) => {
     if (index === 'cheatsheets_issues') {
       router.push('/sheet/id/[id]', `/sheet/id/${id}`)
     }
@@ -81,79 +87,93 @@ const Hits = (props: HitsProps) => {
   }
   return (
     <Menu>
-      {
-        props.value.filter(item => item.hits.length !== 0).map(result => {
-          return <Dropdown.SubMenu key={result.index} title={dictionary[result.index]}>
-            {result.hits.map(item => {
-              return (
-                <Item onClick={() => handleClick(result.index, item.objectID)} key={item.objectID}>
-                  <Typography.Title h3={true}>
-                    {result.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
-                      dangerouslySetInnerHTML={{
-                        __html: item._highlightResult.title?.value || '',
-                      }}
-                    /> : <p
-                    dangerouslySetInnerHTML={{
-                      __html: item._highlightResult.name?.value || '',
-                    }}
-                  />}
-                  </Typography.Title>
-                  <Typography.Paragraph>
-                    {result.index === SEARCH_CHEATSHEET_INDEX_NAME ? <p
-                      dangerouslySetInnerHTML={{
-                        __html: item._highlightResult.body?.value || '',
-                      }}
-                    /> : (
-                      <p
-                      dangerouslySetInnerHTML={{
-                        __html: item._highlightResult.description?.value || '',
-                      }}
-                    />
-                    )}
-                  </Typography.Paragraph>
-                </Item>
-              )
-            })}
-          </Dropdown.SubMenu>
-        })
-      }
+      {props.value
+        .filter((item) => item.hits.length !== 0)
+        .map((result) => {
+          return (
+            <Dropdown.SubMenu key={result.index} title={dictionary[result.index]}>
+              {result.hits.map((item) => {
+                return (
+                  <Item
+                    onClick={() => handleClick(result.index, item.objectID)}
+                    key={item.objectID}
+                  >
+                    <Typography.Title h3={true}>
+                      {result.index === SEARCH_CHEATSHEET_INDEX_NAME ? (
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: item._highlightResult.title?.value || '',
+                          }}
+                        />
+                      ) : (
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: item._highlightResult.name?.value || '',
+                          }}
+                        />
+                      )}
+                    </Typography.Title>
+                    <Typography.Paragraph>
+                      {result.index === SEARCH_CHEATSHEET_INDEX_NAME ? (
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: item._highlightResult.body?.value || '',
+                          }}
+                        />
+                      ) : (
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: item._highlightResult.description?.value || '',
+                          }}
+                        />
+                      )}
+                    </Typography.Paragraph>
+                  </Item>
+                )
+              })}
+            </Dropdown.SubMenu>
+          )
+        })}
     </Menu>
   )
 }
 
 export const CheatSheetSearchBox = () => {
-  const [input, setInput] = useState("")
+  const [input, setInput] = useState('')
   const [value, setValue] = useState<HitsProps['value']>([])
   const [loading, setLoading] = useState(false)
-  const searchApi = useRef(debounce((query = '') => {
-    const queries: Queries = [{
-      indexName: SEARCH_CHEATSHEET_INDEX_NAME,
-      query,
-      params: {
-        hitsPerPage: 3,
-        highlightPreTag:'<mark class="search-highlight">',
-        highlightPostTag: "</mark>",
-        attributesToHighlight: [
-          'body:100'
-        ],
-      },
-    }, {
-      indexName: SEARCH_LABELS_INDEX_NAME,
-      query,
-      params: {
-        hitsPerPage: 3,
-        highlightPreTag:'<mark class="search-highlight">',
-        highlightPostTag: "</mark>"
-      }
-    }];
-    searchClient.multipleQueries(queries).then(({ results }: { results: any }) => {
-      setValue(results as HitsProps['value'])
-    });
-  }, 500))
-  const handleChange = useCallback((e) => {
+  const searchApi = useRef(
+    debounce(async (query = '') => {
+      const queries: Queries = [
+        {
+          indexName: SEARCH_CHEATSHEET_INDEX_NAME,
+          query,
+          params: {
+            hitsPerPage: 3,
+            highlightPreTag: '<mark class="search-highlight">',
+            highlightPostTag: '</mark>',
+            attributesToHighlight: ['body:100'],
+          },
+        },
+        {
+          indexName: SEARCH_LABELS_INDEX_NAME,
+          query,
+          params: {
+            hitsPerPage: 3,
+            highlightPreTag: '<mark class="search-highlight">',
+            highlightPostTag: '</mark>',
+          },
+        },
+      ]
+      await searchClient.multipleQueries(queries).then(({ results }: { results: any }) => {
+        setValue(results as HitsProps['value'])
+      })
+    }, 500),
+  )
+  const handleChange = useCallback(async (e) => {
     setInput(e.currentTarget.value)
     setLoading(true)
-    searchApi.current(e.currentTarget.value)
+    await searchApi.current(e.currentTarget.value)
     setLoading(false)
   }, [])
   return (
@@ -174,6 +194,5 @@ export const CheatSheetSearchBox = () => {
         onChange={handleChange}
       />
     </Dropdown>
-    
   )
 }
