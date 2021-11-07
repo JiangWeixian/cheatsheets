@@ -15,5 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ohmycheatsheet/actions-updater@v1
+      with:
+        repo: ohmycheatsheet/cheatsheets
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
