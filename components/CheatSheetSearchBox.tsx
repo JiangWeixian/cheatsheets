@@ -22,7 +22,7 @@ const searchClient: SearchClient = algolia.getSearchClient(
 type Queries = Parameters<SearchClient['multipleQueries']>[0]
 
 const unShipProps: any = {
-  enterkeyhint: 'search',
+  enterKeyHint: 'search',
 }
 
 const Item = styled(Dropdown.Item)`
@@ -46,6 +46,9 @@ type HitsProps = {
 
 const Menu = styled(Dropdown.Menu)`
   && {
+    max-height: 400px;
+    overflow-y: auto;
+
     [data-role='menu-subtitle'] {
       @apply p-0;
     }
@@ -152,7 +155,7 @@ export const CheatSheetSearchBox = () => {
             hitsPerPage: 3,
             highlightPreTag: '<mark class="search-highlight">',
             highlightPostTag: '</mark>',
-            attributesToHighlight: ['body:100'],
+            facetFilters: ['state:OPEN'],
           },
         },
         {
@@ -186,7 +189,6 @@ export const CheatSheetSearchBox = () => {
     >
       <Input
         prefix={<Search />}
-        borderless={true}
         {...unShipProps}
         type="input"
         size="lg"

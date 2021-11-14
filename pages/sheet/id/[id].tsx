@@ -13,10 +13,10 @@ import { Sheet } from '~/components/Sheet'
 
 const Container = styled.div`
   @apply p-12 flex flex-col items-center justify-center h-full w-full box-border;
-`
 
-const ShardSheet = styled(Sheet)`
-  @apply w-1/2 shadow-2xl;
+  .shared-sheet {
+    @apply w-1/2 shadow-2xl;
+  }
 `
 
 const CheatSheetById: NextPage<{ issue: Issue }> = (props) => {
@@ -24,7 +24,7 @@ const CheatSheetById: NextPage<{ issue: Issue }> = (props) => {
     <Layout>
       <Meta title={props.issue?.title} description={props.issue?.body} />
       <Container>
-        <ShardSheet isShared={true} className="w-1/2" v={props.issue} />
+        <Sheet isShared={true} className="shared-sheet" v={props.issue} />
       </Container>
     </Layout>
   )

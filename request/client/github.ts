@@ -16,7 +16,7 @@ export const github = {
   async labels(offset?: number): Promise<{ hits: Label[] }> {
     return client.get(`/api/labels`, { params: { offset } })
   },
-  async issues({
+  async sheets({
     labelID,
     offset,
   }: {

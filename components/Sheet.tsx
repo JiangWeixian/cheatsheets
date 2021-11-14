@@ -46,51 +46,45 @@ const Container = styled(Box)`
   .operations {
     @apply flex gap-4 items-center;
   }
-`
 
-const Title = styled.div`
-  @apply p-4 pb-0;
+  .operation {
+    @apply cursor-pointer p-4 -m-4 cursor-pointer;
 
-  .label {
-    @apply pr-2 cursor-pointer inline-flex items-center text-sm text-gray-700 gap-2;
+    &.loading {
+      @apply cursor-not-allowed;
+    }
   }
-`
 
-const SubTitle = styled(Typography.SubTitle)`
-  && {
+  .sheet-title {
+    @apply p-4 pb-0;
+
+    .label {
+      @apply pr-2 cursor-pointer inline-flex items-center text-sm text-gray-700 gap-2;
+    }
+  }
+
+  .sheet-subtitle {
     @apply m-0 mb-1 cursor-pointer;
+
+    [data-role='dot'] {
+      @apply ml-2 w-2 h-2;
+    }
   }
 
-  [data-role='dot'] {
-    @apply ml-2 w-2 h-2;
-  }
-`
+  .info {
+    @apply box-border flex italic justify-between items-center text-sm text-gray-500 p-4 w-full;
 
-const Info = styled.div`
-  @apply box-border flex italic justify-between items-center text-sm text-gray-500 p-4 w-full;
-
-  [data-role='info-operations'] {
-    @apply flex justify-between items-center text-sm;
+    time {
+      @apply mx-2;
+    }
   }
 
-  time {
-    @apply mx-2;
-  }
-`
+  .controls {
+    @apply shadow-2xl w-1/2 text-gray-500 mt-4;
 
-const Controls = styled(Box)`
-  @apply shadow-2xl w-1/2 text-gray-500 mt-4;
-
-  .operations {
-    @apply flex gap-4 items-center p-4;
-  }
-`
-
-const Operation = styled(Icon)`
-  @apply cursor-pointer p-4 -m-4 cursor-pointer;
-
-  &.loading {
-    @apply cursor-not-allowed;
+    .operations {
+      @apply flex gap-4 items-center p-4;
+    }
   }
 `
 
@@ -128,7 +122,8 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
   }, [idcard])
   const Operations = (
     <div className="operations">
-      <Operation
+      <Icon
+        className="operation"
         onClick={() => {
           share(idcard, label, v.title, v.body).then((needNotify) => {
             if (needNotify) {
@@ -141,9 +136,9 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         }}
       >
         <Link style={{ '--ggs': 0.7 } as any} />
-      </Operation>
-      <Operation
-        className={cx({
+      </Icon>
+      <Icon
+        className={cx('operation', {
           loading: copyLoading,
           last: true,
         })}
@@ -156,20 +151,20 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
         ) : (
           <Image style={{ '--ggs': 0.7 } as any} />
         )}
-      </Operation>
+      </Icon>
     </div>
   )
   return (
     <>
       <Container
-        borderless={true}
+        borderless="true"
         className={props.className}
         style={props.style}
         key={v.title}
         id={idcard}
       >
-        <Title>
-          <SubTitle h2={true}>
+        <div className="sheet-title">
+          <Typography.SubTitle className="sheet-subtitle" h2={true}>
             <a target="_blank" rel="noreferrer">
               <span
                 dangerouslySetInnerHTML={{
@@ -179,7 +174,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
               />
               {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
             </a>
-          </SubTitle>
+          </Typography.SubTitle>
           {v.labels?.map((label) => {
             return (
               <div
@@ -192,7 +187,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
               </div>
             )
           })}
-        </Title>
+        </div>
         <Divider type="horizontal" />
         <div
           key={v.title}
@@ -202,16 +197,16 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           }}
         />
         {!props.isShared ? (
-          <Info>
+          <div className="info">
             {Operations}
             <div>
               <time>{dayjs(v.updatedAt).from(dayjs())}</time>
               <time>{dayjs(v.createdAt).format('YYYY-MM-DD')}</time>
             </div>
-          </Info>
+          </div>
         ) : null}
       </Container>
-      {props.isShared ? <Controls>{Operations}</Controls> : null}
+      {props.isShared ? <div className="controls">{Operations}</div> : null}
     </>
   )
 }
