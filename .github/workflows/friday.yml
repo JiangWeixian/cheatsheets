@@ -2,7 +2,8 @@ name: "cheatsheet bot"
 
 on:
   schedule:
-  - cron: "0 11 * * *"
+    - cron: "0 11 * * *"
+  issues:
 
 jobs:
   # test action works running from the schedule
