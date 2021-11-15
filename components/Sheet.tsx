@@ -78,13 +78,14 @@ const Container = styled(Box)`
       @apply mx-2;
     }
   }
+`
 
-  .controls {
-    @apply shadow-2xl w-1/2 text-gray-500 mt-4;
+const Controls = styled(Box)`
+  @apply shadow-2xl w-1/2 text-gray-500 mt-4 rounded-md;
 
-    .operations {
-      @apply flex gap-4 items-center p-4;
-    }
+
+  .operations {
+    @apply flex gap-4 items-center p-4;
   }
 `
 
@@ -172,7 +173,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
                 }}
                 onClick={() => props.onClickTitle?.(v)}
               />
-              {v.state === 'open' ? <Dot type="success" /> : <Dot type="danger" />}
+              {v.state === 'OPEN' ? <Dot type="success" /> : <Dot type="danger" />}
             </a>
           </Typography.SubTitle>
           {v.labels?.map((label) => {
@@ -206,7 +207,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
           </div>
         ) : null}
       </Container>
-      {props.isShared ? <div className="controls">{Operations}</div> : null}
+      {props.isShared ? <Controls>{Operations}</Controls> : null}
     </>
   )
 }

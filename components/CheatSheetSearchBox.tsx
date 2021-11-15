@@ -171,13 +171,13 @@ export const CheatSheetSearchBox = () => {
       await searchClient.multipleQueries(queries).then(({ results }: { results: any }) => {
         setValue(results as HitsProps['value'])
       })
+      setLoading(false)
     }, 500),
   )
   const handleChange = useCallback(async (e) => {
     setInput(e.currentTarget.value)
     setLoading(true)
     await searchApi.current(e.currentTarget.value)
-    setLoading(false)
   }, [])
   return (
     <Dropdown
