@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.0.4
+
+### Patch Changes
+
+- fix env variable
+
 ## 1.0.3
 
 ### Patch Changes
