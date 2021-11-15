@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.0.5
+
+### Patch Changes
+
+- bdfcbd5: replace var on build; style flash
+
 ## 1.0.4
 
 ### Patch Changes
