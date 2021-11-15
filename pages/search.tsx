@@ -50,7 +50,11 @@ const SearchPage: NextPage<{ hits: any }> = (props) => {
 }
 
 export async function getServerSideProps(ctx: Parameters<GetServerSideProps>[0]) {
-  const search = await api.multipleSearch({ query: ctx.query.q as string })
+  const search = await api.multipleSearch({
+    query: ctx.query.q as string,
+    limit: 10,
+    mode: 'default',
+  })
   return { props: { hits: search } }
 }
 

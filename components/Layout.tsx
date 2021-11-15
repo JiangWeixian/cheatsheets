@@ -16,10 +16,6 @@ import { SideBar } from './SideBar'
 import { Icon } from '~/components/Icon'
 import { useCreateIssue } from '~/hooks/use-create-issue'
 
-const Chevron = styled.div`
-  @apply relative right-0 bottom-0 w-full h-6 flex justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer;
-`
-
 const AnimatedPushChevronLeft = styled(animated(PushChevronLeft))`
   @apply left-0;
 `
@@ -47,12 +43,17 @@ const Container = styled(GranenLayout)`
 
     @apply lg:overflow-scroll flex-grow;
   }
-`
 
-const Main = styled(GranenLayout.Main)`
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%),
-    radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
-  background-blend-mode: multiply, multiply;
+  .chevron {
+    @apply relative right-0 bottom-0 w-full h-6 flex justify-center items-center opacity-75 hover:opacity-100 text-white cursor-pointer;
+  }
+
+  [data-role='layout-main'] {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%),
+      radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
+    background-color: var(--bg-color-1);
+    background-blend-mode: multiply, multiply;
+  }
 
   [data-role='layout-content'] {
     background-color: transparent;
@@ -105,7 +106,7 @@ const Layout = ({ children }: Props) => {
           bottom={
             <NavBottom>
               <MathPlus onClick={handleCreateIssue} />
-              <Chevron onClick={() => setOpen((prev) => !prev)}>
+              <div className="chevron" onClick={() => setOpen((prev) => !prev)}>
                 {collapsedTransitions((props, item) => {
                   return item ? (
                     <AnimatedPushChevronLeft style={props as any} />
@@ -113,7 +114,7 @@ const Layout = ({ children }: Props) => {
                     <AnimatedPushChevronRight style={props as any} />
                   )
                 })}
-              </Chevron>
+              </div>
             </NavBottom>
           }
         >
@@ -131,7 +132,7 @@ const Layout = ({ children }: Props) => {
           </GranenLayout.NavItem> */}
         </GranenLayout.Nav>
         <SideBar open={open} />
-        <Main>
+        <GranenLayout.Main>
           <GranenLayout.Content>{children}</GranenLayout.Content>
           {/* for share cheatsheet image */}
           <Divider type="horizontal" />
@@ -155,7 +156,7 @@ const Layout = ({ children }: Props) => {
               />
             </Icon>
           </Copyright>
-        </Main>
+        </GranenLayout.Main>
         <Notification />
       </Container>
     </GranenThemeProvider>

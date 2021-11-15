@@ -27,6 +27,7 @@ const Recent = ({
   status?: QueryStatus
   highlight?: string
 }) => {
+  const router = useRouter()
   const transitions = useTrail<{ opacity: number }>(issues.length, {
     opacity: status === 'loading' ? 0 : 1,
     from: { opacity: 0 },
@@ -42,7 +43,11 @@ const Recent = ({
           {transitions.slice(0, 2).map((props, index) => {
             return (
               <AnimatedWrapper key={index} style={props}>
-                <Sheet highlight={highlight} v={issues?.[index]} />
+                <Sheet
+                  onClickTitle={(v) => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
+                  highlight={highlight}
+                  v={issues?.[index]}
+                />
               </AnimatedWrapper>
             )
           })}
@@ -61,6 +66,7 @@ const Someday = ({
   status?: QueryStatus
   highlight?: string
 }) => {
+  const router = useRouter()
   const transitions = useTrail<{ opacity: number }>(issues.length, {
     opacity: status === 'loading' ? 0 : 1,
     from: { opacity: 0 },
@@ -76,7 +82,11 @@ const Someday = ({
           {transitions.map((props, index) => {
             return (
               <AnimatedWrapper key={index} style={props}>
-                <Sheet highlight={highlight} v={issues?.[index]} />
+                <Sheet
+                  onClickTitle={(v) => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
+                  highlight={highlight}
+                  v={issues?.[index]}
+                />
               </AnimatedWrapper>
             )
           })}
