@@ -1,6 +1,5 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
     <ShortName>CheatSheets</ShortName>
     <Description>搜索 CheatSheet</Description>
-    <!-- TODO: is able remove host prefix -->
-    <Url type="text/html" template="https://jiangweixian-cheatsheets.vercel.app/?q={searchTerms}"/>
+    <Url type="text/html" template="https://ohmycheatsheet.vercel.app/?q={searchTerms}"/>
 </OpenSearchDescription>

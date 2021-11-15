@@ -2,16 +2,10 @@ import { NextApiResponse } from 'next'
 import { NextApiRequest } from '~/interface'
 import { withOmcs, withCors } from '~/utils/middlewares'
 
-import { PAGE_SIZE } from '~/utils/constants'
-
 export default withCors(
   withOmcs(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const offset = Number(req.query.offset || 0)
-      const results = await req._omcs.listLabels({
-        offset,
-        length: PAGE_SIZE,
-      })
+      const results = await req._omcs.getIssue(req.query.sheetID as string)
       res.statusCode = 200
       res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(results))
