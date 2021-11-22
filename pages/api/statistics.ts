@@ -1,3 +1,6 @@
+/**
+ * @fileoverview omcs dashboard statistics
+ */
 import { NextApiResponse } from 'next'
 import { NextApiRequest } from '~/interface'
 import { withCors, withOmcs } from '~/utils/middlewares'

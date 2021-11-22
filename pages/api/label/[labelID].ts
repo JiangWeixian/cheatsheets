@@ -1,3 +1,6 @@
+/**
+ * @fileoverview get label detail by label id
+ */
 import { NextApiResponse } from 'next'
 import { NextApiRequest } from '~/interface'
 import { withOmcs, withCors } from '~/utils/middlewares'
