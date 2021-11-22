@@ -1,6 +1,6 @@
 {
   "name": "cheatsheets",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "author": {
     "name": "jiangweixian"
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@lotips/core": "0.8.3-alpha.2",
-    "@omcs/request": "1.4.0",
+    "@omcs/request": "1.5.3",
     "@react-spring/web": "9.2.4",
     "algoliasearch": "4.10.5",
     "axios": "0.24.0",

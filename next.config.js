@@ -23,7 +23,6 @@ const config = {
     if (process.env.NODE_ENV === 'development') {
       config.resolve.alias.react = path.resolve(__dirname, './node_modules/react')
     }
-    console.log(process.env.NEXT_PUBLIC_VERCEL_URL)
     config.plugins.push(
       new context.webpack.DefinePlugin({
         REPO_OWNER: JSON.stringify(process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER),

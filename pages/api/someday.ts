@@ -1,3 +1,6 @@
+/**
+ * @fileoverview get random cheatsheet
+ */
 import { NextApiResponse } from 'next'
 import { NextApiRequest } from '~/interface'
 import { withOmcs } from '~/utils/middlewares'

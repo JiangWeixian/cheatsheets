@@ -1,5 +1,12 @@
 # cheatsheets
 
+## 1.0.8
+
+### Patch Changes
+
+- dffc29d: authapi and fix stats
+- f13fd54: preview sheet
+
 ## 1.0.7
 
 ### Patch Changes

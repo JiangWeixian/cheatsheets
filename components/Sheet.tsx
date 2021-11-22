@@ -83,7 +83,6 @@ const Container = styled(Box)`
 const Controls = styled(Box)`
   @apply shadow-2xl w-1/2 text-gray-500 mt-4 rounded-md;
 
-
   .operations {
     @apply flex gap-4 items-center p-4;
   }

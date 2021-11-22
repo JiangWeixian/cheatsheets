@@ -14,7 +14,7 @@ client.interceptors.response.use(
 
 export const github = {
   async labels(offset?: number): Promise<{ hits: Label[] }> {
-    return client.get(`/api/labels`, { params: { offset } })
+    return client.get(`/api/labels`, { params: { offset, length: 10 } })
   },
   async sheets({
     labelID,
