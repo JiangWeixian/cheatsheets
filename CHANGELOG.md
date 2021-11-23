@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.0.9
+
+### Patch Changes
+
+- fix sheet page detail
+
 ## 1.0.8
 
 ### Patch Changes
