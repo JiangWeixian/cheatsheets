@@ -4,6 +4,7 @@ on:
     branches:
       - master
   issues:
+  label:
 
 jobs:
   # test action works running from the issue created/deleted etc...
