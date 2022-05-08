@@ -46,7 +46,7 @@ const define = () => {
       ),
       'process.env.NEXT_PUBLIC_HOSTNAME': JSON.stringify(process.env.NEXT_PUBLIC_VERCEL_URL),
       'process.env.NEXT_PUBLIC_URL': JSON.stringify(
-        `https://${JSON.stringify(process.env.NEXT_PUBLIC_VERCEL_URL)}`,
+        `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`,
       ),
     }
     console.log(env)
