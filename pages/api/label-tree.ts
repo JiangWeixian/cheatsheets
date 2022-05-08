@@ -6,14 +6,13 @@
 import { NextApiResponse } from 'next'
 import { NextApiRequest } from '~/interface'
 import { withOmcs, withCors, withAuthByToken } from '~/utils/middlewares'
-import config from '~/.omcsrc'
 
 export default withCors(
   withAuthByToken(
     withOmcs(async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         if (req.method === 'POST') {
-          if (req._login !== config.owner) {
+          if (req._login !== process.env.NEXT_PUBLIC_REPO_OWNER) {
             res.status(401).json({ statusCode: 401, message: 'require auth with github token' })
             return
           }

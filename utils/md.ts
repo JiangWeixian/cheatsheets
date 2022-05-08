@@ -40,3 +40,5 @@ export const createMarkdownRenderer = () => {
   MarkdownIt.use(todo)
   return MarkdownIt
 }
+
+export const renderer = createMarkdownRenderer()

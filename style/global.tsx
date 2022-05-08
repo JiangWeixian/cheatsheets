@@ -1,154 +1,144 @@
-import { createGlobalStyle } from 'styled-components'
+import { globalCss } from 'mayumi/theme'
 
-export const GlobalStyle = createGlobalStyle`
-  body {
-    @apply m-0 p-0 w-100vw h-100vh text-base;
-
-    /* font-family: 'IBM Plex Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
+export const cheatSheetGlobalStyles = globalCss({
   /* hide scroll bar */
-  ::-webkit-scrollbar {
-    width: 0px; /* Remove scrollbar space */
-    background: transparent; /* Optional: just make scrollbar invisible */
-  }
-  ::-webkit-scrollbar-thumb {
-    background: transparent;
-  }
+  '::-webkit-scrollbar': {
+    width: '$0' /* Remove scrollbar space */,
+    background: 'transparent' /* Optional: just make scrollbar invisible */,
+  },
+  '::-webkit-scrollbar-thumb': {
+    background: 'transparent',
+  },
+  '#__next': {
+    w: '$full',
+    h: '$full',
+    position: 'relative',
+  },
+  '#SHEET-CONTAINER': {
+    zIndex: -1,
+    flexBox: 'center',
+    p: '$12',
+    position: 'fixed',
+    w: '$1-2',
+  },
+  // overwrite one-dark
+  '.markdown-body': {
+    '&&': {
+      backgroundColor: '$black',
+    },
+    '&& pre': {
+      fontFamily: '$mono',
+      backgroundColor: '$windowBackgroundColor',
+      my: '$4',
+      mx: '$0',
+    },
+  },
+  // make sure medium zoon overlay on top of others
+  '.medium-zoom-overlay, .medium-zoom-image': {
+    zIndex: '$20',
+  },
+  '.omcs-sheet': {
+    '.markdown-body': {
+      text: '$base',
+      w: '$full',
+    },
+    '.markdown-body p': {
+      px: '$4',
+      my: '$4',
+      border: 'none',
+      w: '$full',
+    },
+    '.markdown-body code': {
+      fontFamily: '$mono',
+      background: 'transparent',
+      p: '$0',
+      m: '$0',
+      text: '$base',
+    },
+    '.markdown-body pre': {
+      fontFamily: '$mono',
+      cursor: 'copy',
+      my: '$0',
+      rounded: '$none',
+    },
+    '.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6':
+      {
+        m: '$0',
+        px: '$4',
+        py: '$2',
+        fontWeight: 'normal',
+        text: '$base',
+        borderTop: '1px solid $quaternaryLabelColor',
+        borderBottom: '1px solid $quaternaryLabelColor',
+      },
+    '.markdown-body ul, .markdown-body ol': {
+      mt: '$4',
+      text: '$base',
+    },
+    '.markdown-body ul': {
+      listStyle: 'none',
+      p: '$0',
+      m: '$0',
+      borderTop: '1px solid $quaternaryLabelColor',
+    },
+    '.markdown-body blockquote': {
+      p: '$0',
+      my: '$2',
+      border: 'none',
+    },
+    '.markdown-body blockquote + blockquote': {
+      pt: '$0',
+    },
+    '.markdown-body blockquote p': {
+      mt: '$0',
+    },
+    '.markdown-body>*:first-child': {
+      borderTop: 'none !important',
+    },
 
-  #__next {
-    height: 100%;
-    width: 100%;
-    @apply relative;
-  }
+    // list
+    '.markdown-body ol': {
+      p: '$4',
+      my: '$0',
+    },
 
-  a {
-    color: inherit;
-    @apply underline-transparent;
-  }
+    '.markdown-body ul li': {
+      py: '$2',
+      px: '$4',
+      borderBottom: '1px solid $quaternaryLabelColor',
+    },
 
-  #SHEET-CONTAINER {
-    z-index: -1;
+    '.markdown-body ul li:first-child': {
+      borderTop: 'none',
+    },
 
-    @apply flex justify-center items-center p-12 bg-gray-300 fixed w-1/2;
-  }
+    /* table child section */
+    '.markdown-body table': {
+      borderTop: '1px solid $quaternaryLabelColor',
+      w: '$full',
+      my: '$0',
+      display: 'table',
+    },
 
-  /** overwrite github.css */
-  .markdown-body {
-    background-color: var(--bg-color-1);
-    color: var(--text-color-0);
-    @apply text-base;
-  }
-
-  .markdown-body p {
-    @apply px-4;
-  }
-
-  .markdown-body code {
-    font-family: 'Fira Code', monospace;
-    @apply bg-transparent text-green-600 p-0 text-base m-0;
-  }
-
-  .markdown-body pre {
-    font-family: 'Fira Code', monospace;
-    cursor: copy;
-    @apply my-0;
-    background-color: var(--bg-color);
-  }
-
-  .markdown-body h1,
-  .markdown-body h2,
-  .markdown-body h3,
-  .markdown-body h4,
-  .markdown-body h5,
-  .markdown-body h6 {
-    background-color: var(--bg-color-2);
-    color: var(--text-color-2);
-
-    @apply m-0 px-4 py-2 font-normal text-sm text-base;
-
-    border-bottom: 1px solid var(--border-color);
-    border-top: 1px solid var(--border-color);
-  }
-
-  .markdown-body ul,
-  .markdown-body ol {
-    @apply pl-8 mt-4 text-base;
-  }
-
-  .markdown-body ul {
-    @apply list-none pl-0 my-0;
-    background-color: var(--bg-color);
-    border-top: 1px solid var(--border-color);
-  }
-
-  .markdown-body blockquote {
-    @apply border-none p-0 mt-4;
-    border-bottom: 1px solid var(--border-color);
-    border-top: 1px solid var(--border-color);
-    color: var(--text-color-2);
-  }
-
-  .markdown-body blockquote + blockquote {
-    @apply pt-0;
-  }
-
-  .markdown-body blockquote p {
-    @apply mt-4;
-  }
-
-  .markdown-body p {
-    @apply border-none my-4;
-  }
-  
-  .markdown-body>*:first-child {
-    border-top: none !important;
-  }
-
-  @media screen and (min-width: 1024px) {
-    .markdown-body ul li code:last-child {
-      @apply float-right;
-    }
-  }
-
-  .markdown-body ul li {
-    @apply py-2 px-4;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .markdown-body ul li:last-child {
-  }
-
-  .markdown-body ul li:first-child {
-    border-top: none;
-  }
-
-  /* table child section */
-  .markdown-body table {
-    border-top: 1px solid var(--border-color);
-    @apply w-full my-0 table;
-  }
-
-  .markdown-body table tr,
-  .markdown-body table td {
-    @apply border-none;
-  }
-  .markdown-body table tr {
-    background-color: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-  }
-  .markdown-body table td {
-    @apply p-2;
-  }
-  .markdown-body table td:last-child {
-    text-align: right;
-  }
-  .markdown-body table thead {
-    display: none;
-  }
-`
+    '.markdown-body table tr, .markdown-body table td': {
+      border: 'none',
+    },
+    '.markdown-body table tr': {
+      borderBottom: '1px solid $quaternaryLabelColor',
+    },
+    '.markdown-body table td': {
+      p: '$2',
+    },
+    '.markdown-body table td:last-child': {
+      textAlign: 'right',
+    },
+    '.markdown-body table thead': {
+      display: 'none',
+    },
+    '@laptop': {
+      '.markdown-body ul li code:last-child': {
+        float: 'left',
+      },
+    },
+  },
+})

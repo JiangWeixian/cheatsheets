@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.1.0
+
+### Minor Changes
+
+- 6b613a6: fresh new ui
+
 ## 1.0.9
 
 ### Patch Changes

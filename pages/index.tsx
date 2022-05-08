@@ -1,46 +1,28 @@
 import React from 'react'
 import { NextPage, GetServerSideProps } from 'next'
-import { Spinner } from 'styled-cssgg'
-import { animated, useTrail } from '@react-spring/web'
-import { QueryStatus } from 'react-query'
-import { api } from '~/utils/middlewares'
+import { animated } from '@react-spring/web'
 import { Issue } from '@omcs/request/types'
-import { Typography } from 'granen'
-import styled from 'styled-components'
+import { Text } from 'mayumi/text'
+import { styled } from 'mayumi/theme'
+import { useRouter } from 'next/router'
 
 import Layout from '~/components/Layout'
+import { api } from '~/utils/middlewares'
 import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
-import { useRouter } from 'next/router'
-import { CheatSheetSearchBox } from '~/components/CheatSheetSearchBox'
 
-const AnimatedWrapper = styled(animated.div)`
-  @apply mb-4 w-full float-left;
-`
+const AnimatedWrapper = styled(animated.div, {
+  mb: '$4',
+  w: '$full',
+})
 
-const Recent = ({
-  issues = [],
-  status,
-  highlight,
-}: {
-  issues?: Issue[]
-  status?: QueryStatus
-  highlight?: string
-}) => {
+const Recent = ({ issues = [], highlight }: { issues?: Issue[]; highlight?: string }) => {
   const router = useRouter()
-  const transitions = useTrail<{ opacity: number }>(issues.length, {
-    opacity: status === 'loading' ? 0 : 1,
-    from: { opacity: 0 },
-  })
-  if (status === 'loading') {
-    return <Spinner className="m-auto pt-10" />
-  }
   return (
-    <div>
+    <div className="omcs-recent-list">
       {issues?.length !== 0 ? (
         <>
-          <Typography.Title h1={true}>Recently</Typography.Title>
-          {transitions.slice(0, 2).map((props, index) => {
+          {issues.slice(0, 10).map((props, index) => {
             return (
               <AnimatedWrapper key={index} style={props}>
                 <Sheet
@@ -57,75 +39,32 @@ const Recent = ({
   )
 }
 
-const Someday = ({
-  issues = [],
-  status,
-  highlight,
-}: {
-  issues?: Issue[]
-  status?: QueryStatus
-  highlight?: string
-}) => {
-  const router = useRouter()
-  const transitions = useTrail<{ opacity: number }>(issues.length, {
-    opacity: status === 'loading' ? 0 : 1,
-    from: { opacity: 0 },
-  })
-  if (status === 'loading') {
-    return <Spinner className="m-auto pt-10" />
-  }
-  return (
-    <div>
-      {issues?.length !== 0 ? (
-        <>
-          <Typography.Title>Someday</Typography.Title>
-          {transitions.map((props, index) => {
-            return (
-              <AnimatedWrapper key={index} style={props}>
-                <Sheet
-                  onClickTitle={(v) => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
-                  highlight={highlight}
-                  v={issues?.[index]}
-                />
-              </AnimatedWrapper>
-            )
-          })}
-        </>
-      ) : null}
-    </div>
-  )
-}
-
-const SearchContainer = styled.div`
-  @apply mt-48 flex items-center justify-center w-full;
-
-  [data-role='tooltip'] {
-    @apply w-3/5 relative;
-  }
-
-  [data-role='input'] {
-    @apply w-full shadow-2xl;
-  }
-
-  [data-role='tooltip-content'] {
-    @apply w-full;
-  }
-`
-
-const EventContainer = styled.div`
-  @apply w-4/5 m-auto px-6 pt-6 grid grid-cols-none gap-4 grid-cols-2;
-`
+const EventContainer = styled('div', {
+  w: '$full',
+  h: '$full',
+  '.omcs-recent-title': {
+    position: 'sticky',
+    top: '$0',
+    glass: '8px',
+    zIndex: '$20',
+    py: '$4',
+    px: '$6',
+    borderBottom: '1px solid $quaternaryLabelColor',
+  },
+  '.omcs-recent-list': {
+    p: '$6',
+  },
+})
 
 const IndexPage: NextPage<{ recent: Issue[]; someday: Issue[] }> = (props) => {
   const keyword = useRouter().query.q as string
   return (
     <Layout>
       <Meta />
-      <SearchContainer>
-        <CheatSheetSearchBox />
-      </SearchContainer>
       <EventContainer>
-        <Someday issues={props.someday} />
+        <div className="omcs-recent-title">
+          <Text h2={true}>Recent</Text>
+        </div>
         <Recent highlight={keyword} issues={props.recent} />
       </EventContainer>
     </Layout>

@@ -22,7 +22,8 @@
       "@/*": ["pages/*"]
     },
     "isolatedModules": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "incremental": true
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx", "next.config.js"]

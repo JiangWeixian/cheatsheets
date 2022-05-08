@@ -1,6 +1,7 @@
 import { Issue, Label } from '@omcs/request/types'
 
 import axios from 'axios'
+import { PAGE_SIZE } from '~/utils/constants'
 
 const client = axios.create()
 client.interceptors.response.use(
@@ -13,8 +14,8 @@ client.interceptors.response.use(
 )
 
 export const github = {
-  async labels(offset?: number): Promise<{ hits: Label[] }> {
-    return client.get(`/api/labels`, { params: { offset, length: 10 } })
+  async labels(offset?: number, length = PAGE_SIZE): Promise<{ hits: Label[] }> {
+    return client.get(`/api/labels`, { params: { offset, length } })
   },
   async sheets({
     labelID,
