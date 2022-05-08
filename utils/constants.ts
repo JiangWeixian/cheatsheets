@@ -7,4 +7,4 @@ export const dictionary = {
   [SEARCH_LABELS_INDEX_NAME]: 'Labels',
 }
 
-export const PAGE_SIZE = 10
+export const PAGE_SIZE = 100

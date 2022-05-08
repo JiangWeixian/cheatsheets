@@ -1,28 +1,11 @@
 {
   "presets": ["next/babel"],
   "plugins": [
-    "styled-windicss",
     "inline-react-svg",
-    [
-      "styled-components",
-      {
-        "ssr": true,
-        "displayName": true,
-        "preprocess": false
-      }
-    ],
     [
       "prismjs",
       {
         "languages": ["javascript", "css", "markup", "typescript", "tsx", "diff"]
-      }
-    ],
-    [
-      "import",
-      {
-        "libraryName": "granen",
-        "libraryDirectory": "es",
-        "style": false
       }
     ]
   ]

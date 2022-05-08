@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import { api } from '~/utils/middlewares'
 import { Issue, Label } from '@omcs/request/types'
-import { Typography, Divider } from 'granen'
-import styled from 'styled-components'
+import { Text } from 'mayumi/text'
+import { styled } from 'mayumi/theme'
 import { api as client } from '~/request/client'
 import InfiniteScroll from 'react-infinite-scroller'
 import useSWRInfinite from 'swr/infinite'
@@ -19,27 +19,34 @@ import { Meta } from '~/components/Meta'
 import { Sheet } from '~/components/Sheet'
 import { PAGE_SIZE } from '~/utils/constants'
 
-const Container = styled.div`
-  @apply px-12 pt-6 pb-1;
-
-  [data-role='title'] {
-    @apply m-0;
-  }
-
-  [data-role='paragraph'] {
-    @apply mt-3 text-base mb-0;
-  }
-
-  &.issues-list {
-    @apply flex-1 overflow-x-auto;
-  }
-`
-
-const DividerLine = styled(Divider)`
-  && {
-    @apply -mx-4 w-auto;
-  }
-`
+const Container = styled('div', {
+  h: '$full',
+  'h1.mayumi-text': {
+    m: '$0',
+  },
+  'p.mayumi-text': {
+    mt: '$1',
+    mb: '$0',
+    text: '$base',
+  },
+  '.omcs-issues-list-title': {
+    position: 'sticky',
+    top: '$0',
+    glass: '8px',
+    zIndex: '$20',
+    py: '$4',
+    px: '$6',
+    borderBottom: '1px solid $quaternaryLabelColor',
+  },
+  '.omcs-issues-list': {
+    flex: 1,
+    p: '$6',
+    h: '$full',
+    overflowX: 'hidden',
+    zIndex: '$10',
+    position: 'relative',
+  },
+})
 
 const getKey = (
   pageIndex: number,
@@ -67,33 +74,36 @@ const CheetsheetByLabel: NextPage<{ data: Issue[]; label: Label }> = (props) => 
     <Layout>
       <Meta title={props.label?.name} description={props.label?.description} />
       <Container>
-        <Typography.Title h1={true}>{props.label.name}</Typography.Title>
-        <Typography.Paragraph type="secondary">{props.label.description}</Typography.Paragraph>
-      </Container>
-      <DividerLine type="horizontal" />
-      <Container className="issues-list">
-        <InfiniteScroll
-          hasMore={hasMore}
-          pageStart={0}
-          useWindow={false}
-          loadMore={(page) => setSize(page)}
-          className="index"
-        >
-          <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
-            <Masonry gutter="16px">
-              {cheatsheets?.map((v) => {
-                return (
-                  <Sheet
-                    onClickTitle={() => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
-                    key={v.id}
-                    className="w-1/2"
-                    v={v}
-                  />
-                )
-              })}
-            </Masonry>
-          </ResponsiveMasonry>
-        </InfiniteScroll>
+        <div className="omcs-issues-list-title">
+          <Text h2={true}>{props.label.name}</Text>
+          <Text p={true} type="secondary">
+            {props.label.description}
+          </Text>
+        </div>
+        <div className="omcs-issues-list">
+          <InfiniteScroll
+            hasMore={hasMore}
+            pageStart={0}
+            useWindow={false}
+            loadMore={(page) => setSize(page)}
+            className="index"
+          >
+            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2 }}>
+              <Masonry gutter="16px">
+                {cheatsheets?.map((v) => {
+                  return (
+                    <Sheet
+                      onClickTitle={() => router.push('/sheet/id/[id]', `/sheet/id/${v.id}`)}
+                      key={v.id}
+                      className="w-1/2"
+                      v={v}
+                    />
+                  )
+                })}
+              </Masonry>
+            </ResponsiveMasonry>
+          </InfiniteScroll>
+        </div>
       </Container>
     </Layout>
   )
