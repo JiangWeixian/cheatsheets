@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.2.0
+
+### Minor Changes
+
+- 275b1f5: add google analytics
+
 ## 1.1.0
 
 ### Minor Changes
