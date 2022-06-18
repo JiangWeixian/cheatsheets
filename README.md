@@ -16,29 +16,8 @@
 
 <div align='center'>
 
-![homepage](https://user-images.githubusercontent.com/6839576/142011320-168a96ac-f0b3-48fe-bca5-9e98efc83c2c.png)
+![homepage](https://user-images.githubusercontent.com/6839576/167288880-0bfae6c1-5f91-4ce3-97df-20889c9cf71c.png)
 *▲ cheatsheets-homepage*
-
-</div>
-
-<div align='center'>
-
-![shareable-link](https://user-images.githubusercontent.com/6839576/142010587-20d213c9-fe1c-419b-968d-d26a920c039e.png)
-*▲ share your code with url*
-
-</div>
-
-<div align='center'>
-
-![share-cheatsheet-image](https://user-images.githubusercontent.com/6839576/142010804-2874e69a-f2e2-401c-8965-4cf98b5b1263.png)
-*▲ share your code with image*
-
-</div>
-
-<div align='center'>
-
-![manage-with-github-label](https://user-images.githubusercontent.com/6839576/142011083-57b835b8-e7ee-4f64-973d-62c6487b9689.png)
-*▲ manage-with-github-label*
 
 </div>
 
