@@ -8,10 +8,14 @@ import { Issue } from '@omcs/request/types'
 import { styled } from 'mayumi/theme'
 import { Text } from 'mayumi/text'
 import dayjs from 'dayjs'
+import { Icon } from 'mayumi/icons'
 
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
 import { renderer } from '~/utils/md'
+import PenSvg from '../../../assets/pen.svg'
+
+const Pen: any = PenSvg
 
 const Container = styled('div', {
   h: '$full',
@@ -32,6 +36,8 @@ const Container = styled('div', {
     w: '$full',
     fontWeight: '$semibold',
     borderBottom: '1px solid $quaternaryLabelColor',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   '.omcs-issue-title': {
     my: '$4',
@@ -57,6 +63,15 @@ const CheatSheetById: NextPage<{ issue: Issue }> = (props) => {
           <Text p={true}>
             <time>{props.issue.title}</time>
           </Text>
+          <Icon
+            onClick={() => {
+              window.open(
+                `https://github.com/${process.env.NEXT_PUBLIC_REPO_OWNER}/issues/${props.issue.number}`,
+              )
+            }}
+          >
+            <Pen width={14} />
+          </Icon>
         </div>
         <div className="omcs-issue-content">
           <div className="omcs-issue-title">

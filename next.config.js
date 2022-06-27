@@ -3,6 +3,9 @@ const withImages = require('next-images')
 const fs = require('fs')
 const gitUrlParse = require('git-url-parse')
 
+/**
+ * @description update `open-search.yaml`, only on valiable on ci mode
+ */
 const updateOpenSearch = () => {
   console.log('Update open-search file')
   const filepath = path.resolve(__dirname, './public/open-search.xml')
@@ -23,7 +26,17 @@ const updateOpenSearch = () => {
   }
 }
 
+/**
+ * @description define process.env.VARIABLE_NAME to constants
+ * @example 'process.env.NEXT_PUBLIC_REPO_OWNER' -> 'ohmycheatsheet'
+ */
 const define = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      'process.env.NEXT_PUBLIC_REPO_OWNER': JSON.stringify('ohmycheatsheet'),
+      'process.env.NEXT_PUBLIC_URL': JSON.stringify('https://ohmycheatsheet.vercel.app'),
+    }
+  }
   if (process.env.NETLIFY) {
     console.log('platform', 'netlify')
     console.log('parse git url', process.env.REPOSITORY_URL)
@@ -53,10 +66,6 @@ const define = () => {
     }
     console.log(env)
     return env
-  }
-  return {
-    'process.env.NEXT_PUBLIC_REPO_OWNER': 'ohmycheatsheet',
-    'process.env.NEXT_PUBLIC_URL': 'https://ohmycheatsheet.vercel.app',
   }
 }
 

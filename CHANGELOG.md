@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.3.0
+
+### Minor Changes
+
+- 311ed1f: support jump to original issue page
+
 ## 1.2.0
 
 ### Minor Changes
