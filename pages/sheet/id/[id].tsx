@@ -66,7 +66,7 @@ const CheatSheetById: NextPage<{ issue: Issue }> = (props) => {
           <Icon
             onClick={() => {
               window.open(
-                `https://github.com/${process.env.NEXT_PUBLIC_REPO_OWNER}/issues/${props.issue.number}`,
+                `https://github.com/${process.env.NEXT_PUBLIC_REPO_OWNER}/${process.env.NEXT_PUBLIC_REPO_NAME}/issues/${props.issue.number}`,
               )
             }}
           >
