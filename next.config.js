@@ -34,15 +34,17 @@ const define = () => {
   if (process.env.NODE_ENV === 'development') {
     return {
       'process.env.NEXT_PUBLIC_REPO_OWNER': JSON.stringify('ohmycheatsheet'),
+      'process.env.NEXT_PUBLIC_REPO_NAME': JSON.stringify('cheatsheets'),
       'process.env.NEXT_PUBLIC_URL': JSON.stringify('https://ohmycheatsheet.vercel.app'),
     }
   }
   if (process.env.NETLIFY) {
     console.log('platform', 'netlify')
     console.log('parse git url', process.env.REPOSITORY_URL)
-    const { owner } = gitUrlParse(process.env.REPOSITORY_URL)
+    const { owner, name } = gitUrlParse(process.env.REPOSITORY_URL)
     // https://docs.netlify.com/configure-builds/environment-variables/#git-metadata
     const env = {
+      'process.env.NEXT_PUBLIC_REPO_NAME': JSON.stringify(name),
       'process.env.NEXT_PUBLIC_REPO_OWNER': JSON.stringify(owner),
       // e.g. https://www.petsofnetlify.com.
       'process.env.NEXT_PUBLIC_URL': JSON.stringify(process.env.URL),
@@ -57,6 +59,9 @@ const define = () => {
     const env = {
       'process.env.NEXT_PUBLIC_REPO_OWNER': JSON.stringify(
         process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER,
+      ),
+      'process.env.NEXT_PUBLIC_REPO_NAME': JSON.stringify(
+        process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_SLUG,
       ),
       'process.env.GA_MEASUREMENT_ID': JSON.stringify(process.env.GA_MEASUREMENT_ID),
       'process.env.NEXT_PUBLIC_HOSTNAME': JSON.stringify(process.env.NEXT_PUBLIC_VERCEL_URL),

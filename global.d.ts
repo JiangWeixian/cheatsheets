@@ -14,6 +14,7 @@ declare global {
       // inject on platform vercel: @see {@link https://vercel.com/docs/concepts/projects/environment-variables}
       NEXT_PUBLIC_VERCEL_URL: string
       NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER: string
+      NEXT_PUBLIC_REPO_NAME: string
       VERCEL: boolean
       NEXT_PUBLIC_URL: string
       // inject on platform netlify
