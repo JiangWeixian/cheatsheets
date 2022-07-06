@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import cx from 'classnames'
-import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { doHighlight } from '@lotips/core'
@@ -15,6 +14,7 @@ import { Icon } from 'mayumi/icons'
 
 import { share } from '~/utils/share'
 import { renderer } from '~/utils/md'
+import { Label } from '~/components/Label'
 import ImageSvg from '../assets/image.svg'
 import LinkSvg from '../assets/link.svg'
 
@@ -115,7 +115,6 @@ const Controls = styled(Box, {
 const EMPTY = {} as Issue
 
 export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
-  const router = useRouter()
   const label = v.labels?.[0]?.name
   const idcard = v.id
   const [copyLoading, setCopyLoading] = useState(false)
@@ -195,16 +194,7 @@ export const Sheet = ({ v = EMPTY, highlight = '', ...props }: SheetProps) => {
             </a>
           </Text>
           {v.labels?.map((label) => {
-            return (
-              <div
-                key={label.id}
-                className="omcs-sheet-label"
-                style={{ color: `#${label.color}` }}
-                onClick={() => router.push(`/sheet/label/${label.id}`)}
-              >
-                # {label.name}
-              </div>
-            )
+            return <Label key={label.id} {...label} />
           })}
         </div>
         <Separator type="horizontal" />

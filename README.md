@@ -23,7 +23,9 @@
 
 ## usage
 
-### vercel
+### Deploy
+
+#### vercel
 
 1. Use this repo as template
 2. New dataset from [algolia](https://www.algolia.com/)
@@ -44,7 +46,7 @@
 
 5. new `issue` on github'issue
 
-### netlify
+#### netlify
 
 1. Use this repo as template
 2. New dataset from [algolia](https://www.algolia.com/)
@@ -64,3 +66,7 @@
     - `ALGOLIA_APP_KEY` - copy from [algolia-api-keys](https://www.algolia.com/account/api-keys)
 
 5. new `issue` on github'issue
+
+### Analytics
+
+Collect page-view data, set env variable `GA_MEASUREMENT_ID` from `https://analytics.google.com/`

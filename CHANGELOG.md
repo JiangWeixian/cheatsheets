@@ -1,5 +1,11 @@
 # cheatsheets
 
+## 1.4.0
+
+### Minor Changes
+
+- add label on issue detail page
+
 ## 1.3.1
 
 ### Patch Changes

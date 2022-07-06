@@ -45,7 +45,7 @@ specifiers:
   lodash.sample: 4.2.1
   markdown-it: 10.0.0
   markdown-it-todo: 1.0.5
-  mayumi: 0.0.0-beta-20220508051204
+  mayumi: 0.0.2
   medium-zoom: 1.0.5
   next: 11.1.2
   next-images: 1.8.4
@@ -84,7 +84,7 @@ dependencies:
   lodash.sample: 4.2.1
   markdown-it: 10.0.0
   markdown-it-todo: 1.0.5
-  mayumi: 0.0.0-beta-20220508051204_sfoxds7t5ydpegc3knd667wn6m
+  mayumi: 0.0.2_sfoxds7t5ydpegc3knd667wn6m
   medium-zoom: 1.0.5
   next: 11.1.2_xv3zpvr5wrz543rddbqjuy6jgm
   nprogress: 0.2.0
@@ -1028,11 +1028,11 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /@react-spring/web/9.4.3_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-llKve/uJ73JVagBAVvA74S/LfZP4oSB3XP1qmggSUNXzPZZo5ylIMrs55PxpLyxgzzihuhDU5N17ct3ATViOHw==}
+  /@react-spring/web/9.4.5_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-NGAkOtKmOzDEctL7MzRlQGv24sRce++0xAY7KlcxmeVkR7LRSGkoXHaIfm9ObzxPMcPHQYQhf3+X9jepIFNHQA==}
     peerDependencies:
-      react: ^16.8.0  || ^17.0.0
-      react-dom: ^16.8.0  || ^17.0.0
+      react: ^16.8.0  || >=17.0.0 || >=18.0.0
+      react-dom: ^16.8.0  || >=17.0.0 || >=18.0.0
     dependencies:
       '@react-spring/animated': 9.4.5_react@17.0.2
       '@react-spring/core': 9.4.5_react@17.0.2
@@ -4194,13 +4194,14 @@ packages:
       uc.micro: 1.0.6
     dev: false
 
-  /mayumi/0.0.0-beta-20220508051204_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-TOmujEGCjGj8lp+1At3Wdqns7YhvD6nGG3DeyvmBMcoC4pYIyXEQSye7WvgMv9pOPvyUIA00d95P5OiC54eUtA==}
+  /mayumi/0.0.2_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-IDes46KXzh82beGrXiQgPvECsOFBZcwB+wybuRj35giTv8EPpCyRkA/Rd9h9p26W+l5GKQMOL5yJ9GAMSliZjw==}
+    engines: {node: '>=14'}
     peerDependencies:
       react: '>=17'
       react-dom: '>=17'
     dependencies:
-      '@react-spring/web': 9.4.3_sfoxds7t5ydpegc3knd667wn6m
+      '@react-spring/web': 9.4.5_sfoxds7t5ydpegc3knd667wn6m
       '@stitches/react': 1.2.7_react@17.0.2
       clsx: 1.1.1
       lodash.keyby: 4.6.0
