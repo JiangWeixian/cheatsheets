@@ -12,6 +12,7 @@ import { Icon } from 'mayumi/icons'
 
 import Layout from '~/components/Layout'
 import { Meta } from '~/components/Meta'
+import { Label } from '~/components/Label'
 import { renderer } from '~/utils/md'
 import PenSvg from '../../../assets/pen.svg'
 
@@ -52,6 +53,11 @@ const Container = styled('div', {
     m: 'auto',
     maxWidth: '$3xl',
   },
+  '.omcs-issue-labels': {
+    display: 'flex',
+    color: '$primary',
+    gap: '$2',
+  },
 })
 
 const CheatSheetById: NextPage<{ issue: Issue }> = (props) => {
@@ -74,6 +80,11 @@ const CheatSheetById: NextPage<{ issue: Issue }> = (props) => {
           </Icon>
         </div>
         <div className="omcs-issue-content">
+          <div className="omcs-issue-labels">
+            {props.issue.labels.map((label) => {
+              return <Label key={label.id} {...label} />
+            })}
+          </div>
           <div className="omcs-issue-title">
             <Text h2={true}>{props.issue.title}</Text>
             <Text type="quaternary" p={true}>
